@@ -35,7 +35,7 @@ const parkSettings = {
   // Format: "YYYY-MM-DD": ["Username1", "Username2"]
   bookings: {
     "2026-03-14": ["User1", "User2", "User3", "User4"],
-    "2026-03-15": ["User1", "User2"],
+    "2026-03-15": ["grrrrrrrrr3", "User2"],
     "2026-03-18": ["User1", "User2", "User3"],
     "2026-03-20": ["User1"],
     "2026-03-22": ["User1", "User2", "User3", "User4"],
