@@ -10,687 +10,766 @@
 </head>
 <body>
 
-<!-- ══════════════════════════════════════════════════════
+<!-- ═══════════════════════════════════════════════════════════
      LOADING SCREEN
-══════════════════════════════════════════════════════ -->
+═══════════════════════════════════════════════════════════ -->
 <div id="loading-screen">
-  <div class="loader-logo">
-    🎢 PHANTASIA<span>LAND</span>
-    <div style="font-size:14px;font-weight:400;margin-top:6px;color:rgba(255,255,255,0.5);letter-spacing:0.3em;">ROBLOX PARK</div>
+  <div class="loader-rays"></div>
+  <div class="loader-sparkles" id="loader-sparks"></div>
+  <div class="loader-inner">
+    <div class="loader-emblem">🎢</div>
+    <div class="loader-park-name">PHANTASIALAND</div>
+    <div class="loader-park-sub">Roblox Park · Official Booking</div>
+    <div class="loader-bar-track">
+      <div class="loader-bar-fill" id="lbar"></div>
+    </div>
+    <div class="loader-msg" id="lmsg">Awakening the magic…</div>
   </div>
-  <div class="loader-bar-wrap">
-    <div class="loader-bar" id="loader-bar"></div>
-  </div>
-  <div class="loader-text" id="loader-text">Preparing the magic...</div>
 </div>
 
-<!-- ══════════════════════════════════════════════════════
+<!-- ═══════════════════════════════════════════════════════════
      AUTH PAGE
-══════════════════════════════════════════════════════ -->
-<div id="auth-page">
+═══════════════════════════════════════════════════════════ -->
+<div id="auth-page" style="display:none;">
   <div class="auth-card">
-    <div class="auth-logo">
-      <span class="park-icon">🎢</span>
+    <div class="auth-emblem">
+      <div class="auth-emblem-icon">🎢</div>
       <h1>PHANTASIALAND<br>ROBLOX</h1>
-      <p>Booking Portal — Member Access</p>
+      <p>Official Booking Portal</p>
     </div>
 
     <div class="auth-tabs">
-      <button class="auth-tab active" id="tab-login" onclick="switchTab('login')">Login</button>
-      <button class="auth-tab" id="tab-signup" onclick="switchTab('signup')">Sign Up</button>
+      <button class="auth-tab active" id="tab-login"  onclick="switchTab('login')">Login</button>
+      <button class="auth-tab"        id="tab-signup" onclick="switchTab('signup')">Sign Up</button>
     </div>
 
     <div id="auth-error" class="auth-error"></div>
 
-    <!-- Login Form -->
-    <form id="login-form" class="auth-form" onsubmit="handleLogin(event)">
+    <form id="login-form" class="auth-form" onsubmit="doLogin(event)">
       <div class="form-group">
         <label>Roblox Username</label>
-        <input type="text" id="login-user" placeholder="Enter your username" autocomplete="username" required />
+        <input id="lu" type="text" placeholder="Your username" autocomplete="username" required />
       </div>
       <div class="form-group">
         <label>Password</label>
-        <input type="password" id="login-pass" placeholder="••••••••" autocomplete="current-password" required />
+        <input id="lp" type="password" placeholder="••••••••" autocomplete="current-password" required />
       </div>
-      <button type="submit" class="btn-primary" style="margin-top:8px;">Enter the Park</button>
+      <button type="submit" class="btn-primary" style="margin-top:8px;">Enter the Park ✦</button>
     </form>
 
-    <!-- Signup Form -->
-    <form id="signup-form" class="auth-form" style="display:none;" onsubmit="handleSignup(event)">
+    <form id="signup-form" class="auth-form" style="display:none;" onsubmit="doSignup(event)">
       <div class="form-group">
         <label>Roblox Username</label>
-        <input type="text" id="signup-user" placeholder="Choose a username" required />
+        <input id="su" type="text" placeholder="Choose a username" required />
       </div>
       <div class="form-group">
         <label>Password</label>
-        <input type="password" id="signup-pass" placeholder="Min 6 characters" required />
+        <input id="sp" type="password" placeholder="Min 6 characters" required />
       </div>
       <div class="form-group">
         <label>Confirm Password</label>
-        <input type="password" id="signup-confirm" placeholder="Repeat password" required />
+        <input id="sc" type="password" placeholder="Repeat your password" required />
       </div>
-      <button type="submit" class="btn-primary" style="margin-top:8px;">Create Account</button>
+      <button type="submit" class="btn-primary" style="margin-top:8px;">Create Account ✦</button>
     </form>
   </div>
 </div>
 
-<!-- ══════════════════════════════════════════════════════
+<!-- ═══════════════════════════════════════════════════════════
      MAIN APP
-══════════════════════════════════════════════════════ -->
+═══════════════════════════════════════════════════════════ -->
 <div id="app">
 
   <!-- Header -->
   <header class="site-header">
     <div class="header-inner">
       <div class="header-logo">
-        <span class="logo-icon">🎢</span>
+        <div class="header-logo-icon">🎢</div>
         PHANTASIALAND-ROBLOX
       </div>
-      <nav class="header-nav">
-        <div class="nav-user">Welcome, <span id="nav-username">Guest</span></div>
-        <button class="btn-logout" onclick="handleLogout()">Leave Park</button>
-      </nav>
+      <div class="header-right">
+        <div class="header-user">Welcome, <span id="nav-user">Guest</span></div>
+        <button class="btn-logout" onclick="doLogout()">Leave Park</button>
+      </div>
     </div>
   </header>
 
   <!-- Hero -->
-  <section class="hero-banner">
+  <section class="hero" id="hero-section">
+    <div class="hero-bg" id="hero-bg"></div>
+    <div class="hero-sparkles" id="hero-sparks"></div>
     <div class="hero-content">
-      <div class="hero-subtitle">✦ Official Booking Portal ✦</div>
-      <h2 class="hero-title">Book Your <span class="gold-word">Magical</span><br>Park Visit</h2>
-      <p class="hero-desc">Select a date on the calendar below to reserve your spot in the most enchanting Roblox theme park experience.</p>
+      <div class="hero-eyebrow">Official Booking Portal</div>
+      <h1 class="hero-title">
+        Book Your<br>
+        <em><span class="gold">Magical</span></em> Visit
+      </h1>
+      <p class="hero-desc">
+        Reserve your exclusive spot in the most enchanting Roblox theme park experience.
+        Select a date below and begin your adventure.
+      </p>
+      <button class="btn-primary" onclick="document.getElementById('cal-section').scrollIntoView({behavior:'smooth'})">
+        View Calendar ↓
+      </button>
+    </div>
+    <div class="hero-scroll-hint">
+      <span>Scroll</span>
+      <svg width="18" height="24" viewBox="0 0 18 24" fill="none">
+        <rect x="1" y="1" width="16" height="22" rx="8" stroke="currentColor" stroke-opacity="0.4" stroke-width="1.5"/>
+        <circle cx="9" cy="8" r="2.5" fill="currentColor" fill-opacity="0.4">
+          <animate attributeName="cy" values="8;14;8" dur="2s" repeatCount="indefinite"/>
+          <animate attributeName="opacity" values="0.4;0.8;0.4" dur="2s" repeatCount="indefinite"/>
+        </circle>
+      </svg>
     </div>
   </section>
 
-  <!-- Content -->
-  <main class="main-content">
+  <!-- Main -->
+  <div class="main-wrap">
 
-    <!-- Calendar Section -->
-    <section>
-      <div class="section-header">
+    <!-- ── Calendar ── -->
+    <section id="cal-section">
+      <div class="section-head">
         <div>
-          <h2 class="section-title">Choose Your Date <span class="title-line"></span></h2>
+          <div class="section-label">Choose Your Date</div>
+          <h2 class="section-title">Park Calendar</h2>
         </div>
-        <span class="section-badge" id="cal-range-label"></span>
+        <span class="section-meta" id="cal-range"></span>
       </div>
 
-      <div class="calendar-wrap">
-        <div class="cal-header">
-          <div class="cal-month" id="cal-month-label"></div>
+      <div class="glass-card calendar-card">
+        <div class="cal-top">
+          <div class="cal-month" id="cal-month"></div>
           <div class="cal-nav">
-            <button class="cal-nav-btn" id="cal-prev" onclick="changeMonth(-1)" title="Previous month">&#8592;</button>
-            <button class="cal-nav-btn" id="cal-next" onclick="changeMonth(1)" title="Next month">&#8594;</button>
+            <button class="cal-nav-btn" id="cal-prev" onclick="moveMonth(-1)" title="Previous">&#8592;</button>
+            <button class="cal-nav-btn" id="cal-next" onclick="moveMonth(1)"  title="Next">&#8594;</button>
           </div>
         </div>
-
         <div class="cal-weekdays">
-          <div class="cal-weekday">Sun</div>
-          <div class="cal-weekday">Mon</div>
-          <div class="cal-weekday">Tue</div>
-          <div class="cal-weekday">Wed</div>
-          <div class="cal-weekday">Thu</div>
-          <div class="cal-weekday">Fri</div>
-          <div class="cal-weekday">Sat</div>
+          <div class="cal-wd">Sun</div><div class="cal-wd">Mon</div><div class="cal-wd">Tue</div>
+          <div class="cal-wd">Wed</div><div class="cal-wd">Thu</div><div class="cal-wd">Fri</div>
+          <div class="cal-wd">Sat</div>
         </div>
-
         <div class="cal-days" id="cal-days"></div>
-
         <div class="cal-legend">
-          <div class="legend-item"><div class="legend-dot available"></div> Available</div>
-          <div class="legend-item"><div class="legend-dot booked"></div> Booked</div>
-          <div class="legend-item"><div class="legend-dot pending"></div> Pending</div>
-          <div class="legend-item"><div class="legend-dot mine"></div> Your Booking</div>
+          <div class="legend-item"><div class="ldot ldot-open"></div>   Available</div>
+          <div class="legend-item"><div class="ldot ldot-almost"></div> Almost Full</div>
+          <div class="legend-item"><div class="ldot ldot-full"></div>   Fully Booked</div>
+          <div class="legend-item"><div class="ldot ldot-mine"></div>   Your Booking</div>
         </div>
       </div>
     </section>
 
-    <!-- My Bookings Section -->
+    <!-- ── My Bookings ── -->
     <section>
-      <div class="section-header">
+      <div class="section-head">
         <div>
-          <h2 class="section-title">My Bookings <span class="title-line"></span></h2>
+          <div class="section-label">Your Reservations</div>
+          <h2 class="section-title">My Bookings</h2>
         </div>
-        <span class="section-badge" id="bookings-count-label"></span>
+        <span class="section-meta" id="bk-count"></span>
       </div>
-      <div class="bookings-grid" id="bookings-list"></div>
+      <div class="bookings-list" id="bk-list"></div>
     </section>
 
-  </main>
-</div>
+    <!-- ── Rules ── -->
+    <section>
+      <div class="section-head">
+        <div>
+          <div class="section-label">Park Guidelines</div>
+          <h2 class="section-title">Rules &amp; Conduct</h2>
+        </div>
+      </div>
+      <div class="glass-card rules-card">
+        <p style="font-size:14px;color:var(--text-soft);margin-bottom:4px;line-height:1.6;">
+          All guests must read and adhere to the following rules to ensure a safe and enjoyable experience for everyone.
+        </p>
+        <div class="rules-grid" id="rules-grid"></div>
+      </div>
+    </section>
 
-<!-- ══════════════════════════════════════════════════════
+  </div><!-- /main-wrap -->
+</div><!-- /app -->
+
+<!-- ═══════════════════════════════════════════════════════════
      BOOKING MODAL
-══════════════════════════════════════════════════════ -->
-<div class="modal-overlay" id="booking-overlay">
-  <div class="modal" id="booking-modal">
-    <button class="modal-close" onclick="closeBookingModal()">✕</button>
-    <div id="modal-content"></div>
+═══════════════════════════════════════════════════════════ -->
+<div class="modal-overlay" id="modal-overlay">
+  <div class="modal-box" id="modal-box">
+    <button class="modal-close" onclick="closeModal()" title="Close">✕</button>
+    <div id="modal-body"></div>
   </div>
 </div>
 
-<!-- Toast -->
 <div class="toast" id="toast"></div>
 
-<!-- ══════════════════════════════════════════════════════
-     SCRIPTS
-══════════════════════════════════════════════════════ -->
+<!-- ═══════════════════════════════════════════════════════════
+     JAVASCRIPT
+═══════════════════════════════════════════════════════════ -->
 <script>
-// ══════════════════════════════════════════════════
-// STATE
-// ══════════════════════════════════════════════════
-const BOOKINGS_KEY = "pl_bookings";
+'use strict';
+
+/* ────────────────────────────────────────────────────────
+   GLOBALS
+──────────────────────────────────────────────────────── */
+const BOOKINGS_KEY = 'pl_bookings';
 let currentUser = null;
 let calYear, calMonth;
-let selectedDate = null;
-let bookingStep = 0;
-let bookingData = {};
+let pendingDate   = null;
+let bookingInfo   = {};
+let toastTimer;
+const MONTHS = ['January','February','March','April','May','June',
+                'July','August','September','October','November','December'];
 
-// ══════════════════════════════════════════════════
-// LOADING SCREEN
-// ══════════════════════════════════════════════════
-const loadingMessages = [
-  "Preparing the magic...",
-  "Loading park attractions...",
-  "Polishing the roller coasters...",
-  "Almost ready..."
-];
+/* ────────────────────────────────────────────────────────
+   LOADING SCREEN
+──────────────────────────────────────────────────────── */
+(function initLoader() {
+  // Create sparkles
+  const sparks = document.getElementById('loader-sparks');
+  for (let i = 0; i < 18; i++) {
+    const s = document.createElement('div');
+    s.className = 'lspark';
+    s.style.cssText = `
+      left:${5+Math.random()*90}%;
+      top:${20+Math.random()*60}%;
+      --d:${3+Math.random()*4}s;
+      --delay:${Math.random()*4}s;
+      width:${3+Math.random()*5}px;
+      height:${3+Math.random()*5}px;
+    `;
+    sparks.appendChild(s);
+  }
 
-function runLoader() {
-  const bar = document.getElementById('loader-bar');
-  const txt = document.getElementById('loader-text');
-  let prog = 0;
-  let msgIdx = 0;
+  const msgs = [
+    'Awakening the magic…',
+    'Polishing the roller coasters…',
+    'Lighting the lanterns…',
+    'Almost ready for your arrival…'
+  ];
+  const bar  = document.getElementById('lbar');
+  const msg  = document.getElementById('lmsg');
+  let prog = 0, mi = 0;
 
   const iv = setInterval(() => {
-    prog += Math.random() * 22 + 8;
+    prog += Math.random() * 20 + 6;
     if (prog > 100) prog = 100;
     bar.style.width = prog + '%';
-
-    if (prog > 25 * (msgIdx + 1)) {
-      msgIdx = Math.min(msgIdx + 1, loadingMessages.length - 1);
-      txt.textContent = loadingMessages[msgIdx];
-    }
-
+    const newMi = Math.min(Math.floor(prog / 26), msgs.length - 1);
+    if (newMi !== mi) { mi = newMi; msg.textContent = msgs[mi]; }
     if (prog >= 100) {
       clearInterval(iv);
-      setTimeout(() => {
-        document.getElementById('loading-screen').classList.add('hidden');
-        initApp();
-      }, 400);
+      setTimeout(finishLoading, 520);
     }
-  }, 220);
+  }, 280);
+})();
+
+function finishLoading() {
+  document.getElementById('loading-screen').classList.add('hidden');
+  const user = Auth.getCurrentUser();
+  if (user) bootApp(user);
+  else      showAuth();
 }
 
-window.addEventListener('DOMContentLoaded', runLoader);
+/* ────────────────────────────────────────────────────────
+   AUTH
+──────────────────────────────────────────────────────── */
+function showAuth() {
+  document.getElementById('auth-page').style.display = 'flex';
+}
+function switchTab(t) {
+  document.getElementById('tab-login').classList.toggle('active',  t==='login');
+  document.getElementById('tab-signup').classList.toggle('active', t==='signup');
+  document.getElementById('login-form').style.display  = t==='login'  ? 'flex' : 'none';
+  document.getElementById('signup-form').style.display = t==='signup' ? 'flex' : 'none';
+  clearAuthErr();
+}
+function showAuthErr(msg) {
+  const el = document.getElementById('auth-error');
+  el.textContent = msg; el.className = 'auth-error show';
+}
+function clearAuthErr() {
+  document.getElementById('auth-error').className = 'auth-error';
+}
+function doLogin(e) {
+  e.preventDefault(); clearAuthErr();
+  const r = Auth.login(document.getElementById('lu').value, document.getElementById('lp').value);
+  if (r.success) { document.getElementById('auth-page').style.display='none'; bootApp(r.user); }
+  else showAuthErr(r.error);
+}
+function doSignup(e) {
+  e.preventDefault(); clearAuthErr();
+  const pass = document.getElementById('sp').value;
+  if (pass !== document.getElementById('sc').value) return showAuthErr('Passwords do not match.');
+  const r = Auth.signup(document.getElementById('su').value, pass);
+  if (r.success) { document.getElementById('auth-page').style.display='none'; bootApp(r.user); }
+  else showAuthErr(r.error);
+}
+function doLogout() {
+  Auth.logout(); currentUser = null;
+  document.getElementById('app').style.display = 'none';
+  document.getElementById('auth-page').style.display = 'flex';
+  toast('See you next time! 👋', 'ok');
+}
 
-// ══════════════════════════════════════════════════
-// APP INIT
-// ══════════════════════════════════════════════════
-function initApp() {
-  const user = Auth.getCurrentUser();
-  if (user) {
-    showApp(user);
-  } else {
-    document.getElementById('auth-page').style.display = 'flex';
+/* ────────────────────────────────────────────────────────
+   APP BOOT
+──────────────────────────────────────────────────────── */
+function bootApp(user) {
+  currentUser = user;
+  document.getElementById('nav-user').textContent = user.username;
+  const app = document.getElementById('app');
+  app.style.display = 'flex'; app.style.flexDirection = 'column';
+
+  // Hero image
+  const hbg = document.getElementById('hero-bg');
+  if (parkSettings.heroImage) {
+    hbg.style.backgroundImage = `url('${parkSettings.heroImage}')`;
+    hbg.style.backgroundSize  = 'cover';
+    hbg.style.backgroundPosition = 'center';
+  }
+
+  // Parallax
+  window.addEventListener('scroll', () => {
+    const y = window.scrollY;
+    hbg.style.transform = `translateY(${y * 0.35}px)`;
+  }, { passive: true });
+
+  // Hero sparkles
+  spawnHeroSparkles();
+
+  // Calendar range label
+  const today = new Date();
+  const max   = new Date(today); max.setDate(max.getDate() + parkSettings.maxAdvanceDays);
+  const fmt   = d => d.toLocaleDateString('en-GB', {day:'2-digit', month:'short'});
+  document.getElementById('cal-range').textContent = `${fmt(today)} – ${fmt(max)}`;
+
+  // Init calendar
+  calYear  = today.getFullYear();
+  calMonth = today.getMonth();
+  renderCal();
+
+  // My bookings
+  renderMyBookings();
+
+  // Rules
+  renderRules();
+}
+
+/* ────────────────────────────────────────────────────────
+   HERO SPARKLES
+──────────────────────────────────────────────────────── */
+function spawnHeroSparkles() {
+  const c = document.getElementById('hero-sparks');
+  c.innerHTML = '';
+  const count = window.innerWidth < 600 ? 12 : 22;
+  for (let i = 0; i < count; i++) {
+    const s = document.createElement('div');
+    s.className = 'sparkle';
+    const sz = 4 + Math.random() * 8;
+    s.style.cssText = `
+      --sz:${sz}px; --x:${Math.random()*100}%; --y:${20+Math.random()*70}%;
+      --dur:${5+Math.random()*8}s; --delay:${Math.random()*7}s;
+    `;
+    c.appendChild(s);
   }
 }
 
-function showApp(user) {
-  currentUser = user;
-  document.getElementById('auth-page').style.display = 'none';
-  const app = document.getElementById('app');
-  app.classList.add('visible');
-  document.getElementById('nav-username').textContent = currentUser.username;
-
-  const now = new Date();
-  calYear = now.getFullYear();
-  calMonth = now.getMonth();
-
-  updateCalRangeLabel();
-  renderCalendar();
-  renderMyBookings();
+/* ────────────────────────────────────────────────────────
+   RULES
+──────────────────────────────────────────────────────── */
+function renderRules() {
+  const g = document.getElementById('rules-grid');
+  g.innerHTML = parkSettings.parkRules.map((r, i) => `
+    <div class="rule-item" style="animation-delay:${i*0.06}s;animation:cardFadeUp 0.4s ${i*0.06}s var(--ease) both">
+      <div class="rule-num">${i+1}</div>
+      <span>${r}</span>
+    </div>`).join('');
 }
 
-// ══════════════════════════════════════════════════
-// AUTH
-// ══════════════════════════════════════════════════
-function switchTab(tab) {
-  document.getElementById('tab-login').classList.toggle('active', tab === 'login');
-  document.getElementById('tab-signup').classList.toggle('active', tab === 'signup');
-  document.getElementById('login-form').style.display = tab === 'login' ? 'flex' : 'none';
-  document.getElementById('signup-form').style.display = tab === 'signup' ? 'flex' : 'none';
-  clearAuthError();
-}
-
-function showAuthError(msg) {
-  const el = document.getElementById('auth-error');
-  el.textContent = msg;
-  el.classList.add('visible');
-}
-
-function clearAuthError() {
-  document.getElementById('auth-error').classList.remove('visible');
-}
-
-function handleLogin(e) {
-  e.preventDefault();
-  clearAuthError();
-  const user = document.getElementById('login-user').value.trim();
-  const pass = document.getElementById('login-pass').value;
-  const result = Auth.login(user, pass);
-  if (result.success) showApp(result.user);
-  else showAuthError(result.error);
-}
-
-function handleSignup(e) {
-  e.preventDefault();
-  clearAuthError();
-  const user = document.getElementById('signup-user').value.trim();
-  const pass = document.getElementById('signup-pass').value;
-  const confirm = document.getElementById('signup-confirm').value;
-  if (pass !== confirm) return showAuthError("Passwords do not match.");
-  const result = Auth.signup(user, pass);
-  if (result.success) showApp(result.user);
-  else showAuthError(result.error);
-}
-
-function handleLogout() {
-  Auth.logout();
-  currentUser = null;
-  document.getElementById('app').classList.remove('visible');
-  document.getElementById('auth-page').style.display = 'flex';
-  showToast('See you next time! 👋', 'success');
-}
-
-// ══════════════════════════════════════════════════
-// CALENDAR
-// ══════════════════════════════════════════════════
-function updateCalRangeLabel() {
-  const today = new Date();
-  const maxDate = new Date(today);
-  maxDate.setDate(maxDate.getDate() + PARK_CONFIG.maxAdvanceDays);
-  const fmt = d => d.toLocaleDateString('en-GB', { day:'2-digit', month:'short' });
-  document.getElementById('cal-range-label').textContent = `Bookable: ${fmt(today)} – ${fmt(maxDate)}`;
-}
-
-function getMonthName(year, month) {
-  return new Date(year, month, 1).toLocaleString('en-US', { month: 'long', year: 'numeric' });
-}
-
-function toDateStr(year, month, day) {
-  const m = String(month + 1).padStart(2, '0');
-  const d = String(day).padStart(2, '0');
-  return `${year}-${m}-${d}`;
-}
-
-function getUserBookings() {
-  const all = JSON.parse(localStorage.getItem(BOOKINGS_KEY) || '{}');
-  return all[currentUser.username] || [];
-}
+/* ────────────────────────────────────────────────────────
+   CALENDAR
+──────────────────────────────────────────────────────── */
+function datePad(n) { return String(n).padStart(2, '0'); }
+function toDateStr(y, m, d) { return `${y}-${datePad(m+1)}-${datePad(d)}`; }
 
 function getUserBookedDates() {
-  return getUserBookings().map(b => b.date);
+  const all = JSON.parse(localStorage.getItem(BOOKINGS_KEY) || '{}');
+  return (all[currentUser.username] || []).map(b => b.date);
 }
 
-function renderCalendar() {
-  const label = document.getElementById('cal-month-label');
-  label.textContent = getMonthName(calYear, calMonth);
+function renderCal() {
+  document.getElementById('cal-month').textContent = `${MONTHS[calMonth]} ${calYear}`;
 
-  const today = new Date();
-  today.setHours(0,0,0,0);
-  const maxDate = new Date(today);
-  maxDate.setDate(maxDate.getDate() + PARK_CONFIG.maxAdvanceDays);
+  const today = new Date(); today.setHours(0,0,0,0);
+  const maxD  = new Date(today); maxD.setDate(maxD.getDate() + parkSettings.maxAdvanceDays);
+  const nowY  = today.getFullYear(), nowM = today.getMonth();
+  const maxY  = maxD.getFullYear(), maxMo = maxD.getMonth();
 
-  const firstDay = new Date(calYear, calMonth, 1).getDay();
+  document.getElementById('cal-prev').disabled =
+    (calYear < nowY) || (calYear === nowY && calMonth <= nowM);
+  document.getElementById('cal-next').disabled =
+    (calYear > maxY) || (calYear === maxY && calMonth >= maxMo);
+
+  const firstDay    = new Date(calYear, calMonth, 1).getDay();
   const daysInMonth = new Date(calYear, calMonth + 1, 0).getDate();
-
-  const nowYear = today.getFullYear();
-  const nowMonth = today.getMonth();
-
-  // Disable prev if current month is before today's month
-  const prevBtn = document.getElementById('cal-prev');
-  prevBtn.disabled = (calYear < nowYear) || (calYear === nowYear && calMonth <= nowMonth);
-
-  // Disable next if current month is beyond maxDate month
-  const maxY = maxDate.getFullYear(), maxM = maxDate.getMonth();
-  document.getElementById('cal-next').disabled = (calYear > maxY) || (calYear === maxY && calMonth >= maxM);
-
-  const userBookedDates = getUserBookedDates();
-  const container = document.getElementById('cal-days');
+  const myDates     = getUserBookedDates();
+  const container   = document.getElementById('cal-days');
   container.innerHTML = '';
 
-  // Empty cells before first day
+  // Empty cells
   for (let i = 0; i < firstDay; i++) {
     const el = document.createElement('div');
-    el.className = 'cal-day empty';
+    el.className = 'cal-day';
     container.appendChild(el);
   }
 
   for (let d = 1; d <= daysInMonth; d++) {
-    const dateStr = toDateStr(calYear, calMonth, d);
-    const thisDate = new Date(calYear, calMonth, d);
+    const ds   = toDateStr(calYear, calMonth, d);
+    const dt   = new Date(calYear, calMonth, d);
+    const el   = document.createElement('div');
+    const num  = document.createElement('span');
+    num.className = 'day-num'; num.textContent = d;
+    const dot  = document.createElement('div');
+    dot.className = 'day-dot';
+    const spark = document.createElement('div');
+    spark.className = 'day-spark';
+    el.appendChild(num); el.appendChild(dot); el.appendChild(spark);
 
-    const el = document.createElement('div');
-    el.textContent = d;
+    const isToday = dt.getTime() === today.getTime();
+    const isPast  = dt < today;
+    const isOut   = dt > maxD;
+    const isMine  = myDates.includes(ds);
+    const info    = getDateStatus(ds);
 
-    const isToday = thisDate.getTime() === today.getTime();
-    const isPast  = thisDate < today;
-    const isOutOfRange = thisDate > maxDate;
-    const ownerStatus = bookedDates[dateStr];
-    const isUserBooked = userBookedDates.includes(dateStr);
-
-    if (isUserBooked) {
-      el.className = 'cal-day user-booked';
-      el.title = 'Your booking';
+    if (isMine) {
+      el.className = 'cal-day mine';
+      el.title = 'Your booking ✓';
     } else if (isPast) {
       el.className = 'cal-day past';
-    } else if (isOutOfRange) {
-      el.className = 'cal-day out-of-range';
-    } else if (ownerStatus === 'Booked') {
-      el.className = 'cal-day booked';
-      el.title = 'Fully booked';
-    } else if (ownerStatus === 'Pending') {
-      el.className = 'cal-day pending';
-      el.title = 'Pending approval';
+    } else if (isOut) {
+      el.className = 'cal-day out';
+    } else if (info.status === 'full') {
+      el.className = 'cal-day full';
+      el.title = `🔴 Fully Booked (${parkSettings.maxBookingsPerDay}/${parkSettings.maxBookingsPerDay})`;
+    } else if (info.status === 'almost') {
+      el.className = 'cal-day almost' + (isToday ? ' today' : '');
+      el.title = `🟡 ${info.spots} spot${info.spots!==1?'s':''} left`;
+      el.addEventListener('click', () => openBooking(ds));
     } else {
       el.className = 'cal-day available' + (isToday ? ' today' : '');
-      el.addEventListener('click', () => openBooking(dateStr));
+      el.title = `🟢 ${info.spots} spot${info.spots!==1?'s':''} available`;
+      el.addEventListener('click', () => openBooking(ds));
     }
 
     container.appendChild(el);
   }
 }
 
-function changeMonth(delta) {
+function moveMonth(delta) {
   calMonth += delta;
-  if (calMonth < 0) { calMonth = 11; calYear--; }
-  if (calMonth > 11) { calMonth = 0; calYear++; }
-  renderCalendar();
+  if (calMonth < 0)  { calMonth = 11; calYear--; }
+  if (calMonth > 11) { calMonth = 0;  calYear++; }
+  renderCal();
 }
 
-// ══════════════════════════════════════════════════
-// MY BOOKINGS
-// ══════════════════════════════════════════════════
+/* ────────────────────────────────────────────────────────
+   MY BOOKINGS
+──────────────────────────────────────────────────────── */
 function renderMyBookings() {
-  const list = document.getElementById('bookings-list');
-  const bookings = getUserBookings();
+  const all  = JSON.parse(localStorage.getItem(BOOKINGS_KEY) || '{}');
+  const list = (all[currentUser.username] || []).sort((a,b) => b.date.localeCompare(a.date));
+  const el   = document.getElementById('bk-list');
 
-  document.getElementById('bookings-count-label').textContent =
-    bookings.length ? `${bookings.length} booking${bookings.length !== 1 ? 's' : ''}` : 'No bookings yet';
+  document.getElementById('bk-count').textContent =
+    list.length ? `${list.length} booking${list.length!==1?'s':''}` : 'No bookings yet';
 
-  if (!bookings.length) {
-    list.innerHTML = `
-      <div class="no-bookings">
+  if (!list.length) {
+    el.innerHTML = `
+      <div class="empty-bookings">
         <span class="empty-icon">🎡</span>
-        <p>You haven't booked any visits yet.<br>Pick a date on the calendar above!</p>
+        <p>You haven't made any bookings yet.<br>Pick a date on the calendar above to get started!</p>
       </div>`;
     return;
   }
 
-  // Sort by date desc
-  const sorted = [...bookings].sort((a, b) => b.date.localeCompare(a.date));
-  list.innerHTML = sorted.map((b, i) => {
+  el.innerHTML = list.map((b, i) => {
     const dt = new Date(b.date + 'T12:00:00');
-    const dayName = dt.toLocaleDateString('en-US', { weekday: 'long' });
-    const dateDisp = dt.toLocaleDateString('en-US', { day: 'numeric', month: 'long', year: 'numeric' });
-    const statusCls = b.status === 'Pending' ? 'status-pending' : b.status === 'Booked' ? 'status-booked' : 'status-declined';
+    const wd = dt.toLocaleDateString('en-US', {weekday:'long'});
+    const dd = dt.toLocaleDateString('en-US', {day:'numeric', month:'long', year:'numeric'});
+    const sc = b.status==='Pending'  ? 's-pending'  :
+               b.status==='Booked'   ? 's-booked'   : 's-declined';
     return `
-      <div class="booking-card" style="animation-delay:${i * 0.07}s">
-        <div class="booking-date">
-          <span>${dayName}</span>${dateDisp}
+      <div class="booking-card" style="animation-delay:${i*0.07}s">
+        <div class="bk-date">
+          <div class="bk-weekday">${wd}</div>
+          <div class="bk-day">${dd}</div>
         </div>
-        <div class="booking-meta">
-          <strong>${b.robloxUsername}</strong><br>
-          ${b.contact}
+        <div class="bk-meta">
+          <strong>${b.robloxUsername}</strong>
+          ${b.contact}${b.note ? `<br><em style="font-size:12px;color:var(--text-soft)">${b.note}</em>` : ''}
         </div>
-        <div class="booking-status ${statusCls}">${b.status}</div>
+        <div class="status-pill ${sc}">${b.status}</div>
       </div>`;
   }).join('');
 }
 
-// ══════════════════════════════════════════════════
-// BOOKING MODAL
-// ══════════════════════════════════════════════════
-function openBooking(dateStr) {
-  selectedDate = dateStr;
-  bookingStep = 0;
-  bookingData = {};
-
-  const overlay = document.getElementById('booking-overlay');
-  const content = document.getElementById('modal-content');
-
-  // Show loading first
-  content.innerHTML = `
-    <div class="modal-loading">
-      <div class="modal-spinner"></div>
-      <p>Loading booking system...</p>
-    </div>`;
-
+/* ────────────────────────────────────────────────────────
+   BOOKING MODAL
+──────────────────────────────────────────────────────── */
+function openBooking(ds) {
+  pendingDate = ds;
+  bookingInfo = {};
+  const overlay = document.getElementById('modal-overlay');
+  // Portal loading
+  document.getElementById('modal-body').innerHTML = buildPortalLoader();
   overlay.classList.add('open');
-
-  // Fake load then show step 1
-  setTimeout(() => renderStep(1), 1400);
+  setTimeout(() => renderStep(1), 1600);
 }
 
-function closeBookingModal() {
-  document.getElementById('booking-overlay').classList.remove('open');
-  selectedDate = null;
-  bookingStep = 0;
-  bookingData = {};
+function closeModal() {
+  document.getElementById('modal-overlay').classList.remove('open');
+  pendingDate = null; bookingInfo = {};
 }
 
-// Close on overlay click
-document.getElementById('booking-overlay').addEventListener('click', function(e) {
-  if (e.target === this) closeBookingModal();
+document.getElementById('modal-overlay').addEventListener('click', e => {
+  if (e.target === document.getElementById('modal-overlay')) closeModal();
 });
 
-function stepIndicators(current) {
-  const steps = [1, 2, 3];
-  const labels = ['Info', 'Rules', 'Summary'];
-  let html = '<div class="step-indicators">';
-  steps.forEach((s, i) => {
-    const cls = s < current ? 'done' : s === current ? 'active' : '';
-    const icon = s < current ? '✓' : s;
-    html += `<div class="step-indicator">
-      <div class="step-dot ${cls}">${icon}</div>
+function buildPortalLoader() {
+  return `
+    <div class="portal-loader">
+      <div class="portal-ring">
+        <div class="pr-inner"></div>
+        <div class="pr-core">🎢</div>
+      </div>
+      <p>Opening booking portal…</p>
     </div>`;
-    if (i < steps.length - 1) {
-      html += `<div class="step-line ${s < current ? 'done' : ''}"></div>`;
-    }
-  });
-  html += '</div>';
-  return html;
 }
 
-function renderStep(step) {
-  bookingStep = step;
-  const content = document.getElementById('modal-content');
-  const dt = new Date(selectedDate + 'T12:00:00');
-  const dateDisp = dt.toLocaleDateString('en-US', { weekday:'long', day:'numeric', month:'long', year:'numeric' });
+function buildStepProgress(active) {
+  const labels = ['Information','Park Rules','Summary'];
+  return `
+    <div class="step-progress">
+      ${labels.map((l, i) => {
+        const n    = i + 1;
+        const cls  = n < active ? 'done' : n === active ? 'active' : '';
+        const icon = n < active ? '✓' : n;
+        const line = i < labels.length - 1
+          ? `<div class="sp-line${n < active ? ' done' : ''}"></div>` : '';
+        return `<div class="sp-item"><div class="sp-dot ${cls}" title="${l}">${icon}</div></div>${line}`;
+      }).join('')}
+    </div>`;
+}
 
-  if (step === 1) {
-    content.innerHTML = `
-      ${stepIndicators(1)}
-      <h3 class="modal-step-title">Your Information</h3>
-      <p class="modal-step-subtitle">Tell us who you are! Roblox username is pre-filled from your account.</p>
-      <div class="step-content">
-        <div class="form-group">
-          <label>Roblox Username</label>
-          <input type="text" id="book-roblox" value="${currentUser.username}" placeholder="Your Roblox name" />
+function renderStep(n) {
+  const body = document.getElementById('modal-body');
+  const ds   = pendingDate;
+  const dt   = new Date(ds + 'T12:00:00');
+  const dFmt = dt.toLocaleDateString('en-US', {weekday:'long', day:'numeric', month:'long', year:'numeric'});
+  const info = getDateStatus(ds);
+  const spotsTxt = info.spots > 0 ? `${info.spots} spot${info.spots!==1?'s':''} remaining` : 'Last spot!';
+
+  if (n === 1) {
+    body.innerHTML = `
+      ${buildStepProgress(1)}
+      <div class="step-wrap">
+        <div class="modal-step-title">Your Information</div>
+        <div class="modal-step-sub">Booking for <strong>${dFmt}</strong> — <span style="color:var(--gold)">${spotsTxt}</span></div>
+        <div class="form-stack">
+          <div class="form-group">
+            <label>Roblox Username</label>
+            <input id="bi-roblox" type="text" value="${currentUser.username}" placeholder="Your Roblox name" />
+          </div>
+          <div class="form-group">
+            <label>Discord / Contact</label>
+            <input id="bi-contact" type="text" placeholder="Discord#1234 or other contact" />
+          </div>
+          <div class="form-group">
+            <label>Note <span style="font-weight:400;color:var(--text-soft)">(optional)</span></label>
+            <input id="bi-note" type="text" placeholder="Anything you'd like us to know?" />
+          </div>
         </div>
-        <div class="form-group">
-          <label>Discord / Contact</label>
-          <input type="text" id="book-contact" placeholder="Discord#1234 or other contact" />
+        <div class="modal-footer">
+          <button class="btn-ghost" onclick="closeModal()">Cancel</button>
+          <button class="btn-primary" onclick="submitStep1()">Continue →</button>
         </div>
-        <div class="form-group">
-          <label>Note (optional)</label>
-          <input type="text" id="book-note" placeholder="Anything we should know?" />
-        </div>
-      </div>
-      <div class="modal-buttons">
-        <button class="btn-secondary" onclick="closeBookingModal()">Cancel</button>
-        <button class="btn-primary" onclick="submitStep1()">Continue →</button>
       </div>`;
   }
 
-  else if (step === 2) {
-    const rulesHtml = PARK_CONFIG.parkRules.map(r => `<li>${r}</li>`).join('');
-    content.innerHTML = `
-      ${stepIndicators(2)}
-      <h3 class="modal-step-title">Park Rules</h3>
-      <p class="modal-step-subtitle">Please read and accept the park rules before proceeding with your booking.</p>
-      <ul class="rules-panel">${rulesHtml}</ul>
-      <label class="checkbox-wrap">
-        <input type="checkbox" id="rules-accept" onchange="toggleRulesNext()" />
-        <span>☑ I have read and accept all park rules</span>
-      </label>
-      <div class="modal-buttons">
-        <button class="btn-secondary" onclick="renderStep(1)">← Back</button>
-        <button class="btn-primary" id="rules-next-btn" onclick="renderStep(3)" disabled
-          style="opacity:0.4;cursor:not-allowed">Next →</button>
+  else if (n === 2) {
+    const rulesHtml = parkSettings.parkRules.map(r => `<li>${r}</li>`).join('');
+    body.innerHTML = `
+      ${buildStepProgress(2)}
+      <div class="step-wrap">
+        <div class="modal-step-title">Park Rules</div>
+        <div class="modal-step-sub">Please read all rules carefully before confirming your booking.</div>
+        <ul class="rules-scroll">${rulesHtml}</ul>
+        <label class="check-wrap">
+          <input type="checkbox" id="rules-cb" onchange="onRulesCheck()" />
+          <span>I have read and accept all park rules</span>
+        </label>
+        <div class="modal-footer">
+          <button class="btn-ghost" onclick="renderStep(1)">← Back</button>
+          <button class="btn-primary" id="rules-next" onclick="renderStep(3)" disabled>Continue →</button>
+        </div>
       </div>`;
   }
 
-  else if (step === 3) {
-    content.innerHTML = `
-      ${stepIndicators(3)}
-      <h3 class="modal-step-title">Booking Summary</h3>
-      <p class="modal-step-subtitle">Review your booking details before confirming.</p>
-      <div class="summary-table">
-        <div class="summary-row">
-          <span class="summary-label">Date</span>
-          <span class="summary-value">${dateDisp}</span>
+  else if (n === 3) {
+    body.innerHTML = `
+      ${buildStepProgress(3)}
+      <div class="step-wrap">
+        <div class="modal-step-title">Booking Summary</div>
+        <div class="modal-step-sub">Review your details before confirming your visit request.</div>
+        <div class="summary-block">
+          <div class="sum-row"><span class="sum-label">Date</span>     <span class="sum-val">${dFmt}</span></div>
+          <div class="sum-row"><span class="sum-label">Roblox User</span><span class="sum-val">${bookingInfo.roblox}</span></div>
+          <div class="sum-row"><span class="sum-label">Contact</span>  <span class="sum-val">${bookingInfo.contact}</span></div>
+          ${bookingInfo.note ? `<div class="sum-row"><span class="sum-label">Note</span><span class="sum-val">${bookingInfo.note}</span></div>` : ''}
+          <div class="sum-row"><span class="sum-label">Spots Taken</span><span class="sum-val">${info.total + 1} / ${parkSettings.maxBookingsPerDay}</span></div>
+          <div class="sum-row"><span class="sum-label">Status</span>   <span class="sum-val gold">⏳ Pending Approval</span></div>
         </div>
-        <div class="summary-row">
-          <span class="summary-label">Roblox Username</span>
-          <span class="summary-value">${bookingData.robloxUsername}</span>
+        <div class="modal-footer">
+          <button class="btn-ghost" onclick="renderStep(2)">← Back</button>
+          <button class="btn-primary" onclick="confirmBooking()">✦ Confirm Booking</button>
         </div>
-        <div class="summary-row">
-          <span class="summary-label">Contact</span>
-          <span class="summary-value">${bookingData.contact}</span>
-        </div>
-        ${bookingData.note ? `
-        <div class="summary-row">
-          <span class="summary-label">Note</span>
-          <span class="summary-value">${bookingData.note}</span>
-        </div>` : ''}
-        <div class="summary-row">
-          <span class="summary-label">Status</span>
-          <span class="summary-value gold">⏳ Pending</span>
-        </div>
-      </div>
-      <div class="modal-buttons">
-        <button class="btn-secondary" onclick="renderStep(2)">← Back</button>
-        <button class="btn-primary" onclick="confirmBooking()">Confirm Booking ✓</button>
       </div>`;
   }
 }
 
-function toggleRulesNext() {
-  const cb = document.getElementById('rules-accept');
-  const btn = document.getElementById('rules-next-btn');
+function onRulesCheck() {
+  const cb  = document.getElementById('rules-cb');
+  const btn = document.getElementById('rules-next');
   btn.disabled = !cb.checked;
-  btn.style.opacity = cb.checked ? '1' : '0.4';
-  btn.style.cursor = cb.checked ? 'pointer' : 'not-allowed';
 }
 
 function submitStep1() {
-  const roblox = document.getElementById('book-roblox').value.trim();
-  const contact = document.getElementById('book-contact').value.trim();
-  const note = document.getElementById('book-note').value.trim();
-  if (!roblox) return showToast('Please enter your Roblox username.', 'error');
-  if (!contact) return showToast('Please enter a contact method.', 'error');
-  bookingData = { robloxUsername: roblox, contact, note };
+  const roblox  = (document.getElementById('bi-roblox').value  || '').trim();
+  const contact = (document.getElementById('bi-contact').value || '').trim();
+  const note    = (document.getElementById('bi-note').value    || '').trim();
+  if (!roblox)  return toast('Please enter your Roblox username.', 'err');
+  if (!contact) return toast('Please enter a contact method.', 'err');
+
+  // Duplicate check
+  const myDates = getUserBookedDates();
+  if (myDates.includes(pendingDate)) {
+    closeModal();
+    return toast('You already have a booking for this date.', 'err');
+  }
+
+  bookingInfo = { roblox, contact, note };
   renderStep(2);
 }
 
 async function confirmBooking() {
-  // Prevent duplicate bookings for same date
-  const existing = getUserBookings();
-  if (existing.find(b => b.date === selectedDate)) {
-    showToast('You already have a booking for this date.', 'error');
-    return;
+  // Re-check capacity
+  const info = getDateStatus(pendingDate);
+  if (info.status === 'full') {
+    closeModal(); return toast('This date just became fully booked!', 'err');
   }
 
-  // Show processing
-  const content = document.getElementById('modal-content');
-  content.innerHTML = `
-    <div class="modal-loading">
-      <div class="modal-spinner"></div>
-      <p>Sending your booking...</p>
-    </div>`;
+  // Show processing animation
+  document.getElementById('modal-body').innerHTML = buildPortalLoader().replace('Opening booking portal…', 'Confirming your magic visit…');
 
-  // Save booking
   const booking = {
-    date: selectedDate,
-    robloxUsername: bookingData.robloxUsername,
-    contact: bookingData.contact,
-    note: bookingData.note || '',
-    status: 'Pending',
-    createdAt: new Date().toISOString()
+    date:           pendingDate,
+    robloxUsername: bookingInfo.roblox,
+    contact:        bookingInfo.contact,
+    note:           bookingInfo.note || '',
+    status:         'Pending',
+    createdAt:      new Date().toISOString()
   };
 
-  const allBookings = JSON.parse(localStorage.getItem(BOOKINGS_KEY) || '{}');
-  if (!allBookings[currentUser.username]) allBookings[currentUser.username] = [];
-  allBookings[currentUser.username].push(booking);
-  localStorage.setItem(BOOKINGS_KEY, JSON.stringify(allBookings));
+  // Save
+  const all = JSON.parse(localStorage.getItem(BOOKINGS_KEY) || '{}');
+  if (!all[currentUser.username]) all[currentUser.username] = [];
+  all[currentUser.username].push(booking);
+  localStorage.setItem(BOOKINGS_KEY, JSON.stringify(all));
 
-  // Send Discord webhook
-  const dt = new Date(selectedDate + 'T12:00:00');
-  const dateDisp = dt.toLocaleDateString('en-US', { weekday:'long', day:'numeric', month:'long', year:'numeric' });
-
+  // Discord webhook
+  const dt   = new Date(pendingDate + 'T12:00:00');
+  const dFmt = dt.toLocaleDateString('en-US', {weekday:'long', day:'numeric', month:'long', year:'numeric'});
   try {
-    await fetch(PARK_CONFIG.discordWebhook, {
+    await fetch(parkSettings.discordWebhook, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        content: null,
         embeds: [{
-          title: "🎢 New Booking Request",
-          color: 0xC9933A,
+          title: '🎢 New Booking Request',
+          color: 0xC8943F,
           fields: [
-            { name: "👤 Username", value: booking.robloxUsername, inline: true },
-            { name: "📞 Contact", value: booking.contact, inline: true },
-            { name: "📅 Date", value: dateDisp, inline: false },
-            { name: "📝 Note", value: booking.note || "None", inline: false },
-            { name: "⏳ Status", value: "Pending", inline: true }
+            { name: '👤 Username', value: booking.robloxUsername, inline: true },
+            { name: '📞 Contact',  value: booking.contact,        inline: true },
+            { name: '📅 Date',     value: dFmt,                   inline: false },
+            { name: '📝 Note',     value: booking.note || 'None', inline: false },
+            { name: '⏳ Status',   value: 'Pending',               inline: true }
           ],
-          footer: { text: "Phantasialand-Roblox Booking System" },
+          footer: { text: 'Phantasialand-Roblox Booking System' },
           timestamp: new Date().toISOString()
         }]
       })
     });
-  } catch (e) {
-    // Webhook failed silently — booking is still saved
-  }
+  } catch(_) { /* webhook failure is silent */ }
 
-  // Show success
-  content.innerHTML = `
-    <div class="success-state">
-      <div class="success-icon">✓</div>
-      <h3>Booking Submitted!</h3>
-      <p>Your visit request for <strong>${dateDisp}</strong> has been submitted successfully.<br>
-      Status is <strong>Pending</strong> — a park manager will review and confirm your booking.</p>
-      <button class="btn-primary" onclick="closeBookingModal()">Back to Calendar</button>
-    </div>`;
-
-  // Refresh calendar and bookings
-  renderCalendar();
+  // Refresh
+  renderCal();
   renderMyBookings();
-  showToast('🎢 Booking submitted! Status: Pending', 'success');
+
+  // Show success scene with particles
+  setTimeout(() => showSuccessScene(dFmt), 600);
 }
 
-// ══════════════════════════════════════════════════
-// TOAST
-// ══════════════════════════════════════════════════
-let toastTimeout;
-function showToast(msg, type = 'success') {
-  const toast = document.getElementById('toast');
-  toast.className = `toast ${type}`;
-  toast.innerHTML = (type === 'success' ? '✓ ' : '⚠ ') + msg;
-  toast.classList.add('show');
-  clearTimeout(toastTimeout);
-  toastTimeout = setTimeout(() => toast.classList.remove('show'), 3800);
+function showSuccessScene(dFmt) {
+  // Build particle positions
+  const particles = [];
+  for (let i = 0; i < 16; i++) {
+    const angle = (i / 16) * Math.PI * 2;
+    const dist  = 80 + Math.random() * 60;
+    particles.push({
+      px: Math.cos(angle) * dist,
+      py: Math.sin(angle) * dist - 60,
+      d:  0.6 + Math.random() * 0.6,
+      delay: Math.random() * 0.3,
+      sz: 6 + Math.random() * 10
+    });
+  }
+
+  document.getElementById('modal-body').innerHTML = `
+    <div class="success-scene">
+      <div class="success-particles">
+        ${particles.map(p => `<div class="s-particle" style="
+          --px:${p.px}px; --py:${p.py}px; --pd:${p.d}s; --pdelay:${p.delay}s; --sw:${p.sz}px;
+          background:${Math.random()>0.5?'var(--gold-lt)':'var(--gold)'};
+        "></div>`).join('')}
+      </div>
+      <div class="success-ring">
+        <div class="success-ring-bg"></div>
+        <div class="success-check">✓</div>
+      </div>
+      <h3>Booking Submitted!</h3>
+      <p>
+        Your visit request for <strong>${dFmt}</strong> has been sent.<br>
+        <span style="color:var(--gold);font-weight:700;">Status: Pending Approval</span><br><br>
+        A park manager will review and confirm your booking shortly.
+        Keep an eye out for updates!
+      </p>
+      <button class="btn-primary" onclick="closeModal()">← Back to Calendar</button>
+    </div>`;
+
+  toast('🎢 Booking submitted! Awaiting approval.', 'ok');
+}
+
+/* ────────────────────────────────────────────────────────
+   TOAST
+──────────────────────────────────────────────────────── */
+function toast(msg, type='ok') {
+  const el = document.getElementById('toast');
+  el.className = `toast ${type}`;
+  el.innerHTML = (type==='ok' ? '✦ ' : '⚠ ') + msg;
+  el.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => el.classList.remove('show'), 4000);
 }
 </script>
 </body>
