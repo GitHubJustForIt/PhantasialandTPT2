@@ -1,720 +1,273 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="de">
 <head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-  <title>Phantasialand-Roblox — Magical Booking</title>
-  <link rel="stylesheet" href="style.css"/>
-  <script src="settings.js"></script>
-  <script src="auth.js"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Phantasialand – Roblox</title>
+  <meta name="description" content="Der magischste Freizeitpark auf Roblox – buche jetzt deine exklusive Session." />
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Cinzel:wght@400;600;700&family=Lora:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet" />
+
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
 
-<!-- ═══════════════════════════════════════════════════
-     GLOBAL BACKGROUND SPARKLES
-═══════════════════════════════════════════════════ -->
-<div id="bg-sparkles"></div>
-
-<!-- ═══════════════════════════════════════════════════
-     LOADING SCREEN
-═══════════════════════════════════════════════════ -->
-<div id="loading-screen">
-  <div class="ls-rays"></div>
-  <div class="ls-particles" id="ls-parts"></div>
-  <div class="ls-inner">
-    <div class="ls-crest">🎢</div>
-    <div class="ls-name">PHANTASIALAND</div>
-    <div class="ls-sub">Roblox Park · Official Booking Portal</div>
-    <div class="ls-track"><div class="ls-fill" id="lsbar"></div></div>
-    <div class="ls-msg" id="lsmsg">Awakening the magic…</div>
-  </div>
-</div>
-
-<!-- ═══════════════════════════════════════════════════
-     AUTH PAGE
-═══════════════════════════════════════════════════ -->
-<div id="auth-page" style="display:none">
-  <div class="auth-card">
-    <div class="auth-logo">
-      <div class="auth-logo-crest">🎢</div>
-      <h1>PHANTASIALAND<br>ROBLOX</h1>
-      <p>Official Guest Booking Portal</p>
-    </div>
-
-    <div class="auth-tabs">
-      <button class="auth-tab active" id="tab-l" onclick="switchTab('l')">Login</button>
-      <button class="auth-tab"        id="tab-s" onclick="switchTab('s')">Sign Up</button>
-    </div>
-
-    <div id="auth-err" class="auth-err"></div>
-
-    <form id="form-l" class="auth-form" onsubmit="doLogin(event)">
-      <div class="fg"><label>Roblox Username</label><input id="lu" type="text" placeholder="Your username" autocomplete="username" required/></div>
-      <div class="fg"><label>Password</label><input id="lp" type="password" placeholder="••••••••" autocomplete="current-password" required/></div>
-      <button type="submit" class="btn-magic" style="margin-top:10px">
-        <span class="btn-particles" id="lbp"></span>
-        ✦ Enter the Park
-      </button>
-    </form>
-
-    <form id="form-s" class="auth-form" style="display:none" onsubmit="doSignup(event)">
-      <div class="fg"><label>Roblox Username</label><input id="su" type="text" placeholder="Choose a username" required/></div>
-      <div class="fg"><label>Password</label><input id="sp" type="password" placeholder="Min 6 characters" required/></div>
-      <div class="fg"><label>Confirm Password</label><input id="sc" type="password" placeholder="Repeat password" required/></div>
-      <button type="submit" class="btn-magic" style="margin-top:10px">
-        <span class="btn-particles" id="sbp"></span>
-        ✦ Create Account
-      </button>
-    </form>
-  </div>
-</div>
-
-<!-- ═══════════════════════════════════════════════════
-     MAIN APP
-═══════════════════════════════════════════════════ -->
-<div id="app">
-
-  <!-- Header -->
-  <header class="site-header">
-    <div class="hdr-inner">
-      <div class="hdr-logo">
-        <div class="hdr-logo-icon">🎢</div>
-        PHANTASIALAND-ROBLOX
+  <!-- ═══════════════════════ NAVIGATION ═══════════════════════ -->
+  <nav id="navbar">
+    <div class="nav-inner">
+      <div class="nav-logo">
+        <span class="logo-main" id="navLogoMain">Phantasialand</span>
+        <span class="logo-sub">Roblox</span>
       </div>
-      <div class="hdr-right">
-        <div class="hdr-user">Welcome, <em id="nav-usr">Guest</em></div>
-        <button class="btn-leave" onclick="doLogout()">Leave Park</button>
-      </div>
+      <ul class="nav-links">
+        <li>
+          <a href="#hero" onclick="smoothScrollTo('hero'); return false;">
+            <i class="fa-solid fa-house"></i> Startseite
+          </a>
+        </li>
+        <li>
+          <a href="#themenwelten" onclick="smoothScrollTo('themenwelten'); return false;">
+            <i class="fa-solid fa-map"></i> Themenwelten
+          </a>
+        </li>
+        <li>
+          <a href="#buchen" onclick="smoothScrollTo('buchen'); return false;">
+            <i class="fa-solid fa-calendar-days"></i> Buchen
+          </a>
+        </li>
+      </ul>
+      <button class="nav-cta" onclick="smoothScrollTo('buchen')">
+        <i class="fa-solid fa-ticket"></i> Jetzt buchen
+      </button>
+      <button class="nav-toggle" id="navToggle" aria-label="Menü öffnen">
+        <i class="fa-solid fa-bars"></i>
+      </button>
     </div>
-  </header>
+    <!-- Mobile Menu -->
+    <div class="nav-mobile" id="navMobile">
+      <a href="#hero" onclick="smoothScrollTo('hero'); closeMobileMenu(); return false;">
+        <i class="fa-solid fa-house"></i> Startseite
+      </a>
+      <a href="#themenwelten" onclick="smoothScrollTo('themenwelten'); closeMobileMenu(); return false;">
+        <i class="fa-solid fa-map"></i> Themenwelten
+      </a>
+      <a href="#buchen" onclick="smoothScrollTo('buchen'); closeMobileMenu(); return false;">
+        <i class="fa-solid fa-calendar-days"></i> Buchen
+      </a>
+    </div>
+  </nav>
 
-  <!-- Hero -->
-  <section class="hero" id="hero">
-    <div class="hero-bg" id="hero-bg"></div>
-    <div class="hero-sparkle-layer" id="hero-sparks"></div>
+  <!-- ═══════════════════════ HERO ═══════════════════════ -->
+  <section id="hero">
+    <div class="hero-bg">
+      <canvas id="particleCanvas"></canvas>
+      <div class="hero-bg-img" id="heroBgImg"></div>
+      <div class="hero-overlay"></div>
+    </div>
     <div class="hero-content">
-      <div class="hero-badge">Official Booking Portal</div>
-      <h1 class="hero-title"><em class="g">Magical</em><br>Adventures Await</h1>
-      <p class="hero-subtitle">Reserve your enchanted visit to Phantasialand-Roblox</p>
-      <div class="hero-cta-row">
-        <button class="btn-magic" onclick="scrollTo('cal-sec')">
-          <span class="btn-particles" id="hbp"></span>
-          ✦ Book Your Visit
-        </button>
-        <button class="btn-ghost" style="color:#fff;border-color:rgba(255,255,255,.3)" onclick="scrollTo('bk-sec')">My Bookings</button>
+
+      <div class="hero-badge reveal-up" style="--delay: 0.1s">
+        <i class="fa-solid fa-star"></i>
+        <span>Offizieller Roblox-Park</span>
+        <i class="fa-solid fa-star"></i>
       </div>
+
+      <h1 class="hero-title reveal-up" style="--delay: 0.3s">
+        <span class="title-main" id="heroTitleMain">Phantasialand</span>
+        <span class="title-sub" id="heroTitleSub">Roblox</span>
+      </h1>
+
+      <p class="hero-sub reveal-up" style="--delay: 0.5s" id="heroTagline">
+        Willkommen im aufregendsten Freizeitpark auf Roblox –<br>
+        buche jetzt deine exklusive Session und erlebe die Magie.
+      </p>
+
+      <div class="hero-actions reveal-up" style="--delay: 0.7s">
+        <button class="btn-primary" onclick="smoothScrollTo('buchen')">
+          <i class="fa-solid fa-ticket"></i>
+          Session buchen
+        </button>
+        <button class="btn-outline" onclick="smoothScrollTo('themenwelten')">
+          <i class="fa-solid fa-compass"></i>
+          Themenwelten entdecken
+        </button>
+      </div>
+
+      <div class="hero-stats reveal-up" style="--delay: 0.9s">
+        <div class="stat">
+          <i class="fa-solid fa-users"></i>
+          <span class="stat-num">5</span>
+          <span class="stat-label">Spieler pro Session</span>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat">
+          <i class="fa-solid fa-clock"></i>
+          <span class="stat-num" id="statDuration">30</span>
+          <span class="stat-label">Minuten Spielzeit</span>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat">
+          <i class="fa-solid fa-map-location-dot"></i>
+          <span class="stat-num" id="statWorlds">6</span>
+          <span class="stat-label">Themenwelten</span>
+        </div>
+      </div>
+
     </div>
-    <div class="scroll-hint">
-      Scroll to explore
-      <svg width="20" height="28" viewBox="0 0 20 28" fill="none">
-        <rect x="1" y="1" width="18" height="26" rx="9" stroke="white" stroke-width="1.4" stroke-opacity=".4"/>
-        <circle cx="10" cy="9" r="3" fill="white" fill-opacity=".4">
-          <animate attributeName="cy" values="9;17;9" dur="2.2s" repeatCount="indefinite"/>
-          <animate attributeName="opacity" values=".4;.85;.4" dur="2.2s" repeatCount="indefinite"/>
-        </circle>
-      </svg>
+    <div class="hero-scroll-indicator">
+      <i class="fa-solid fa-chevron-down"></i>
     </div>
   </section>
 
-  <!-- Main content -->
-  <div class="main-wrap">
+  <!-- ═══════════════════════ DIVIDER ═══════════════════════ -->
+  <div class="ornate-divider">
+    <div class="divider-line"></div>
+    <div class="divider-gem"><i class="fa-solid fa-crown"></i></div>
+    <div class="divider-line"></div>
+  </div>
 
-    <!-- Calendar -->
-    <section id="cal-sec" class="reveal">
-      <div class="sec-head">
-        <div class="sec-eyebrow">Choose Your Date</div>
-        <h2 class="sec-title">Park Calendar</h2>
-        <div class="sec-meta" id="cal-range-lbl"></div>
-      </div>
-      <div class="gc cal-card">
-        <div class="cal-top">
-          <div class="cal-month-title" id="cal-month-lbl"></div>
-          <div class="cal-nav">
-            <button class="cal-btn" id="cal-prev" onclick="moveMonth(-1)" title="Prev">&#8592;</button>
-            <button class="cal-btn" id="cal-next" onclick="moveMonth(1)"  title="Next">&#8594;</button>
+  <!-- ═══════════════════════ THEMENWELTEN ═══════════════════════ -->
+  <section id="themenwelten">
+    <div class="section-header reveal-up">
+      <span class="section-label">
+        <i class="fa-solid fa-map"></i> Entdecken
+      </span>
+      <h2 class="section-title">Unsere Themenwelten</h2>
+      <p class="section-desc">
+        Jeder Bereich des Parks erzählt eine einzigartige Geschichte –
+        tauche ein und erlebe sie alle.
+      </p>
+    </div>
+    <!-- Karten werden von app.js befüllt -->
+    <div class="worlds-grid" id="worldsGrid"></div>
+  </section>
+
+  <!-- ═══════════════════════ DIVIDER ═══════════════════════ -->
+  <div class="ornate-divider">
+    <div class="divider-line"></div>
+    <div class="divider-gem"><i class="fa-solid fa-ticket"></i></div>
+    <div class="divider-line"></div>
+  </div>
+
+  <!-- ═══════════════════════ BUCHEN ═══════════════════════ -->
+  <section id="buchen">
+    <div class="section-header reveal-up">
+      <span class="section-label">
+        <i class="fa-solid fa-calendar-days"></i> Reservierung
+      </span>
+      <h2 class="section-title">Session buchen</h2>
+      <p class="section-desc">
+        Wähle deinen Wunschtag aus dem Kalender und anschließend
+        einen verfügbaren Zeitslot.
+      </p>
+    </div>
+
+    <div class="booking-container reveal-up" style="--delay: 0.15s">
+      <div class="booking-step" id="step1">
+
+        <!-- Kalender (links) -->
+        <div class="calendar-wrap">
+          <div class="calendar-header">
+            <button class="cal-nav" id="prevMonth" title="Vorheriger Monat">
+              <i class="fa-solid fa-chevron-left"></i>
+            </button>
+            <span class="cal-month-label" id="calMonthLabel">April 2026</span>
+            <button class="cal-nav" id="nextMonth" title="Nächster Monat">
+              <i class="fa-solid fa-chevron-right"></i>
+            </button>
+          </div>
+          <div class="cal-weekdays">
+            <span>Mo</span><span>Di</span><span>Mi</span>
+            <span>Do</span><span>Fr</span><span>Sa</span><span>So</span>
+          </div>
+          <div class="cal-grid" id="calGrid"></div>
+        </div>
+
+        <!-- Zeitslots (rechts) -->
+        <div class="slots-panel" id="slotsPanel">
+          <div class="slots-placeholder" id="slotsPlaceholder">
+            <i class="fa-regular fa-calendar-check"></i>
+            <p>Wähle einen markierten Tag aus dem Kalender, um die verfügbaren Zeitslots zu sehen.</p>
+          </div>
+          <div class="slots-list" id="slotsList" style="display: none">
+            <h3 id="slotsDateTitle">
+              <i class="fa-regular fa-calendar"></i>
+              <span></span>
+            </h3>
+            <div id="slotsItems"></div>
           </div>
         </div>
-        <div class="cal-wdays">
-          <div class="cal-wd">Sun</div><div class="cal-wd">Mon</div><div class="cal-wd">Tue</div>
-          <div class="cal-wd">Wed</div><div class="cal-wd">Thu</div><div class="cal-wd">Fri</div>
-          <div class="cal-wd">Sat</div>
-        </div>
-        <div class="cal-grid" id="cal-grid"></div>
-        <div class="cal-legend">
-          <div class="li"><div class="ld ld-o"></div> Available</div>
-          <div class="li"><div class="ld ld-a"></div> Almost Full</div>
-          <div class="li"><div class="ld ld-f"></div> Fully Booked</div>
-          <div class="li"><div class="ld ld-m"></div> Your Booking</div>
-        </div>
+
       </div>
-    </section>
-
-    <!-- My Bookings -->
-    <section id="bk-sec" class="reveal">
-      <div class="sec-head">
-        <div class="sec-eyebrow">Your Reservations</div>
-        <h2 class="sec-title">My Bookings</h2>
-        <div class="sec-meta" id="bk-count-lbl"></div>
-      </div>
-      <div class="bk-list" id="bk-list"></div>
-    </section>
-
-    <!-- Rules -->
-    <section class="reveal">
-      <div class="sec-head">
-        <div class="sec-eyebrow">Park Guidelines</div>
-        <h2 class="sec-title">Rules &amp; Conduct</h2>
-      </div>
-      <div class="gc rules-card">
-        <p class="rules-intro">All guests must read and follow these rules to ensure a safe, fair, and magical experience for everyone in the park.</p>
-        <div class="rules-grid" id="rules-grid"></div>
-      </div>
-    </section>
-
-  </div>
-</div>
-
-<!-- ═══════════════════════════════════════════════════
-     BOOKING MODAL
-═══════════════════════════════════════════════════ -->
-<div class="modal-ov" id="modal-ov">
-  <div class="modal-box" id="modal-box">
-    <button class="modal-x" onclick="closeModal()" title="Close">✕</button>
-    <div id="modal-body"></div>
-  </div>
-</div>
-
-<div class="toast" id="toast"></div>
-
-<!-- ═══════════════════════════════════════════════════
-     JAVASCRIPT
-═══════════════════════════════════════════════════ -->
-<script>
-'use strict';
-
-/* ─── State ──────────────────────────────────────── */
-const BKEY = 'pl_bookings';
-let currentUser = null;
-let calY, calM;
-let pendingDate = null, bInfo = {};
-let toastTmr;
-const MON = ['January','February','March','April','May','June',
-             'July','August','September','October','November','December'];
-
-/* ─── Background sparkles ────────────────────────── */
-(function spawnBgSparkles() {
-  const c   = document.getElementById('bg-sparkles');
-  const cnt = window.innerWidth < 640 ? 14 : 28;
-  for (let i = 0; i < cnt; i++) {
-    const s  = document.createElement('div');
-    s.className = 'bgs';
-    const sz = 4 + Math.random() * 8;
-    s.style.cssText = `
-      width:${sz}px;height:${sz}px;
-      left:${Math.random()*100}%;
-      top:${10+Math.random()*80}%;
-      --bfd:${8+Math.random()*10}s;
-      --bfdy:${Math.random()*10}s;
-      --bfo:${.3+Math.random()*.5};
-    `;
-    c.appendChild(s);
-  }
-})();
-
-/* ─── Loading screen ─────────────────────────────── */
-(function initLoader() {
-  const parts = document.getElementById('ls-parts');
-  for (let i = 0; i < 22; i++) {
-    const p = document.createElement('div');
-    p.className = 'ls-p';
-    const sz = 3 + Math.random() * 6;
-    p.style.cssText = `width:${sz}px;height:${sz}px;left:${5+Math.random()*90}%;top:${15+Math.random()*70}%;--lspd:${4+Math.random()*5}s;--lspdy:${Math.random()*6}s`;
-    parts.appendChild(p);
-  }
-
-  const msgs = ['Awakening the magic…','Polishing the coasters…','Lighting the lanterns…','Almost ready…'];
-  const bar  = document.getElementById('lsbar');
-  const msg  = document.getElementById('lsmsg');
-  let prog = 0, mi = 0;
-
-  const iv = setInterval(() => {
-    prog += Math.random() * 18 + 5;
-    if (prog > 100) prog = 100;
-    bar.style.width = prog + '%';
-    const nmi = Math.min(Math.floor(prog / 26), msgs.length - 1);
-    if (nmi !== mi) { mi = nmi; msg.style.opacity = '0'; setTimeout(() => { msg.textContent = msgs[mi]; msg.style.opacity = '1'; }, 200); }
-    if (prog >= 100) { clearInterval(iv); setTimeout(finishLoad, 580); }
-  }, 260);
-})();
-
-function finishLoad() {
-  document.getElementById('loading-screen').classList.add('out');
-  const user = Auth.getCurrentUser();
-  if (user) bootApp(user); else showAuth();
-}
-
-/* ─── Auth ───────────────────────────────────────── */
-function showAuth()   { document.getElementById('auth-page').style.display = 'flex'; setupBtnParticles('lbp'); setupBtnParticles('sbp'); }
-function switchTab(t) {
-  ['l','s'].forEach(x => {
-    document.getElementById('tab-'+x).classList.toggle('active', x===t);
-    document.getElementById('form-'+x).style.display = x===t ? 'flex' : 'none';
-  });
-  document.getElementById('auth-err').className = 'auth-err';
-}
-function showAE(m) { const e=document.getElementById('auth-err'); e.textContent=m; e.className='auth-err on'; }
-function doLogin(e) {
-  e.preventDefault();
-  const r = Auth.login(document.getElementById('lu').value, document.getElementById('lp').value);
-  if (r.success) { document.getElementById('auth-page').style.display='none'; bootApp(r.user); }
-  else showAE(r.error);
-}
-function doSignup(e) {
-  e.preventDefault();
-  const p = document.getElementById('sp').value;
-  if (p !== document.getElementById('sc').value) return showAE('Passwords do not match.');
-  const r = Auth.signup(document.getElementById('su').value, p);
-  if (r.success) { document.getElementById('auth-page').style.display='none'; bootApp(r.user); }
-  else showAE(r.error);
-}
-function doLogout() {
-  Auth.logout(); currentUser = null;
-  document.getElementById('app').classList.remove('on');
-  document.getElementById('auth-page').style.display = 'flex';
-  toast('See you next time! 👋','ok');
-}
-
-/* ─── App boot ───────────────────────────────────── */
-function bootApp(user) {
-  currentUser = user;
-  document.getElementById('nav-usr').textContent = user.username;
-  const app = document.getElementById('app');
-  app.classList.add('on');
-
-  // Hero image
-  const hbg = document.getElementById('hero-bg');
-  if (parkSettings.heroImage) {
-    hbg.style.backgroundImage = `url('${parkSettings.heroImage}')`;
-    hbg.style.backgroundSize  = 'cover';
-    hbg.style.backgroundPosition = 'center';
-  }
-
-  // Parallax
-  window.addEventListener('scroll', () => {
-    hbg.style.transform = `translateY(${window.scrollY * 0.32}px)`;
-  }, { passive: true });
-
-  // Hero sparkles
-  spawnHeroSparkles();
-
-  // Range label
-  const today = new Date();
-  const maxD  = new Date(today); maxD.setDate(maxD.getDate() + parkSettings.maxAdvanceDays);
-  const fmt   = d => d.toLocaleDateString('en-GB',{day:'2-digit',month:'short'});
-  document.getElementById('cal-range-lbl').textContent = `${fmt(today)} – ${fmt(maxD)}`;
-
-  // Calendar
-  calY = today.getFullYear(); calM = today.getMonth();
-  renderCal();
-
-  // Sections
-  renderBookings();
-  renderRules();
-  setupBtnParticles('hbp');
-  initReveal();
-}
-
-/* ─── Scroll reveal ──────────────────────────────── */
-function initReveal() {
-  const obs = new IntersectionObserver((entries) => {
-    entries.forEach((e, i) => {
-      if (e.isIntersecting) {
-        e.target.style.transitionDelay = (i * 0.06) + 's';
-        e.target.classList.add('in');
-        obs.unobserve(e.target);
-      }
-    });
-  }, { threshold: 0.12 });
-  document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
-}
-
-/* ─── Hero sparkles ──────────────────────────────── */
-function spawnHeroSparkles() {
-  const c   = document.getElementById('hero-sparks');
-  c.innerHTML = '';
-  const cnt = window.innerWidth < 600 ? 10 : 22;
-  for (let i = 0; i < cnt; i++) {
-    const s  = document.createElement('div');
-    s.className = 'hs';
-    const sz = 3 + Math.random() * 9;
-    s.style.cssText = `width:${sz}px;height:${sz}px;left:${Math.random()*100}%;top:${15+Math.random()*70}%;--hsd:${6+Math.random()*8}s;--hsdy:${Math.random()*8}s`;
-    c.appendChild(s);
-  }
-}
-
-/* ─── Button micro-particles ─────────────────────── */
-function setupBtnParticles(id) {
-  const c = document.getElementById(id);
-  if (!c) return;
-  c.innerHTML = '';
-  for (let i = 0; i < 8; i++) {
-    const s = document.createElement('span');
-    const a = (i / 8) * Math.PI * 2;
-    const d = 20 + Math.random() * 20;
-    s.style.cssText = `
-      left:${40+Math.random()*20}%;top:${40+Math.random()*20}%;
-      --bx:${Math.cos(a)*d}px;--by:${Math.sin(a)*d}px;
-      --bd:${.5+Math.random()*.5}s;--bdy:${Math.random()*.4}s;
-    `;
-    c.appendChild(s);
-  }
-}
-
-/* ─── Rules ──────────────────────────────────────── */
-function renderRules() {
-  document.getElementById('rules-grid').innerHTML =
-    parkSettings.parkRules.map((r,i) => `
-      <div class="rule-item reveal" style="transition-delay:${i*.05}s">
-        <div class="rule-n">${i+1}</div><span>${r}</span>
-      </div>`).join('');
-  document.querySelectorAll('.rule-item.reveal').forEach(el => {
-    const obs = new IntersectionObserver(([e]) => { if(e.isIntersecting){el.classList.add('in');obs.disconnect();} },{threshold:.1});
-    obs.observe(el);
-  });
-}
-
-/* ─── Calendar ───────────────────────────────────── */
-function dp(n)     { return String(n).padStart(2,'0'); }
-function tds(y,m,d){ return `${y}-${dp(m+1)}-${dp(d)}`; }
-
-function getMyDates() {
-  const all = JSON.parse(localStorage.getItem(BKEY)||'{}');
-  return (all[currentUser.username]||[]).map(b=>b.date);
-}
-
-function renderCal() {
-  document.getElementById('cal-month-lbl').textContent = `${MON[calM]} ${calY}`;
-
-  const today = new Date(); today.setHours(0,0,0,0);
-  const maxD  = new Date(today); maxD.setDate(maxD.getDate()+parkSettings.maxAdvanceDays);
-  const nY=today.getFullYear(), nM=today.getMonth();
-  const mY=maxD.getFullYear(),  mM=maxD.getMonth();
-
-  document.getElementById('cal-prev').disabled = (calY<nY)||(calY===nY&&calM<=nM);
-  document.getElementById('cal-next').disabled = (calY>mY)||(calY===mY&&calM>=mM);
-
-  const fd  = new Date(calY,calM,1).getDay();
-  const dim = new Date(calY,calM+1,0).getDate();
-  const myD = getMyDates();
-  const g   = document.getElementById('cal-grid');
-
-  // Animate out
-  g.classList.add('fade-out');
-  setTimeout(() => {
-    g.innerHTML = '';
-    // empty cells
-    for (let i=0;i<fd;i++) { const e=document.createElement('div'); e.className='cd'; g.appendChild(e); }
-
-    for (let d=1;d<=dim;d++) {
-      const ds   = tds(calY,calM,d);
-      const dt   = new Date(calY,calM,d);
-      const el   = document.createElement('div');
-      const num  = document.createElement('span');
-      num.className='cd-num'; num.textContent=d;
-      const dot  = document.createElement('div');
-      dot.className='cd-dot';
-      const burst=document.createElement('div');
-      burst.className='cd-burst';
-      el.append(num,dot,burst);
-
-      const isToday = dt.getTime()===today.getTime();
-      const isPast  = dt<today;
-      const isOut   = dt>maxD;
-      const isMine  = myD.includes(ds);
-      const inf     = getDateStatus(ds);
-
-      if      (isMine)               el.className='cd mine';
-      else if (isPast)               el.className='cd past';
-      else if (isOut)                el.className='cd out';
-      else if (inf.status==='full')  { el.className='cd fu';  el.title=`🔴 Fully Booked`; }
-      else if (inf.status==='almost'){ el.className='cd al'+(isToday?' today':''); el.title=`🟡 ${inf.spots} spot${inf.spots!==1?'s':''} left`; el.addEventListener('click',()=>openBooking(ds,el)); }
-      else                           { el.className='cd av'+(isToday?' today':''); el.title=`🟢 ${inf.spots} spots available`; el.addEventListener('click',()=>openBooking(ds,el)); }
-
-      g.appendChild(el);
-    }
-    g.classList.remove('fade-out');
-    g.classList.add('fade-in');
-    setTimeout(() => g.classList.remove('fade-in'), 350);
-  }, 180);
-}
-
-function moveMonth(d) {
-  calM += d;
-  if (calM<0)  { calM=11; calY--; }
-  if (calM>11) { calM=0;  calY++; }
-  renderCal();
-}
-
-/* ─── Calendar day click burst ───────────────────── */
-function fireDayBurst(el) {
-  const burst = el.querySelector('.cd-burst');
-  burst.innerHTML = '';
-  for (let i=0;i<10;i++) {
-    const p=document.createElement('div');
-    p.className='cd-burst-p';
-    const a=(i/10)*Math.PI*2, d=28+Math.random()*22;
-    p.style.cssText=`--bx:${Math.cos(a)*d}px;--by:${Math.sin(a)*d}px;animation-delay:${Math.random()*.1}s;background:${Math.random()>.5?'var(--gold-lt)':'var(--gold)'};`;
-    burst.appendChild(p);
-  }
-  setTimeout(()=>burst.innerHTML='',700);
-}
-
-/* ─── My Bookings ────────────────────────────────── */
-function renderBookings() {
-  const all  = JSON.parse(localStorage.getItem(BKEY)||'{}');
-  const list = (all[currentUser.username]||[]).sort((a,b)=>b.date.localeCompare(a.date));
-  const el   = document.getElementById('bk-list');
-  document.getElementById('bk-count-lbl').textContent =
-    list.length ? `${list.length} booking${list.length!==1?'s':''}` : 'No bookings yet';
-
-  if (!list.length) {
-    el.innerHTML=`<div class="bk-empty"><span class="ei">🎡</span><p>You haven't booked a visit yet.<br>Pick a date on the calendar above to begin your adventure!</p></div>`;
-    return;
-  }
-  el.innerHTML = list.map((b,i) => {
-    const dt=new Date(b.date+'T12:00:00');
-    const wd=dt.toLocaleDateString('en-US',{weekday:'long'});
-    const dd=dt.toLocaleDateString('en-US',{day:'numeric',month:'long',year:'numeric'});
-    const pc=b.status==='Pending'?'p-pend':b.status==='Booked'?'p-book':'p-decl';
-    return `<div class="bk-card reveal" style="animation-delay:${i*.07}s">
-      <div class="bk-date"><div class="bk-wd">${wd}</div><div class="bk-d">${dd}</div></div>
-      <div class="bk-meta"><strong>${b.robloxUsername}</strong>${b.contact}${b.note?`<br><em style="font-size:12px;color:var(--ink-soft)">${b.note}</em>`:''}</div>
-      <div class="pill ${pc}">${b.status}</div>
-    </div>`;
-  }).join('');
-  // Observe new cards
-  el.querySelectorAll('.bk-card.reveal').forEach(c => {
-    const obs = new IntersectionObserver(([e])=>{if(e.isIntersecting){c.classList.add('in');obs.disconnect();}},{threshold:.1});
-    obs.observe(c);
-  });
-}
-
-/* ─── Booking modal ──────────────────────────────── */
-function scrollTo(id) { document.getElementById(id)?.scrollIntoView({behavior:'smooth'}); }
-
-function openBooking(ds, dayEl) {
-  pendingDate = ds; bInfo = {};
-
-  // Fire day burst
-  if (dayEl) fireDayBurst(dayEl);
-
-  // Open modal with portal loader
-  document.getElementById('modal-body').innerHTML = portalHTML('Opening booking portal…');
-  document.getElementById('modal-ov').classList.add('on');
-  setTimeout(() => renderStep(1), 1500);
-}
-function closeModal() {
-  document.getElementById('modal-ov').classList.remove('on');
-  pendingDate=null; bInfo={};
-}
-document.getElementById('modal-ov').addEventListener('click', e => {
-  if (e.target===document.getElementById('modal-ov')) closeModal();
-});
-
-function portalHTML(msg='Loading…') {
-  return `<div class="portal-wrap">
-    <div class="portal-rings">
-      <div class="pr-r1"></div><div class="pr-r2"></div><div class="pr-r3"></div>
-      <div class="portal-icon">🎢</div>
     </div>
-    <div class="portal-msg">${msg}</div>
-  </div>`;
-}
+  </section>
 
-function stepBarHTML(active) {
-  const labs=['Information','Rules','Summary'];
-  let h=`<div class="step-bar">`;
-  labs.forEach((l,i) => {
-    const n=i+1, cls=n<active?'dn':n===active?'act':'', icon=n<active?'✓':n;
-    h+=`<div class="sb-dot ${cls}" title="${l}">${icon}</div>`;
-    if(i<labs.length-1) h+=`<div class="sb-line${n<active?' dn':''}"></div>`;
-  });
-  return h+'</div>';
-}
+  <!-- ═══════════════════════ FOOTER ═══════════════════════ -->
+  <footer id="footer">
+    <div class="footer-inner">
 
-function renderStep(n) {
-  const ds   = pendingDate;
-  const dt   = new Date(ds+'T12:00:00');
-  const dFmt = dt.toLocaleDateString('en-US',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
-  const inf  = getDateStatus(ds);
-  const spots= inf.spots>0 ? `${inf.spots} spot${inf.spots!==1?'s':''} remaining` : 'Last spot!';
-
-  if (n===1) {
-    document.getElementById('modal-body').innerHTML = `
-      ${stepBarHTML(1)}
-      <div class="step-inner">
-        <div class="modal-ttl">Your Information</div>
-        <div class="modal-sub">Booking for <strong>${dFmt}</strong> — <span style="color:var(--gold);font-weight:700">${spots}</span></div>
-        <div class="form-stack">
-          <div class="fg"><label>Roblox Username</label><input id="bi-r" type="text" value="${currentUser.username}" placeholder="Roblox name"/></div>
-          <div class="fg"><label>Discord / Contact</label><input id="bi-c" type="text" placeholder="Discord#1234 or other"/></div>
-          <div class="fg"><label>Note <span style="font-weight:400;color:var(--ink-soft)">(optional)</span></label><input id="bi-n" type="text" placeholder="Anything we should know?"/></div>
-        </div>
-        <div class="mftr">
-          <button class="btn-ghost" onclick="closeModal()">Cancel</button>
-          <button class="btn-magic" onclick="step1go()"><span class="btn-particles" id="mbp1"></span>Continue →</button>
-        </div>
-      </div>`;
-    setupBtnParticles('mbp1');
-  }
-
-  else if (n===2) {
-    const rHTML = parkSettings.parkRules.map(r=>`<li>${r}</li>`).join('');
-    document.getElementById('modal-body').innerHTML = `
-      ${stepBarHTML(2)}
-      <div class="step-inner">
-        <div class="modal-ttl">Park Rules</div>
-        <div class="modal-sub">Please read and accept the park rules to proceed.</div>
-        <ul class="rules-scroll">${rHTML}</ul>
-        <label class="check-label">
-          <input type="checkbox" id="rcb" onchange="onRuleCB()"/>
-          <span>I have read and accept all park rules</span>
-        </label>
-        <div class="mftr">
-          <button class="btn-ghost" onclick="renderStep(1)">← Back</button>
-          <button class="btn-magic" id="rnxt" onclick="renderStep(3)" disabled><span class="btn-particles" id="mbp2"></span>Continue →</button>
-        </div>
-      </div>`;
-    setupBtnParticles('mbp2');
-  }
-
-  else if (n===3) {
-    document.getElementById('modal-body').innerHTML = `
-      ${stepBarHTML(3)}
-      <div class="step-inner">
-        <div class="modal-ttl">Booking Summary</div>
-        <div class="modal-sub">Review your details before confirming.</div>
-        <div class="summary-box">
-          <div class="sum-row"><span class="sum-lbl">Date</span><span class="sum-val">${dFmt}</span></div>
-          <div class="sum-row"><span class="sum-lbl">Roblox User</span><span class="sum-val">${bInfo.r}</span></div>
-          <div class="sum-row"><span class="sum-lbl">Contact</span><span class="sum-val">${bInfo.c}</span></div>
-          ${bInfo.n?`<div class="sum-row"><span class="sum-lbl">Note</span><span class="sum-val">${bInfo.n}</span></div>`:''}
-          <div class="sum-row"><span class="sum-lbl">Capacity</span><span class="sum-val">${inf.total+1} / ${parkSettings.maxBookingsPerDay}</span></div>
-          <div class="sum-row"><span class="sum-lbl">Status</span><span class="sum-val gld">⏳ Pending Approval</span></div>
-        </div>
-        <div class="mftr">
-          <button class="btn-ghost" onclick="renderStep(2)">← Back</button>
-          <button class="btn-magic" onclick="confirmBooking()"><span class="btn-particles" id="mbp3"></span>✦ Confirm Booking</button>
-        </div>
-      </div>`;
-    setupBtnParticles('mbp3');
-  }
-}
-
-function onRuleCB() {
-  const btn = document.getElementById('rnxt');
-  btn.disabled = !document.getElementById('rcb').checked;
-}
-
-function step1go() {
-  const r = (document.getElementById('bi-r').value||'').trim();
-  const c = (document.getElementById('bi-c').value||'').trim();
-  const n = (document.getElementById('bi-n').value||'').trim();
-  if (!r) return toast('Please enter your Roblox username.','err');
-  if (!c) return toast('Please enter a contact method.','err');
-  if (getMyDates().includes(pendingDate)) { closeModal(); return toast('You already have a booking for this date.','err'); }
-  bInfo = {r,c,n};
-  renderStep(2);
-}
-
-async function confirmBooking() {
-  const inf = getDateStatus(pendingDate);
-  if (inf.status==='full') { closeModal(); return toast('This date just became fully booked!','err'); }
-
-  document.getElementById('modal-body').innerHTML = portalHTML('Sealing your magical reservation…');
-
-  const booking = {
-    date: pendingDate, robloxUsername: bInfo.r, contact: bInfo.c,
-    note: bInfo.n||'', status: 'Pending', createdAt: new Date().toISOString()
-  };
-
-  const all = JSON.parse(localStorage.getItem(BKEY)||'{}');
-  if (!all[currentUser.username]) all[currentUser.username]=[];
-  all[currentUser.username].push(booking);
-  localStorage.setItem(BKEY, JSON.stringify(all));
-
-  const dFmt = new Date(pendingDate+'T12:00:00').toLocaleDateString('en-US',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
-
-  try {
-    await fetch(parkSettings.discordWebhook, {
-      method:'POST', headers:{'Content-Type':'application/json'},
-      body: JSON.stringify({
-        embeds: [{
-          title: '🎢 New Booking Request',
-          color: 0xC8943A,
-          fields: [
-            {name:'👤 Username', value:booking.robloxUsername, inline:true},
-            {name:'📞 Contact',  value:booking.contact,        inline:true},
-            {name:'📅 Date',     value:dFmt,                   inline:false},
-            {name:'📝 Note',     value:booking.note||'None',   inline:false},
-            {name:'⏳ Status',   value:'Pending',               inline:true}
-          ],
-          footer:{text:'Phantasialand-Roblox Booking System'},
-          timestamp: new Date().toISOString()
-        }]
-      })
-    });
-  } catch(_) {}
-
-  renderCal();
-  renderBookings();
-
-  setTimeout(() => showSuccess(dFmt), 700);
-}
-
-function showSuccess(dFmt) {
-  // Build burst particles
-  const parts = [];
-  for (let i=0;i<20;i++) {
-    const a=(i/20)*Math.PI*2, d=70+Math.random()*60;
-    parts.push({
-      x: Math.cos(a)*d, y: Math.sin(a)*d - 40,
-      d: .7+Math.random()*.6, dy: Math.random()*.3,
-      sz: 5+Math.random()*10,
-      c: Math.random()>.5?'var(--gold-lt)':'var(--gold)'
-    });
-  }
-  document.getElementById('modal-body').innerHTML = `
-    <div class="success-scene">
-      <div class="ss-particles">
-        ${parts.map(p=>`<div class="ss-p" style="--ssx:${p.x}px;--ssy:${p.y}px;--ssd:${p.d}s;--ssdy:${p.dy}s;--ssz:${p.sz}px;background:${p.c}"></div>`).join('')}
+      <div class="footer-logo">
+        <span class="logo-main" id="footerLogoMain">Phantasialand</span>
+        <span class="logo-sub">Roblox</span>
       </div>
-      <div class="ss-ring">
-        <div class="ss-ring-bg"></div>
-        <div class="ss-check">✓</div>
-      </div>
-      <h3>Booking Submitted!</h3>
-      <p>
-        Your magical visit request for<br>
-        <strong>${dFmt}</strong><br>
-        has been sent successfully.<br><br>
-        <span style="color:var(--gold);font-weight:700;font-family:'Almendra',serif">Status: Pending Approval</span><br>
-        <span style="font-size:13px">A park manager will review your reservation shortly.</span>
-      </p>
-      <button class="btn-magic" onclick="closeModal()"><span class="btn-particles" id="sbcp"></span>← Back to Calendar</button>
-    </div>`;
-  setupBtnParticles('sbcp');
-  toast('🎢 Booking submitted! Awaiting approval.','ok');
-}
 
-/* ─── Toast ──────────────────────────────────────── */
-function toast(m, t='ok') {
-  const el=document.getElementById('toast');
-  el.className=`toast ${t} on`;
-  el.innerHTML=(t==='ok'?'✦ ':'⚠ ')+m;
-  clearTimeout(toastTmr);
-  toastTmr=setTimeout(()=>el.classList.remove('on'),4200);
-}
-</script>
+      <p class="footer-tagline" id="footerTagline">Der magischste Freizeitpark auf Roblox.</p>
+
+      <div class="footer-links">
+        <a href="#hero" onclick="smoothScrollTo('hero'); return false;">
+          <i class="fa-solid fa-house"></i> Startseite
+        </a>
+        <a href="#themenwelten" onclick="smoothScrollTo('themenwelten'); return false;">
+          <i class="fa-solid fa-map"></i> Themenwelten
+        </a>
+        <a href="#buchen" onclick="smoothScrollTo('buchen'); return false;">
+          <i class="fa-solid fa-ticket"></i> Buchen
+        </a>
+      </div>
+
+      <div class="footer-disclaimer">
+        <i class="fa-solid fa-triangle-exclamation"></i>
+        <p>
+          <strong>Rechtlicher Hinweis:</strong>
+          Phantasialand – Roblox ist ein inoffizielles Fan-Projekt auf der Plattform Roblox
+          und steht in <strong>keinerlei Verbindung</strong> mit dem echten
+          Phantasialand Freizeit- und Erlebnispark GmbH &amp; Co. KG in Brühl.
+          Alle Marken, Namen, Logos und Rechte des realen Phantasialand sind Eigentum
+          der jeweiligen Rechteinhaber. Dieses Projekt ist ein unabhängiges, nicht-kommerzielles
+          Fan-Erlebnis und wird nicht von Phantasialand unterstützt oder genehmigt.
+        </p>
+      </div>
+
+      <div class="footer-copy">
+        <span>&copy; <span id="footerYear"></span> Phantasialand – Roblox &nbsp;|&nbsp; Fan-Projekt</span>
+      </div>
+
+    </div>
+  </footer>
+
+  <!-- ═══════════════════════ BUCHUNGS-MODAL ═══════════════════════ -->
+  <div class="modal-overlay" id="bookingModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div class="modal-card">
+      <button class="modal-close" id="modalClose" aria-label="Schließen">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+      <div id="modalContent">
+        <!-- Wird von booking.js befüllt -->
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════ SCRIPTS ═══════════════════════ -->
+  <script src="settings.js"></script>
+  <script src="app.js"></script>
+  <script src="booking.js"></script>
+
 </body>
 </html>
