@@ -17,7 +17,7 @@ const SETTINGS = {
   webhookUrl: "https://discordapp.com/api/webhooks/1492608191018831883/p2bKU1brImIrXneIUkJB2UOubZb3p-tnsTMlrSkKOQEVZlPkIbwoKCGqTMRuge24ghxG",
 
   //  Hintergrundbild der Hero-Sektion (URL oder relativer Pfad)
-  heroBackgroundUrl: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1920&q=80",
+  heroBackgroundUrl: "https://cdn.discordapp.com/attachments/1472624902153703567/1492613218269401230/Screenshot_299.png?ex=69dbf7e2&is=69daa662&hm=0c040e00876abd7417b719c241d6c30c1d054504b88157a1df5391b2c49edbb0&",
 
 
   // ──────────────────────────────────────────────────────────
@@ -107,9 +107,9 @@ const SETTINGS = {
   // ──────────────────────────────────────────────────────────
   themeWorlds: [
     {
-      title: "Mystery Castle",
-      description: "Wage dich in die finsteren Gemäuer des geheimnisvollen Schlosses und enthülle seine Geheimnisse.",
-      imageUrl: "https://images.unsplash.com/photo-1533154683836-84ea7a0bc310?w=800&q=80"
+      title: "",
+      description: "Stone connected with steam - the most immersive flight.",
+      imageUrl: "https://cdn.discordapp.com/attachments/1472624902153703567/1492613217820741662/Screenshot_298.png?ex=69dbf7e2&is=69daa662&hm=a6b3385fc2f8efe77ef3db672c63fd12c2e1331afe8881112cd8dedd60746952&"
     },
     {
       title: "Rookburgh",
