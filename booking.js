@@ -1,370 +1,320 @@
 // ════════════════════════════════════════════════════════════
 //  BOOKING.JS – Phantasialand Roblox
-//  Kalendar, Zeitslots, Buchungsmodal, Discord-Webhook
+//  Calendar, time slots, booking modal, Discord webhook
 // ════════════════════════════════════════════════════════════
 
 (function () {
   'use strict';
 
-  // ── Zustand ─────────────────────────────────────────────
-  let currentYear  = new Date().getFullYear();
-  let currentMonth = new Date().getMonth(); // 0-basiert
-  let selectedDate = null;
-  let selectedSlot = null;
-  let pendingBooking = null;
+  var currentYear  = new Date().getFullYear();
+  var currentMonth = new Date().getMonth();
+  var selectedDate = null;
+  var selectedSlot = null;
 
-  // Deutsche Monatsnamen
-  const MONTHS = [
-    'Januar','Februar','März','April','Mai','Juni',
-    'Juli','August','September','Oktober','November','Dezember'
-  ];
-
-  // ── Initialisierung ─────────────────────────────────────
+  // ── Init ────────────────────────────────────────────────
   document.addEventListener('DOMContentLoaded', function () {
+    if (!SETTINGS.ticketSalesActive) return;
     jumpToFirstAvailableMonth();
     renderCalendar();
     bindCalendarNav();
     initModal();
   });
 
+  // Expose re-init for language switching
+  window.PLA_BOOKING_REINIT = function () {
+    renderCalendar();
+    if (selectedDate) renderSlots(selectedDate);
+  };
+
   // ════════════════════════════════════════════════════════
-  //  ZUM ERSTEN VERFÜGBAREN MONAT SPRINGEN
+  //  JUMP TO FIRST AVAILABLE MONTH
   // ════════════════════════════════════════════════════════
   function jumpToFirstAvailableMonth() {
     if (!SETTINGS.bookingDates || !SETTINGS.bookingDates.length) return;
-
-    const today = todayStr();
-    const future = SETTINGS.bookingDates
+    var today  = todayStr();
+    var future = SETTINGS.bookingDates
       .filter(function (d) { return d.date >= today; })
       .sort(function (a, b) { return a.date.localeCompare(b.date); });
-
-    if (future.length > 0) {
-      const parts = future[0].date.split('-');
+    if (future.length) {
+      var parts    = future[0].date.split('-');
       currentYear  = parseInt(parts[0], 10);
       currentMonth = parseInt(parts[1], 10) - 1;
     }
   }
 
   // ════════════════════════════════════════════════════════
-  //  KALENDER RENDERN
+  //  CALENDAR
   // ════════════════════════════════════════════════════════
   function renderCalendar() {
-    const label = document.getElementById('calMonthLabel');
-    const grid  = document.getElementById('calGrid');
+    var label = document.getElementById('calMonthLabel');
+    var grid  = document.getElementById('calGrid');
+    var wd    = document.getElementById('calWeekdays');
     if (!label || !grid) return;
 
-    label.textContent = MONTHS[currentMonth] + ' ' + currentYear;
+    // Month label
+    var months = T('calMonths');
+    label.textContent = (Array.isArray(months) ? months[currentMonth] : '') + ' ' + currentYear;
+
+    // Weekday headers
+    if (wd) {
+      var weekdays = T('calWeekdays');
+      var spans    = wd.querySelectorAll('span');
+      if (Array.isArray(weekdays)) {
+        weekdays.forEach(function (d, i) { if (spans[i]) spans[i].textContent = d; });
+      }
+    }
+
     grid.innerHTML = '';
+    var firstDay    = new Date(currentYear, currentMonth, 1).getDay();
+    var offset      = firstDay === 0 ? 6 : firstDay - 1;
+    var daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
+    var today       = todayStr();
+    var available   = getAvailableDatesForMonth(currentYear, currentMonth);
 
-    const firstDay  = new Date(currentYear, currentMonth, 1).getDay(); // 0=So
-    const offset    = firstDay === 0 ? 6 : firstDay - 1; // Mo=0
-    const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
-    const today     = todayStr();
-
-    // Sammle verfügbare Daten für diesen Monat
-    const availableDates = getAvailableDatesForMonth(currentYear, currentMonth);
-
-    // Leere Zellen am Anfang
-    for (let i = 0; i < offset; i++) {
-      const empty = document.createElement('div');
+    for (var i = 0; i < offset; i++) {
+      var empty = document.createElement('div');
       empty.className = 'cal-day empty';
       grid.appendChild(empty);
     }
 
-    // Tage einfügen
-    for (let day = 1; day <= daysInMonth; day++) {
-      const dateStr = formatDateStr(currentYear, currentMonth + 1, day);
-      const btn = document.createElement('button');
+    for (var day = 1; day <= daysInMonth; day++) {
+      var dateStr    = formatDateStr(currentYear, currentMonth + 1, day);
+      var btn        = document.createElement('button');
       btn.textContent = day;
+      btn.type       = 'button';
       btn.setAttribute('aria-label', formatDateLong(dateStr));
-      btn.type = 'button';
 
-      const isPast      = dateStr < today;
-      const isToday     = dateStr === today;
-      const isAvailable = availableDates.includes(dateStr);
-      const isSelected  = dateStr === selectedDate;
-      const isFullDay   = isAvailable && isDayFull(dateStr);
+      var isPast      = dateStr < today;
+      var isToday     = dateStr === today;
+      var isAvailable = available.includes(dateStr);
+      var isSelected  = dateStr === selectedDate;
+      var isFull      = isAvailable && isDayFull(dateStr);
 
-      let classes = 'cal-day';
-
+      var cls = 'cal-day';
       if (isPast) {
-        classes += ' past';
-      } else if (isAvailable && !isFullDay) {
-        classes += ' available';
-        if (isSelected) classes += ' selected';
-        btn.addEventListener('click', function () { selectDate(dateStr); });
-      } else if (isAvailable && isFullDay) {
-        classes += ' full-day available';
-        if (isSelected) classes += ' selected';
-        btn.addEventListener('click', function () { selectDate(dateStr); });
+        cls += ' past';
+      } else if (isAvailable) {
+        cls += ' available';
+        if (isFull) cls += ' full-day';
+        if (isSelected) cls += ' selected';
+        ;(function (ds) { btn.addEventListener('click', function () { selectDate(ds); }); })(dateStr);
       } else {
         btn.disabled = true;
       }
-
-      if (isToday) classes += ' today';
-      btn.className = classes;
+      if (isToday) cls += ' today';
+      btn.className = cls;
       grid.appendChild(btn);
     }
   }
 
-  function getAvailableDatesForMonth(year, month) {
+  function getAvailableDatesForMonth(y, m) {
     return (SETTINGS.bookingDates || [])
       .filter(function (d) {
-        const parts = d.date.split('-');
-        return parseInt(parts[0], 10) === year &&
-               parseInt(parts[1], 10) - 1 === month;
+        var p = d.date.split('-');
+        return parseInt(p[0]) === y && parseInt(p[1]) - 1 === m;
       })
       .map(function (d) { return d.date; });
   }
 
   // ════════════════════════════════════════════════════════
-  //  DATUM AUSWÄHLEN → SLOTS LADEN
+  //  SELECT DATE → SHOW SLOTS
   // ════════════════════════════════════════════════════════
   function selectDate(dateStr) {
     selectedDate = dateStr;
     selectedSlot = null;
-    renderCalendar(); // re-render mit neuem "selected"
+    renderCalendar();
     renderSlots(dateStr);
   }
 
   function renderSlots(dateStr) {
-    const placeholder = document.getElementById('slotsPlaceholder');
-    const slotsList   = document.getElementById('slotsList');
-    const dateTitle   = document.getElementById('slotsDateTitle');
-    const slotsItems  = document.getElementById('slotsItems');
+    var placeholder = document.getElementById('slotsPlaceholder');
+    var slotsList   = document.getElementById('slotsList');
+    var dateTitle   = document.getElementById('slotsDateTitle');
+    var slotsItems  = document.getElementById('slotsItems');
     if (!placeholder || !slotsList || !slotsItems) return;
 
-    const entry = (SETTINGS.bookingDates || []).find(function (d) { return d.date === dateStr; });
+    var entry = (SETTINGS.bookingDates || []).find(function (d) { return d.date === dateStr; });
     if (!entry) return;
 
-    // Panel einblenden
     placeholder.style.display = 'none';
     slotsList.style.display   = 'block';
 
-    // Datum-Überschrift
+    // Update placeholder text while we're at it
+    var ph = placeholder.querySelector('p');
+    if (ph) ph.textContent = T('slotsPlaceholder');
+
     if (dateTitle) {
-      dateTitle.innerHTML = `<i class="fa-regular fa-calendar"></i> <span>${formatDateLong(dateStr)}</span>`;
+      var span = dateTitle.querySelector('span');
+      if (span) span.textContent = formatDateLong(dateStr);
     }
 
-    // Slots rendern
     slotsItems.innerHTML = '';
 
     if (!entry.slots || !entry.slots.length) {
-      slotsItems.innerHTML = '<p style="color:var(--text-muted);font-size:0.88rem;">Keine Zeitslots verfügbar.</p>';
+      slotsItems.innerHTML = '<p style="color:var(--text-muted);font-size:.88rem;">No time slots available.</p>';
       return;
     }
 
     entry.slots.forEach(function (slot) {
-      const booked  = getBookingCount(dateStr, slot.time);
-      const max     = slot.maxPlayers || 5;
-      const free    = Math.max(0, max - booked);
-      const isFull  = free === 0;
+      var booked = getBookingCount(dateStr, slot.time);
+      var max    = slot.maxPlayers || 5;
+      var free   = Math.max(0, max - booked);
+      var isFull = free === 0;
+      var rate   = slot.visitorRate || 'low';
 
-      const item = document.createElement('div');
+      var item = document.createElement('div');
       item.className = 'slot-item ' + (isFull ? 'full' : 'available');
 
-      // Punkte-Indikatoren
-      let dotsHtml = '<div class="slot-dots">';
-      for (let i = 0; i < max; i++) {
-        dotsHtml += `<div class="slot-dot ${i < booked ? 'filled' : ''}"></div>`;
-      }
-      dotsHtml += '</div>';
+      // Visitor rate badge
+      var rateIcon = rate === 'low' ? 'fa-user' : rate === 'medium' ? 'fa-users' : 'fa-users-rectangle';
+      var rateLbl  = T('visitorRate' + rate.charAt(0).toUpperCase() + rate.slice(1));
+      var rateBadge =
+        '<div class="vrate-badge vrate-' + rate + '">' +
+          '<i class="fa-solid ' + rateIcon + '"></i>' + rateLbl +
+        '</div>';
 
-      let actionHtml;
+      // Dots
+      var dots = '<div class="slot-dots">';
+      for (var k = 0; k < max; k++) {
+        dots += '<div class="slot-dot ' + (k < booked ? 'filled' : '') + '"></div>';
+      }
+      dots += '</div>';
+
+      var action;
       if (isFull) {
-        actionHtml = `
-          <div class="slot-full-badge">
-            <i class="fa-solid fa-ban"></i> Ausgebucht
-          </div>`;
+        action = '<div class="slot-full-badge"><i class="fa-solid fa-ban"></i> ' + T('slotFull') + '</div>';
       } else {
-        actionHtml = `
-          <button
-            class="slot-btn"
-            onclick="openBookingModal('${escSafe(dateStr)}', '${escSafe(slot.time)}', ${max})"
-            type="button"
-          >
-            Buchen <i class="fa-solid fa-arrow-right"></i>
-          </button>`;
+        action =
+          '<button class="slot-btn" type="button" ' +
+            'onclick="openBookingModal(\'' + s(dateStr) + '\',\'' + s(slot.time) + '\',' + max + ')">' +
+            T('slotBook') + ' <i class="fa-solid fa-arrow-right"></i>' +
+          '</button>';
       }
 
-      item.innerHTML = `
-        <div class="slot-time">
-          <i class="fa-regular fa-clock"></i>
-          ${escSafe(slot.time)} Uhr
-        </div>
-        <div class="slot-availability">
-          ${dotsHtml}
-          <span class="slot-spots">${free}/${max}</span>
-          <span class="slot-label">${isFull ? 'ausgebucht' : 'frei'}</span>
-        </div>
-        ${actionHtml}
-      `;
+      item.innerHTML =
+        '<div class="slot-time"><i class="fa-regular fa-clock"></i> ' + s(slot.time) + '</div>' +
+        '<div class="slot-availability">' + dots +
+          '<div class="slot-numbers">' +
+            '<span class="slot-spots">' + free + '/' + max + '</span>' +
+            '<span class="slot-label">' + (isFull ? T('slotFullLabel') : T('slotFree')) + '</span>' +
+          '</div>' +
+        '</div>' +
+        rateBadge +
+        action;
 
       slotsItems.appendChild(item);
     });
   }
 
   // ════════════════════════════════════════════════════════
-  //  MODAL INITIALISIERUNG
+  //  MODAL
   // ════════════════════════════════════════════════════════
   function initModal() {
-    const overlay   = document.getElementById('bookingModal');
-    const closeBtn  = document.getElementById('modalClose');
-
-    if (closeBtn) {
-      closeBtn.addEventListener('click', closeModal);
-    }
-
-    // Schließen beim Klick auf Overlay (nicht auf Karte)
-    if (overlay) {
-      overlay.addEventListener('click', function (e) {
-        if (e.target === overlay) closeModal();
-      });
-    }
-
-    // ESC-Taste
-    document.addEventListener('keydown', function (e) {
-      if (e.key === 'Escape') closeModal();
-    });
+    var overlay  = document.getElementById('bookingModal');
+    var closeBtn = document.getElementById('modalClose');
+    if (closeBtn) closeBtn.addEventListener('click', closeModal);
+    if (overlay)  overlay.addEventListener('click', function (e) { if (e.target === overlay) closeModal(); });
+    document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closeModal(); });
   }
 
-  // ════════════════════════════════════════════════════════
-  //  MODAL ÖFFNEN
-  // ════════════════════════════════════════════════════════
   window.openBookingModal = function (dateStr, time, maxPlayers) {
     selectedSlot = { date: dateStr, time: time, maxPlayers: maxPlayers };
-
-    const overlay = document.getElementById('bookingModal');
-    const content = document.getElementById('modalContent');
+    var overlay  = document.getElementById('bookingModal');
+    var content  = document.getElementById('modalContent');
     if (!overlay || !content) return;
 
-    const dateLabel = formatDateLong(dateStr);
-    const duration  = SETTINGS.sessionDurationMinutes || 30;
+    var dateLabel = formatDateLong(dateStr);
+    var duration  = SETTINGS.sessionDurationMinutes || 30;
 
-    content.innerHTML = `
-      <div class="modal-header">
-        <div class="modal-icon">
-          <i class="fa-solid fa-ticket"></i>
-        </div>
-        <h2 id="modalTitle">Session buchen</h2>
-        <p>Fülle das Formular aus und bestätige deine Buchung.</p>
-      </div>
-
-      <div class="booking-detail-box">
-        <div class="detail-item">
-          <span class="detail-label"><i class="fa-regular fa-calendar"></i> Datum</span>
-          <span class="detail-value">${escSafe(dateLabel)}</span>
-        </div>
-        <div class="detail-item">
-          <span class="detail-label"><i class="fa-regular fa-clock"></i> Uhrzeit</span>
-          <span class="detail-value">${escSafe(time)} Uhr</span>
-        </div>
-        <div class="detail-item">
-          <span class="detail-label"><i class="fa-solid fa-hourglass-half"></i> Dauer</span>
-          <span class="detail-value">${duration} Minuten</span>
-        </div>
-        <div class="detail-item">
-          <span class="detail-label"><i class="fa-solid fa-users"></i> Kapazität</span>
-          <span class="detail-value">Max. ${maxPlayers} Spieler</span>
-        </div>
-      </div>
-
-      <div class="session-note">
-        <i class="fa-solid fa-circle-info"></i>
-        <span>Jede Session dauert genau <strong style="color:var(--gold)">${duration} Minuten</strong>.
-        Bitte sei pünktlich und erscheine rechtzeitig im Park.</span>
-      </div>
-
-      <div class="form-group">
-        <label class="form-label" for="robloxUsername">
-          <i class="fa-solid fa-user" style="margin-right:0.3rem;color:var(--gold)"></i>
-          Roblox-Benutzername
-        </label>
-        <input
-          type="text"
-          id="robloxUsername"
-          class="form-input"
-          placeholder="Dein Roblox-Username"
-          maxlength="20"
-          autocomplete="off"
-          spellcheck="false"
-        />
-        <span class="form-error" id="usernameError">
-          <i class="fa-solid fa-circle-exclamation"></i>
-          Bitte gib einen gültigen Roblox-Benutzernamen ein (3–20 Zeichen).
-        </span>
-      </div>
-
-      <label class="checkbox-group" id="confirmCheckboxGroup">
-        <input type="checkbox" id="confirmAppear" />
-        <span class="checkbox-custom"><i class="fa-solid fa-check"></i></span>
-        <span class="checkbox-label">
-          Ich bestätige hiermit, dass ich zum gewählten Zeitpunkt
-          <strong>pünktlich im Park erscheinen werde</strong>.
-        </span>
-      </label>
-      <span class="form-error" id="checkboxError" style="margin-top:-0.8rem;margin-bottom:1rem">
-        <i class="fa-solid fa-circle-exclamation"></i>
-        Bitte bestätige deine Teilnahme.
-      </span>
-
-      <div class="modal-actions">
-        <button class="btn-cancel" type="button" onclick="closeBookingModal()">
-          Abbrechen
-        </button>
-        <button class="btn-confirm" type="button" id="confirmBtn" onclick="submitBooking()">
-          <i class="fa-solid fa-check"></i>
-          Buchung bestätigen
-        </button>
-      </div>
-    `;
+    content.innerHTML =
+      '<div class="modal-header">' +
+        '<div class="modal-icon"><i class="fa-solid fa-ticket"></i></div>' +
+        '<h2 id="modalTitle">' + T('modalTitle') + '</h2>' +
+        '<p>' + T('modalSubtitle') + '</p>' +
+      '</div>' +
+      '<div class="booking-detail-box">' +
+        '<div class="detail-item">' +
+          '<span class="detail-label"><i class="fa-regular fa-calendar"></i> ' + T('detailDate') + '</span>' +
+          '<span class="detail-value">' + s(dateLabel) + '</span>' +
+        '</div>' +
+        '<div class="detail-item">' +
+          '<span class="detail-label"><i class="fa-regular fa-clock"></i> ' + T('detailTime') + '</span>' +
+          '<span class="detail-value">' + s(time) + '</span>' +
+        '</div>' +
+        '<div class="detail-item">' +
+          '<span class="detail-label"><i class="fa-solid fa-hourglass-half"></i> ' + T('detailDuration') + '</span>' +
+          '<span class="detail-value">' + duration + ' ' + T('minutes') + '</span>' +
+        '</div>' +
+        '<div class="detail-item">' +
+          '<span class="detail-label"><i class="fa-solid fa-users"></i> ' + T('detailCapacity') + '</span>' +
+          '<span class="detail-value">' + T('maxPlayers') + ' ' + maxPlayers + ' ' + T('players') + '</span>' +
+        '</div>' +
+      '</div>' +
+      '<div class="session-note">' +
+        '<i class="fa-solid fa-circle-info"></i>' +
+        '<span>' + T('sessionNoteText') + ' <strong style="color:var(--gold)">' + duration + ' ' + T('minutes') + '</strong>. ' + T('sessionNote2') + '</span>' +
+      '</div>' +
+      '<div class="form-group">' +
+        '<label class="form-label" for="robloxUsername">' +
+          '<i class="fa-solid fa-user" style="margin-right:.3rem;color:var(--gold)"></i>' +
+          T('usernameLabel') +
+        '</label>' +
+        '<input type="text" id="robloxUsername" class="form-input" ' +
+          'placeholder="' + T('usernamePlaceholder') + '" maxlength="20" autocomplete="off" spellcheck="false">' +
+        '<span class="form-error" id="usernameError">' +
+          '<i class="fa-solid fa-circle-exclamation"></i> ' + T('usernameError') +
+        '</span>' +
+      '</div>' +
+      '<label class="checkbox-group" id="confirmCheckboxGroup">' +
+        '<input type="checkbox" id="confirmAppear">' +
+        '<span class="checkbox-custom"><i class="fa-solid fa-check"></i></span>' +
+        '<span class="checkbox-label">' + T('confirmText') + '</span>' +
+      '</label>' +
+      '<span class="form-error" id="checkboxError" style="margin-top:-.8rem;margin-bottom:1rem">' +
+        '<i class="fa-solid fa-circle-exclamation"></i> ' + T('checkboxError') +
+      '</span>' +
+      '<div class="modal-actions">' +
+        '<button class="btn-cancel" type="button" onclick="closeBookingModal()">' + T('btnCancel') + '</button>' +
+        '<button class="btn-confirm" type="button" id="confirmBtn" onclick="submitBooking()">' +
+          '<i class="fa-solid fa-check"></i> ' + T('btnConfirm') +
+        '</button>' +
+      '</div>';
 
     overlay.classList.add('active');
     document.body.style.overflow = 'hidden';
 
-    // Fokus auf Usernamefeld
     setTimeout(function () {
-      const input = document.getElementById('robloxUsername');
-      if (input) input.focus();
+      var inp = document.getElementById('robloxUsername');
+      if (inp) {
+        inp.focus();
+        inp.addEventListener('keydown', function (e) { if (e.key === 'Enter') submitBooking(); });
+      }
     }, 200);
-
-    // Enter-Taste im Eingabefeld
-    const usernameInput = document.getElementById('robloxUsername');
-    if (usernameInput) {
-      usernameInput.addEventListener('keydown', function (e) {
-        if (e.key === 'Enter') submitBooking();
-      });
-    }
   };
 
-  // ════════════════════════════════════════════════════════
-  //  MODAL SCHLIESSEN
-  // ════════════════════════════════════════════════════════
   window.closeBookingModal = function () { closeModal(); };
 
   function closeModal() {
-    const overlay = document.getElementById('bookingModal');
+    var overlay = document.getElementById('bookingModal');
     if (overlay) overlay.classList.remove('active');
     document.body.style.overflow = '';
   }
 
   // ════════════════════════════════════════════════════════
-  //  BUCHUNG ABSENDEN
+  //  SUBMIT
   // ════════════════════════════════════════════════════════
   window.submitBooking = function () {
-    const usernameInput = document.getElementById('robloxUsername');
-    const confirmCb     = document.getElementById('confirmAppear');
-    const usernameErr   = document.getElementById('usernameError');
-    const checkboxErr   = document.getElementById('checkboxError');
-    const confirmBtn    = document.getElementById('confirmBtn');
-
+    var usernameInput = document.getElementById('robloxUsername');
+    var confirmCb     = document.getElementById('confirmAppear');
+    var usernameErr   = document.getElementById('usernameError');
+    var checkboxErr   = document.getElementById('checkboxError');
+    var confirmBtn    = document.getElementById('confirmBtn');
     if (!usernameInput || !confirmCb) return;
 
-    let valid = true;
+    var valid = true;
+    var username = usernameInput.value.trim();
 
-    // Validierung Username
-    const username = usernameInput.value.trim();
-    if (!isValidRobloxUsername(username)) {
+    if (!isValidUsername(username)) {
       usernameInput.classList.add('error');
       if (usernameErr) usernameErr.classList.add('visible');
       valid = false;
@@ -373,288 +323,167 @@
       if (usernameErr) usernameErr.classList.remove('visible');
     }
 
-    // Validierung Checkbox
     if (!confirmCb.checked) {
-      const group = document.getElementById('confirmCheckboxGroup');
-      if (group) group.classList.add('error');
+      var grp = document.getElementById('confirmCheckboxGroup');
+      if (grp) grp.classList.add('error');
       if (checkboxErr) checkboxErr.classList.add('visible');
       valid = false;
     } else {
-      const group = document.getElementById('confirmCheckboxGroup');
-      if (group) group.classList.remove('error');
+      var grp2 = document.getElementById('confirmCheckboxGroup');
+      if (grp2) grp2.classList.remove('error');
       if (checkboxErr) checkboxErr.classList.remove('visible');
     }
 
-    if (!valid) return;
+    if (!valid || !selectedSlot) return;
 
-    // Noch ein Mal prüfen ob Slot noch frei ist
-    if (!selectedSlot) return;
-    const booked = getBookingCount(selectedSlot.date, selectedSlot.time);
-    if (booked >= selectedSlot.maxPlayers) {
-      showResultState('error', 'Dieser Slot ist leider gerade ausgebucht worden. Bitte wähle einen anderen Zeitslot.');
+    if (getBookingCount(selectedSlot.date, selectedSlot.time) >= selectedSlot.maxPlayers) {
+      showResult('error', T('errorFull'));
       return;
     }
 
-    // Lade-Zustand
     if (confirmBtn) {
       confirmBtn.disabled = true;
-      confirmBtn.innerHTML = `
-        <span class="btn-loading">
-          <span class="spinner"></span>
-          Wird gesendet...
-        </span>`;
+      confirmBtn.innerHTML = '<span style="display:inline-flex;align-items:center;gap:.5rem"><span class="spinner"></span>' + T('btnSending') + '</span>';
     }
 
-    pendingBooking = {
-      username:   username,
-      date:       selectedSlot.date,
-      time:       selectedSlot.time,
-      maxPlayers: selectedSlot.maxPlayers,
-    };
+    var booking = { username: username, date: selectedSlot.date, time: selectedSlot.time, maxPlayers: selectedSlot.maxPlayers };
 
-    sendToDiscord(pendingBooking)
-      .then(function () {
-        // Lokal speichern
-        saveBooking(pendingBooking.date, pendingBooking.time, pendingBooking.username);
-        showResultState('success', null, pendingBooking);
-        // Slots neu rendern
-        if (selectedDate) renderSlots(selectedDate);
-        if (selectedDate) renderCalendar();
-      })
-      .catch(function (err) {
-        console.error('Webhook-Fehler:', err);
-        // Trotzdem lokal speichern (Buchung gilt)
-        saveBooking(pendingBooking.date, pendingBooking.time, pendingBooking.username);
-        showResultState('success', null, pendingBooking);
-        if (selectedDate) renderSlots(selectedDate);
-        if (selectedDate) renderCalendar();
-      });
+    sendWebhook(booking)
+      .then(function () { finishBooking(booking); })
+      .catch(function () { finishBooking(booking); }); // still confirm locally on fail
   };
 
+  function finishBooking(booking) {
+    saveBooking(booking.date, booking.time, booking.username);
+    showResult('success', null, booking);
+    renderCalendar();
+    if (selectedDate) renderSlots(selectedDate);
+  }
+
   // ════════════════════════════════════════════════════════
-  //  ERGEBNIS-ZUSTAND IM MODAL ANZEIGEN
+  //  RESULT STATE
   // ════════════════════════════════════════════════════════
-  function showResultState(type, message, booking) {
-    const content = document.getElementById('modalContent');
+  function showResult(type, message, booking) {
+    var content = document.getElementById('modalContent');
     if (!content) return;
 
     if (type === 'success' && booking) {
-      content.innerHTML = `
-        <div class="result-state">
-          <div class="result-icon success">
-            <i class="fa-solid fa-check"></i>
-          </div>
-          <div class="result-title success">Buchung erfolgreich!</div>
-          <p class="result-desc">
-            Deine Session wurde reserviert. Wir freuen uns auf deinen Besuch
-            im Phantasialand – Roblox!
-          </p>
-          <div class="result-summary">
-            <div class="result-summary-row">
-              <span>Roblox-Username</span>
-              <span>${escSafe(booking.username)}</span>
-            </div>
-            <div class="result-summary-row">
-              <span>Datum</span>
-              <span>${formatDateLong(booking.date)}</span>
-            </div>
-            <div class="result-summary-row">
-              <span>Uhrzeit</span>
-              <span>${escSafe(booking.time)} Uhr</span>
-            </div>
-            <div class="result-summary-row">
-              <span>Session-Dauer</span>
-              <span>${SETTINGS.sessionDurationMinutes || 30} Minuten</span>
-            </div>
-          </div>
-          <button class="btn-primary" style="width:100%;justify-content:center" onclick="closeBookingModal()">
-            <i class="fa-solid fa-xmark"></i> Schließen
-          </button>
-        </div>
-      `;
+      var duration = SETTINGS.sessionDurationMinutes || 30;
+      content.innerHTML =
+        '<div class="result-state">' +
+          '<div class="result-icon success"><i class="fa-solid fa-check"></i></div>' +
+          '<div class="result-title success">' + T('successTitle') + '</div>' +
+          '<p class="result-desc">' + T('successDesc') + '</p>' +
+          '<div class="result-summary">' +
+            row(T('summaryUsername'), s(booking.username)) +
+            row(T('summaryDate'),    formatDateLong(booking.date)) +
+            row(T('summaryTime'),    s(booking.time)) +
+            row(T('summaryDuration'), duration + ' ' + T('summaryMinutes')) +
+          '</div>' +
+          '<button class="btn-primary" style="width:100%;justify-content:center" onclick="closeBookingModal()">' +
+            '<i class="fa-solid fa-xmark"></i> ' + T('btnClose') +
+          '</button>' +
+        '</div>';
     } else {
-      const msg = message || 'Es ist ein Fehler aufgetreten. Bitte versuche es erneut.';
-      content.innerHTML = `
-        <div class="result-state">
-          <div class="result-icon error">
-            <i class="fa-solid fa-xmark"></i>
-          </div>
-          <div class="result-title error">Fehler aufgetreten</div>
-          <p class="result-desc">${escSafe(msg)}</p>
-          <button class="btn-outline" style="width:100%;justify-content:center" onclick="closeBookingModal()">
-            <i class="fa-solid fa-arrow-left"></i> Zurück
-          </button>
-        </div>
-      `;
+      content.innerHTML =
+        '<div class="result-state">' +
+          '<div class="result-icon error"><i class="fa-solid fa-xmark"></i></div>' +
+          '<div class="result-title error">' + T('errorTitle') + '</div>' +
+          '<p class="result-desc">' + (message || T('errorGeneric')) + '</p>' +
+          '<button class="btn-outline" style="width:100%;justify-content:center" onclick="closeBookingModal()">' +
+            '<i class="fa-solid fa-arrow-left"></i> ' + T('btnBack') +
+          '</button>' +
+        '</div>';
     }
+  }
+
+  function row(label, val) {
+    return '<div class="result-summary-row"><span>' + label + '</span><span>' + val + '</span></div>';
   }
 
   // ════════════════════════════════════════════════════════
   //  DISCORD WEBHOOK
   // ════════════════════════════════════════════════════════
-  function sendToDiscord(booking) {
-    const webhookUrl = SETTINGS.webhookUrl;
-    if (!webhookUrl) return Promise.resolve();
-
-    const goldColor = 13959735; // #D4AF37 as decimal
-
-    const payload = {
+  function sendWebhook(booking) {
+    if (!SETTINGS.webhookUrl) return Promise.resolve();
+    var duration = SETTINGS.sessionDurationMinutes || 30;
+    var body = {
       username: 'Phantasialand Roblox',
-      embeds: [
-        {
-          title: 'Neue Park-Buchung',
-          description: 'Eine neue Session wurde reserviert!',
-          color: goldColor,
-          fields: [
-            {
-              name: 'Roblox-Username',
-              value: booking.username,
-              inline: true,
-            },
-            {
-              name: 'Datum',
-              value: formatDateLong(booking.date),
-              inline: true,
-            },
-            {
-              name: 'Uhrzeit',
-              value: booking.time + ' Uhr',
-              inline: true,
-            },
-            {
-              name: 'Session-Dauer',
-              value: (SETTINGS.sessionDurationMinutes || 30) + ' Minuten',
-              inline: true,
-            },
-            {
-              name: 'Kapazität',
-              value: 'Max. ' + booking.maxPlayers + ' Spieler',
-              inline: true,
-            },
-          ],
-          footer: {
-            text: 'Phantasialand – Roblox Park System',
-          },
-          timestamp: new Date().toISOString(),
-        },
-      ],
+      embeds: [{
+        title:  'New Park Booking',
+        description: 'A new session has been reserved!',
+        color: 13959735,
+        fields: [
+          { name: 'Roblox Username', value: booking.username,               inline: true },
+          { name: 'Date',            value: formatDateLong(booking.date),    inline: true },
+          { name: 'Time',            value: booking.time,                    inline: true },
+          { name: 'Session Duration', value: duration + ' minutes',          inline: true },
+          { name: 'Max Players',     value: 'Max. ' + booking.maxPlayers,   inline: true },
+        ],
+        footer:    { text: 'Phantasialand – Roblox Park System' },
+        timestamp: new Date().toISOString(),
+      }]
     };
-
-    return fetch(webhookUrl, {
+    return fetch(SETTINGS.webhookUrl, {
       method:  'POST',
       headers: { 'Content-Type': 'application/json' },
-      body:    JSON.stringify(payload),
+      body:    JSON.stringify(body),
     }).then(function (res) {
-      if (!res.ok && res.status !== 204) {
-        throw new Error('Webhook antwortet mit Status ' + res.status);
-      }
+      if (!res.ok && res.status !== 204) throw new Error('HTTP ' + res.status);
     });
   }
 
   // ════════════════════════════════════════════════════════
-  //  LOKALSTORAGE – BUCHUNGSVERWALTUNG
-  // ════════════════════════════════════════════════════════
-  function storageKey(date, time) {
-    return 'pla_booking_' + date + '_' + time.replace(':', '');
-  }
-
-  function getBookings(date, time) {
-    try {
-      const raw = localStorage.getItem(storageKey(date, time));
-      return raw ? JSON.parse(raw) : [];
-    } catch (e) {
-      return [];
-    }
-  }
-
-  function getBookingCount(date, time) {
-    return getBookings(date, time).length;
-  }
-
-  function saveBooking(date, time, username) {
-    try {
-      const bookings = getBookings(date, time);
-      if (!bookings.includes(username)) {
-        bookings.push(username);
-        localStorage.setItem(storageKey(date, time), JSON.stringify(bookings));
-      }
-    } catch (e) {
-      console.warn('LocalStorage nicht verfügbar:', e);
-    }
-  }
-
-  function isDayFull(dateStr) {
-    const entry = (SETTINGS.bookingDates || []).find(function (d) { return d.date === dateStr; });
-    if (!entry || !entry.slots || !entry.slots.length) return false;
-    return entry.slots.every(function (slot) {
-      const max    = slot.maxPlayers || 5;
-      const booked = getBookingCount(dateStr, slot.time);
-      return booked >= max;
-    });
-  }
-
-  // ════════════════════════════════════════════════════════
-  //  KALENDER-NAVIGATION
+  //  CALENDAR NAV
   // ════════════════════════════════════════════════════════
   function bindCalendarNav() {
-    const prev = document.getElementById('prevMonth');
-    const next = document.getElementById('nextMonth');
-    if (prev) {
-      prev.addEventListener('click', function () {
-        currentMonth--;
-        if (currentMonth < 0) { currentMonth = 11; currentYear--; }
-        renderCalendar();
-      });
-    }
-    if (next) {
-      next.addEventListener('click', function () {
-        currentMonth++;
-        if (currentMonth > 11) { currentMonth = 0; currentYear++; }
-        renderCalendar();
-      });
-    }
-  }
-
-  // ════════════════════════════════════════════════════════
-  //  HILFSFUNKTIONEN
-  // ════════════════════════════════════════════════════════
-  function todayStr() {
-    const d = new Date();
-    return formatDateStr(d.getFullYear(), d.getMonth() + 1, d.getDate());
-  }
-
-  function formatDateStr(y, m, d) {
-    return y + '-' +
-      String(m).padStart(2, '0') + '-' +
-      String(d).padStart(2, '0');
-  }
-
-  function formatDateLong(dateStr) {
-    if (!dateStr) return '';
-    const parts = dateStr.split('-');
-    const d     = new Date(parseInt(parts[0]), parseInt(parts[1]) - 1, parseInt(parts[2]));
-    return d.toLocaleDateString('de-DE', {
-      weekday: 'long',
-      year:    'numeric',
-      month:   'long',
-      day:     'numeric',
+    var prev = document.getElementById('prevMonth');
+    var next = document.getElementById('nextMonth');
+    if (prev) prev.addEventListener('click', function () {
+      currentMonth--; if (currentMonth < 0) { currentMonth = 11; currentYear--; } renderCalendar();
+    });
+    if (next) next.addEventListener('click', function () {
+      currentMonth++; if (currentMonth > 11) { currentMonth = 0; currentYear++; } renderCalendar();
     });
   }
 
-  function isValidRobloxUsername(name) {
-    if (!name) return false;
-    if (name.length < 3 || name.length > 20) return false;
-    return /^[a-zA-Z0-9_]+$/.test(name);
+  // ════════════════════════════════════════════════════════
+  //  LOCAL STORAGE
+  // ════════════════════════════════════════════════════════
+  function stKey(date, time) { return 'pla_' + date + '_' + time.replace(':', ''); }
+  function getBookings(date, time) {
+    try { var r = localStorage.getItem(stKey(date, time)); return r ? JSON.parse(r) : []; }
+    catch (e) { return []; }
+  }
+  function getBookingCount(date, time) { return getBookings(date, time).length; }
+  function saveBooking(date, time, username) {
+    try {
+      var bk = getBookings(date, time);
+      if (!bk.includes(username)) { bk.push(username); localStorage.setItem(stKey(date, time), JSON.stringify(bk)); }
+    } catch (e) {}
+  }
+  function isDayFull(dateStr) {
+    var entry = (SETTINGS.bookingDates || []).find(function (d) { return d.date === dateStr; });
+    if (!entry || !entry.slots || !entry.slots.length) return false;
+    return entry.slots.every(function (sl) { return getBookingCount(dateStr, sl.time) >= (sl.maxPlayers || 5); });
   }
 
-  function escSafe(str) {
+  // ════════════════════════════════════════════════════════
+  //  HELPERS
+  // ════════════════════════════════════════════════════════
+  function todayStr() { var d = new Date(); return formatDateStr(d.getFullYear(), d.getMonth() + 1, d.getDate()); }
+  function formatDateStr(y, m, d) { return y + '-' + String(m).padStart(2,'0') + '-' + String(d).padStart(2,'0'); }
+  function formatDateLong(dateStr) {
+    if (!dateStr) return '';
+    var p   = dateStr.split('-');
+    var dt  = new Date(parseInt(p[0]), parseInt(p[1]) - 1, parseInt(p[2]));
+    var loc = window.PLA_LANG === 'de' ? 'de-DE' : 'en-GB';
+    return dt.toLocaleDateString(loc, { weekday:'long', year:'numeric', month:'long', day:'numeric' });
+  }
+  function isValidUsername(n) { return n && n.length >= 3 && n.length <= 20 && /^[a-zA-Z0-9_]+$/.test(n); }
+  function s(str) {
     if (!str) return '';
-    return String(str)
-      .replace(/&/g, '&amp;')
-      .replace(/</g, '&lt;')
-      .replace(/>/g, '&gt;')
-      .replace(/"/g, '&quot;')
-      .replace(/'/g, '&#039;');
+    return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#039;');
   }
 
 })();
