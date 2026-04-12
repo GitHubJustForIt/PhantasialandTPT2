@@ -28,8 +28,8 @@ const SETTINGS = {
   //  ticketSalesActive: true  = booking section & CTAs visible
   //                     false = all booking UI hidden
   // ──────────────────────────────────────────────────────────
-  parkOpen:          true,
-  ticketSalesActive: true,
+  parkOpen:          false,
+  ticketSalesActive: false,
 
 
   // ──────────────────────────────────────────────────────────
