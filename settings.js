@@ -10,7 +10,7 @@ const SETTINGS = {
   //  GENERAL PARK SETTINGS
   // ──────────────────────────────────────────────────────────
   parkName:               "Phantasialand",
-  parkTagline:            "The most magical experience on Roblox",
+  parkTagline:            "The most immersive experience on Roblox",
   sessionDurationMinutes: 30,
 
   //  Discord Webhook URL – bookings are sent here
@@ -60,14 +60,24 @@ const SETTINGS = {
   waitTimeMedium: 45,
 
   waitTimes: [
-    { name: "Mystery Coaster",    minutes: 55 },
-    { name: "Taron",              minutes: 70 },
-    { name: "Black Mamba",        minutes: 30 },
-    { name: "Chiapas",            minutes: 25 },
-    { name: "Wild River",         minutes: 15 },
-    { name: "Wuze King",          minutes: 10 },
-    { name: "River Quest",        minutes: 40 },
-    { name: "Colorado Adventure", minutes: 20 },
+    { name: "F.L.Y.",    minutes: 0 },
+    { name: "Voltron Nevera",              minutes: 0 },
+    { name: "Colossos",        minutes: 0 },
+    { name: "China Blitz",            minutes: 0 },
+    { name: "Tikal",         minutes: 0 },
+    { name: "Woozys Karussel",          minutes: 0 },
+    { name: "Woozy Überkopf",        minutes: 0 },
+    { name: "Wims Teetassen", minutes: 0 },
+     { name: "Wims Wippturm", minutes: 0 },
+    { name: "Voltra-G", minutes: 0 },
+    { name: "Wakobato", minutes: 0 },
+        { name: "Wolzis Jet", minutes: 0 },
+     { name: "Condor-Drop", minutes: 0 },
+     { name: "Wellenflug", minutes: 0 },
+     { name: "Der lustige Papagei", minutes: 0 },
+    { name: "Sturmflug", minutes: 0 },
+      { name: "Bobs Autowerkstatt", minutes: 0 },
+     { name: "Talocan", minutes: 0 },
   ],
 
 
