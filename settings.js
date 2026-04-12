@@ -60,11 +60,11 @@ const SETTINGS = {
   waitTimeMedium: 45,
 
   waitTimes: [
-    { name: "F.L.Y.",    minutes: 0 },
-    { name: "Voltron Nevera",              minutes: 0 },
-    { name: "Colossos",        minutes: 0 },
-    { name: "China Blitz",            minutes: 0 },
-    { name: "Tikal",         minutes: 0 },
+    { name: "F.L.Y.",    minutes: 50 },
+    { name: "Voltron Nevera",              minutes: 60 },
+    { name: "Colossos",        minutes: 45 },
+    { name: "China Blitz",            minutes: 30 },
+    { name: "Tikal",         minutes: 30 },
     { name: "Woozys Karussel",          minutes: 0 },
     { name: "Woozy Überkopf",        minutes: 0 },
     { name: "Wims Teetassen", minutes: 0 },
