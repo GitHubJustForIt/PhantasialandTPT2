@@ -1,98 +1,70 @@
 // ════════════════════════════════════════════════════════════
 //  SETTINGS.JS – Phantasialand Roblox Configuration
 //  ALL changes are made ONLY in this file.
-//  The website automatically picks up every change.
 // ════════════════════════════════════════════════════════════
 
 const SETTINGS = {
 
-  // ──────────────────────────────────────────────────────────
-  //  GENERAL PARK SETTINGS
-  // ──────────────────────────────────────────────────────────
+  // ── General ──────────────────────────────────────────────
   parkName:               "Phantasialand",
-  parkTagline:            "The most immersive experience on Roblox",
+  parkTagline:            "The most magical experience on Roblox",
   sessionDurationMinutes: 30,
+  webhookUrl:             "https://discordapp.com/api/webhooks/1492608191018831883/p2bKU1brImIrXneIUkJB2UOubZb3p-tnsTMlrSkKOQEVZlPkIbwoKCGqTMRuge24ghxG",
+  heroBackgroundUrl:      "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1920&q=80",
 
-  //  Discord Webhook URL – bookings are sent here
-  webhookUrl: "https://discordapp.com/api/webhooks/1492608191018831883/p2bKU1brImIrXneIUkJB2UOubZb3p-tnsTMlrSkKOQEVZlPkIbwoKCGqTMRuge24ghxG",
+  // ── Park Status ───────────────────────────────────────────
+  //  parkOpen:          true/false  → status banner + hero notice
+  //  ticketSalesActive: true/false  → show/hide entire booking UI
+  parkOpen:          true,
+  ticketSalesActive: true,
 
-  //  Hero background image (URL or relative path)
-  heroBackgroundUrl: "https://cdn.discordapp.com/attachments/1472624902153703567/1492613218269401230/Screenshot_299.png?ex=69dca0a2&is=69db4f22&hm=01c1d199b18596f497b1e2f4656b55a6d459006e517ec276ae2ecbb4961681ec&",
+  // ── Park Trailer ──────────────────────────────────────────
+  //  YouTube watch / share / embed URL. Set "" to hide section.
+  trailerUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ",
 
-
-  // ──────────────────────────────────────────────────────────
-  //  PARK STATUS
-  //
-  //  parkOpen:          true  = park is shown as OPEN
-  //                     false = park is shown as CLOSED
-  //  ticketSalesActive: true  = booking section & CTAs visible
-  //                     false = all booking UI hidden
-  // ──────────────────────────────────────────────────────────
-  parkOpen:          false,
-  ticketSalesActive: false,
-
-
-  // ──────────────────────────────────────────────────────────
-  //  PARK TRAILER
-  //
-  //  Paste a YouTube URL (watch, share, or embed link):
-  //    "https://www.youtube.com/watch?v=VIDEO_ID"
-  //    "https://youtu.be/VIDEO_ID"
-  //    "https://www.youtube.com/embed/VIDEO_ID"
-  //  Set to "" to hide the trailer section entirely.
-  // ──────────────────────────────────────────────────────────
-  trailerUrl: "",
-
-
-  // ──────────────────────────────────────────────────────────
-  //  WAIT TIMES
-  //
-  //  Format: { name: "Attraction Name", minutes: 30 }
-  //  Color thresholds (minutes):
-  //    0 – waitTimeLow        → green  (short)
-  //    waitTimeLow+1 – waitTimeMedium → orange (moderate)
-  //    waitTimeMedium+1 – ∞   → red    (long)
-  //
-  //  Add or remove entries freely – grid updates automatically.
-  //  Set waitTimes: [] to hide the section.
-  // ──────────────────────────────────────────────────────────
+  // ── Wait Time Thresholds (minutes) ────────────────────────
+  //  0 – waitTimeLow        → green  (short)
+  //  waitTimeLow+1 – waitTimeMedium → orange (moderate)
+  //  waitTimeMedium+1 – ∞   → red    (long)
   waitTimeLow:    20,
   waitTimeMedium: 45,
 
-  waitTimes: [
-    { name: "F.L.Y.",    minutes: 50 },
-    { name: "Voltron Nevera",              minutes: 60 },
-    { name: "Colossos",        minutes: 45 },
-    { name: "China Blitz",            minutes: 30 },
-    { name: "Tikal",         minutes: 30 },
-    { name: "Woozys Karussel",          minutes: 0 },
-    { name: "Woozy Überkopf",        minutes: 0 },
-    { name: "Wims Teetassen", minutes: 0 },
-     { name: "Wims Wippturm", minutes: 0 },
-    { name: "Voltra-G", minutes: 0 },
-    { name: "Wakobato", minutes: 0 },
-        { name: "Wolzis Jet", minutes: 0 },
-     { name: "Condor-Drop", minutes: 0 },
-     { name: "Wellenflug", minutes: 0 },
-     { name: "Der lustige Papagei", minutes: 0 },
-    { name: "Sturmflug", minutes: 0 },
-      { name: "Bobs Autowerkstatt", minutes: 0 },
-     { name: "Talocan", minutes: 0 },
+  // ── Wait Times ────────────────────────────────────────────
+  //  Split into rollercoasters and flatRides.
+  //  Format: { name: "Name", minutes: 30 }
+  //  Add / remove entries freely. Set [] to hide a category.
+  // ─────────────────────────────────────────────────────────
+  rollercoasters: [
+    { name: "F.L.Y.", minutes: 50 },
+    { name: "Voltron Nevera", minutes: 60 },
+    { name: "Colossos", minutes: 45 },
+    { name: "China Blitz", minutes: 30 },
+    { name: "Tikal", minutes: 30 },
   ],
 
+  flatRides: [
+     { name: "Talocan", minutes: 0 },
+     { name: "Woozys Karussel", minutes: 0 },
+    { name: "Woozy Überkopf", minutes: 0 },
+    { name: "Wims Teetassen", minutes: 0 },
+    { name: "Wims Wippturm", minutes: 0 },
+    { name: "Voltra-G", minutes: 0 },
+     { name: "Wakobato", minutes: 0 },
+    { name: "Wolzis Jet", minutes: 0 },
+    { name: "Condor-Drop", minutes: 0 },
+     { name: "Wellenflug", minutes: 0 },
+    { name: "Der lustige Papagei", minutes: 0 },
+    { name: "Sturmflug", minutes: 0 },
+     { name: "Bobs Autowerkstatt", minutes: 0 },
+  ],
 
-  // ──────────────────────────────────────────────────────────
-  //  BOOKING DATES & TIME SLOTS
-  //
+  // ── Booking Dates & Time Slots ────────────────────────────
   //  date:        "YYYY-MM-DD"
-  //  slots:       array of time slots for that day
+  //  slots:
   //    time:        "HH:MM"
   //    maxPlayers:  max players per slot (default 5)
-  //    visitorRate: estimated crowd level:
-  //                 "low"    = few visitors expected
-  //                 "medium" = moderate visitors expected
-  //                 "high"   = many visitors expected
-  // ──────────────────────────────────────────────────────────
+  //    visitorRate: "low" | "medium" | "high"
+  // ─────────────────────────────────────────────────────────
   bookingDates: [
     {
       date: "2026-04-18",
@@ -154,20 +126,14 @@ const SETTINGS = {
     },
   ],
 
-
-  // ──────────────────────────────────────────────────────────
-  //  THEME WORLDS
-  //
-  //  title:       World title (displayed above the image)
-  //  description: Short description of the world
-  //  imageUrl:    Image URL for that area
-  //
-  //  Add or remove entries – order matches website display.
-  // ──────────────────────────────────────────────────────────
+  // ── Theme Worlds ──────────────────────────────────────────
+  //  title, description, imageUrl
+  //  Add / remove entries freely.
+  // ─────────────────────────────────────────────────────────
   themeWorlds: [
     {
-      title:       "Berlin",
-      description: "A beatiful town - connects every theme world calmly. ",
+      title:       "Mystery Castle",
+      description: "Dare to enter the dark chambers of the mysterious castle and uncover its secrets.",
       imageUrl:    "https://images.unsplash.com/photo-1533154683836-84ea7a0bc310?w=800&q=80"
     },
     {
