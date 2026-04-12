@@ -17,7 +17,7 @@ const SETTINGS = {
   webhookUrl: "https://discordapp.com/api/webhooks/1492608191018831883/p2bKU1brImIrXneIUkJB2UOubZb3p-tnsTMlrSkKOQEVZlPkIbwoKCGqTMRuge24ghxG",
 
   //  Hero background image (URL or relative path)
-  heroBackgroundUrl: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1920&q=80",
+  heroBackgroundUrl: "https://cdn.discordapp.com/attachments/1472624902153703567/1492613218269401230/Screenshot_299.png?ex=69dca0a2&is=69db4f22&hm=01c1d199b18596f497b1e2f4656b55a6d459006e517ec276ae2ecbb4961681ec&",
 
 
   // ──────────────────────────────────────────────────────────
@@ -41,7 +41,7 @@ const SETTINGS = {
   //    "https://www.youtube.com/embed/VIDEO_ID"
   //  Set to "" to hide the trailer section entirely.
   // ──────────────────────────────────────────────────────────
-  trailerUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ",
+  trailerUrl: "",
 
 
   // ──────────────────────────────────────────────────────────
@@ -166,8 +166,8 @@ const SETTINGS = {
   // ──────────────────────────────────────────────────────────
   themeWorlds: [
     {
-      title:       "Mystery Castle",
-      description: "Dare to enter the dark chambers of the mysterious castle and uncover its secrets.",
+      title:       "Berlin",
+      description: "A beatiful town - connects every theme world calmly. ",
       imageUrl:    "https://images.unsplash.com/photo-1533154683836-84ea7a0bc310?w=800&q=80"
     },
     {
