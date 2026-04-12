@@ -1,185 +1,107 @@
 // ════════════════════════════════════════════════════════════
-//  APP.JS – Phantasialand Roblox
-//  Translations, navigation, particles, all section renders
+//  APP.JS – Phantasialand Roblox (Light Theme Edition)
 // ════════════════════════════════════════════════════════════
 
-// ── Translation strings ──────────────────────────────────
+// ── Translations ─────────────────────────────────────────
 const LANG_STRINGS = {
   en: {
-    navHome: 'Home',
-    navWorlds: 'Theme Worlds',
-    navBook: 'Book',
-    navCta: 'Book Now',
-    heroBadge: 'Official Roblox Park',
-    heroSubText: 'Welcome to the most exciting theme park on Roblox –\nbook your exclusive session and experience the magic.',
-    heroBtn1: 'Book a Session',
-    heroBtn2: 'Explore Theme Worlds',
-    statPlayers: 'Players per Session',
-    statDuration: 'Minutes Playtime',
-    statWorlds: 'Theme Worlds',
-    parkStatusOpen: 'The park is currently',
-    parkStatusOpenWord: 'OPEN',
-    parkStatusClosed: 'The park is currently',
-    parkStatusClosedWord: 'CLOSED',
-    parkClosedHeroText: 'The park is currently closed. We look forward to welcoming you soon.',
-    ticketSalesOff: 'Ticket sales are currently not available.',
-    waitLabel: 'Today',
-    waitTitle: 'Wait Times',
-    waitDesc: 'Current estimated wait times for our attractions.',
-    waitLow: 'Short',
-    waitMedium: 'Moderate',
-    waitHigh: 'Long',
-    waitMin: 'min',
-    worldsLabel: 'Explore',
-    worldsTitle: 'Our Theme Worlds',
-    worldsDesc: 'Every area of the park tells a unique story – dive in and experience them all.',
-    trailerLabel: 'Experience',
-    trailerTitle: 'Park Trailer',
-    trailerDesc: 'Get a first impression of the most magical Roblox park.',
-    bookLabel: 'Reservation',
-    bookTitle: 'Book a Session',
-    bookDesc: 'Pick your preferred date from the calendar and choose an available time slot.',
-    slotsPlaceholder: 'Select a highlighted day from the calendar to see available time slots.',
-    slotBook: 'Book',
-    slotFull: 'Fully Booked',
-    slotFree: 'available',
-    slotFullLabel: 'fully booked',
-    visitorRateLow: 'Low Crowd',
-    visitorRateMedium: 'Moderate Crowd',
-    visitorRateHigh: 'High Crowd',
-    calMonths: ['January','February','March','April','May','June','July','August','September','October','November','December'],
-    calWeekdays: ['Mo','Tu','We','Th','Fr','Sa','Su'],
-    maxPlayers: 'Max.',
-    players: 'Players',
-    minutes: 'Minutes',
-    modalTitle: 'Book Session',
-    modalSubtitle: 'Fill in the form and confirm your booking.',
-    detailDate: 'Date',
-    detailTime: 'Time',
-    detailDuration: 'Duration',
-    detailCapacity: 'Capacity',
-    sessionNoteText: 'Each session lasts exactly',
-    sessionNote2: 'minutes. Please be punctual and arrive on time.',
-    usernameLabel: 'Roblox Username',
-    usernamePlaceholder: 'Your Roblox username',
-    usernameError: 'Please enter a valid Roblox username (3–20 characters).',
-    confirmText: 'I confirm that I will <strong>appear in the park on time</strong> at the selected time slot.',
-    checkboxError: 'Please confirm your attendance.',
-    btnCancel: 'Cancel',
-    btnConfirm: 'Confirm Booking',
-    btnSending: 'Sending...',
-    successTitle: 'Booking Successful!',
-    successDesc: 'Your session has been reserved. We look forward to your visit at Phantasialand – Roblox!',
-    summaryUsername: 'Roblox Username',
-    summaryDate: 'Date',
-    summaryTime: 'Time',
-    summaryDuration: 'Session Duration',
-    summaryMinutes: 'Minutes',
-    btnClose: 'Close',
-    errorTitle: 'An Error Occurred',
-    errorGeneric: 'Something went wrong. Please try again.',
-    errorFull: 'This slot was just fully booked. Please choose another time.',
-    btnBack: 'Back',
-    footerDisclaimerTitle: 'Legal Notice:',
-    footerDisclaimer: ' Phantasialand – Roblox is an unofficial fan project on the Roblox platform and has no connection whatsoever with the real Phantasialand Freizeit- und Erlebnispark GmbH & Co. KG in Brühl. All trademarks, names, logos and rights of the real Phantasialand are the property of their respective owners. This project is an independent, non-commercial fan experience and is not supported or endorsed by Phantasialand.',
-    langSwitch: 'DE',
-    footerCopy: 'Fan Project',
+    navHome:'Home', navWorlds:'Theme Worlds', navBook:'Book', navCta:'Book Now',
+    heroBadge:'Official Roblox Park',
+    heroSubText:'Welcome to the most exciting theme park on Roblox –\nbook your exclusive session and experience the magic.',
+    heroBtn1:'Book a Session', heroBtn2:'Explore Theme Worlds',
+    statPlayers:'Players per Session', statDuration:'Minutes Playtime', statWorlds:'Theme Worlds',
+    parkStatusOpen:'The park is currently', parkStatusOpenWord:'OPEN',
+    parkStatusClosed:'The park is currently', parkStatusClosedWord:'CLOSED',
+    parkClosedHeroText:'The park is currently closed. We look forward to welcoming you soon.',
+    ticketSalesOff:'Ticket sales are currently not available.',
+    waitLabel:'Today', waitTitle:'Wait Times', waitDesc:'Current estimated wait times for our attractions.',
+    waitLow:'Short', waitMedium:'Moderate', waitHigh:'Long', waitMin:'min',
+    tabCoasters:'Rollercoasters', tabFlatRides:'Flat Rides',
+    worldsLabel:'Explore', worldsTitle:'Our Theme Worlds',
+    worldsDesc:'Every area of the park tells a unique story – dive in and experience them all.',
+    trailerLabel:'Experience', trailerTitle:'Park Trailer',
+    trailerDesc:'Get a first impression of the most magical Roblox park.',
+    bookLabel:'Reservation', bookTitle:'Book a Session',
+    bookDesc:'Pick your preferred date from the calendar and choose an available time slot.',
+    slotsPlaceholder:'Select a highlighted day from the calendar to see available time slots.',
+    slotBook:'Book', slotFull:'Fully Booked', slotFree:'available', slotFullLabel:'fully booked',
+    visitorRateLow:'Low Crowd', visitorRateMedium:'Moderate Crowd', visitorRateHigh:'High Crowd',
+    calMonths:['January','February','March','April','May','June','July','August','September','October','November','December'],
+    calWeekdays:['Mo','Tu','We','Th','Fr','Sa','Su'],
+    maxPlayers:'Max.', players:'Players', minutes:'Minutes',
+    modalTitle:'Book Session', modalSubtitle:'Fill in the form and confirm your booking.',
+    detailDate:'Date', detailTime:'Time', detailDuration:'Duration', detailCapacity:'Capacity',
+    sessionNoteText:'Each session lasts exactly', sessionNote2:'minutes. Please be punctual.',
+    usernameLabel:'Roblox Username', usernamePlaceholder:'Your Roblox username',
+    usernameError:'Please enter a valid Roblox username (3–20 characters).',
+    confirmText:'I confirm that I will <strong>appear in the park on time</strong> at the selected slot.',
+    checkboxError:'Please confirm your attendance.',
+    btnCancel:'Cancel', btnConfirm:'Confirm Booking', btnSending:'Sending...',
+    successTitle:'Booking Successful!',
+    successDesc:'Your session has been reserved. We look forward to your visit at Phantasialand – Roblox!',
+    summaryUsername:'Roblox Username', summaryDate:'Date', summaryTime:'Time',
+    summaryDuration:'Session Duration', summaryMinutes:'Minutes',
+    btnClose:'Close', errorTitle:'An Error Occurred',
+    errorGeneric:'Something went wrong. Please try again.',
+    errorFull:'This slot was just fully booked. Please choose another time.',
+    btnBack:'Back',
+    footerDisclaimerTitle:'Legal Notice:',
+    footerDisclaimer:' Phantasialand – Roblox is an unofficial fan project on the Roblox platform and has no connection whatsoever with the real Phantasialand Freizeit- und Erlebnispark GmbH & Co. KG in Brühl. All trademarks, names, logos and rights of the real Phantasialand are the property of their respective owners. This project is an independent, non-commercial fan experience and is not supported or endorsed by Phantasialand.',
+    langSwitch:'DE', footerCopy:'Fan Project',
   },
   de: {
-    navHome: 'Startseite',
-    navWorlds: 'Themenwelten',
-    navBook: 'Buchen',
-    navCta: 'Jetzt buchen',
-    heroBadge: 'Offizieller Roblox-Park',
-    heroSubText: 'Willkommen im aufregendsten Freizeitpark auf Roblox –\nbuche jetzt deine exklusive Session und erlebe die Magie.',
-    heroBtn1: 'Session buchen',
-    heroBtn2: 'Themenwelten entdecken',
-    statPlayers: 'Spieler pro Session',
-    statDuration: 'Minuten Spielzeit',
-    statWorlds: 'Themenwelten',
-    parkStatusOpen: 'Der Park ist aktuell',
-    parkStatusOpenWord: 'GEÖFFNET',
-    parkStatusClosed: 'Der Park ist aktuell',
-    parkStatusClosedWord: 'GESCHLOSSEN',
-    parkClosedHeroText: 'Der Park ist aktuell geschlossen. Wir freuen uns, dich bald begrüßen zu dürfen.',
-    ticketSalesOff: 'Der Ticketverkauf ist aktuell nicht verfügbar.',
-    waitLabel: 'Heute',
-    waitTitle: 'Wartezeiten',
-    waitDesc: 'Aktuelle geschätzte Wartezeiten für unsere Attraktionen.',
-    waitLow: 'Kurz',
-    waitMedium: 'Mittel',
-    waitHigh: 'Lang',
-    waitMin: 'Min',
-    worldsLabel: 'Entdecken',
-    worldsTitle: 'Unsere Themenwelten',
-    worldsDesc: 'Jeder Bereich des Parks erzählt eine einzigartige Geschichte – tauche ein und erlebe sie alle.',
-    trailerLabel: 'Erleben',
-    trailerTitle: 'Park Trailer',
-    trailerDesc: 'Verschaffe dir einen ersten Eindruck vom magischsten Roblox-Park.',
-    bookLabel: 'Reservierung',
-    bookTitle: 'Session buchen',
-    bookDesc: 'Wähle deinen Wunschtag aus dem Kalender und anschließend einen verfügbaren Zeitslot.',
-    slotsPlaceholder: 'Wähle einen markierten Tag aus dem Kalender, um die verfügbaren Zeitslots zu sehen.',
-    slotBook: 'Buchen',
-    slotFull: 'Ausgebucht',
-    slotFree: 'frei',
-    slotFullLabel: 'ausgebucht',
-    visitorRateLow: 'Geringes Besucheraufkommen',
-    visitorRateMedium: 'Mittleres Besucheraufkommen',
-    visitorRateHigh: 'Hohes Besucheraufkommen',
-    calMonths: ['Januar','Februar','März','April','Mai','Juni','Juli','August','September','Oktober','November','Dezember'],
-    calWeekdays: ['Mo','Di','Mi','Do','Fr','Sa','So'],
-    maxPlayers: 'Max.',
-    players: 'Spieler',
-    minutes: 'Minuten',
-    modalTitle: 'Session buchen',
-    modalSubtitle: 'Fülle das Formular aus und bestätige deine Buchung.',
-    detailDate: 'Datum',
-    detailTime: 'Uhrzeit',
-    detailDuration: 'Dauer',
-    detailCapacity: 'Kapazität',
-    sessionNoteText: 'Jede Session dauert genau',
-    sessionNote2: 'Minuten. Bitte sei pünktlich und erscheine rechtzeitig.',
-    usernameLabel: 'Roblox-Benutzername',
-    usernamePlaceholder: 'Dein Roblox-Username',
-    usernameError: 'Bitte gib einen gültigen Roblox-Benutzernamen ein (3–20 Zeichen).',
-    confirmText: 'Ich bestätige hiermit, dass ich zum gewählten Zeitpunkt <strong>pünktlich im Park erscheinen werde</strong>.',
-    checkboxError: 'Bitte bestätige deine Teilnahme.',
-    btnCancel: 'Abbrechen',
-    btnConfirm: 'Buchung bestätigen',
-    btnSending: 'Wird gesendet...',
-    successTitle: 'Buchung erfolgreich!',
-    successDesc: 'Deine Session wurde reserviert. Wir freuen uns auf deinen Besuch im Phantasialand – Roblox!',
-    summaryUsername: 'Roblox-Username',
-    summaryDate: 'Datum',
-    summaryTime: 'Uhrzeit',
-    summaryDuration: 'Session-Dauer',
-    summaryMinutes: 'Minuten',
-    btnClose: 'Schließen',
-    errorTitle: 'Fehler aufgetreten',
-    errorGeneric: 'Ein Fehler ist aufgetreten. Bitte versuche es erneut.',
-    errorFull: 'Dieser Slot wurde gerade ausgebucht. Bitte wähle einen anderen Zeitslot.',
-    btnBack: 'Zurück',
-    footerDisclaimerTitle: 'Rechtlicher Hinweis:',
-    footerDisclaimer: ' Phantasialand – Roblox ist ein inoffizielles Fan-Projekt auf der Plattform Roblox und steht in keinerlei Verbindung mit dem echten Phantasialand Freizeit- und Erlebnispark GmbH & Co. KG in Brühl. Alle Marken, Namen, Logos und Rechte des realen Phantasialand sind Eigentum der jeweiligen Rechteinhaber. Dieses Projekt ist ein unabhängiges, nicht-kommerzielles Fan-Erlebnis und wird nicht von Phantasialand unterstützt oder genehmigt.',
-    langSwitch: 'EN',
-    footerCopy: 'Fan-Projekt',
+    navHome:'Startseite', navWorlds:'Themenwelten', navBook:'Buchen', navCta:'Jetzt buchen',
+    heroBadge:'Offizieller Roblox-Park',
+    heroSubText:'Willkommen im aufregendsten Freizeitpark auf Roblox –\nbuche jetzt deine exklusive Session und erlebe die Magie.',
+    heroBtn1:'Session buchen', heroBtn2:'Themenwelten entdecken',
+    statPlayers:'Spieler pro Session', statDuration:'Minuten Spielzeit', statWorlds:'Themenwelten',
+    parkStatusOpen:'Der Park ist aktuell', parkStatusOpenWord:'GEÖFFNET',
+    parkStatusClosed:'Der Park ist aktuell', parkStatusClosedWord:'GESCHLOSSEN',
+    parkClosedHeroText:'Der Park ist aktuell geschlossen. Wir freuen uns, dich bald begrüßen zu dürfen.',
+    ticketSalesOff:'Der Ticketverkauf ist aktuell nicht verfügbar.',
+    waitLabel:'Heute', waitTitle:'Wartezeiten', waitDesc:'Aktuelle geschätzte Wartezeiten für unsere Attraktionen.',
+    waitLow:'Kurz', waitMedium:'Mittel', waitHigh:'Lang', waitMin:'Min',
+    tabCoasters:'Achterbahnen', tabFlatRides:'Fahrgeschäfte',
+    worldsLabel:'Entdecken', worldsTitle:'Unsere Themenwelten',
+    worldsDesc:'Jeder Bereich des Parks erzählt eine einzigartige Geschichte – tauche ein und erlebe sie alle.',
+    trailerLabel:'Erleben', trailerTitle:'Park Trailer',
+    trailerDesc:'Verschaffe dir einen ersten Eindruck vom magischsten Roblox-Park.',
+    bookLabel:'Reservierung', bookTitle:'Session buchen',
+    bookDesc:'Wähle deinen Wunschtag aus dem Kalender und anschließend einen verfügbaren Zeitslot.',
+    slotsPlaceholder:'Wähle einen markierten Tag, um die verfügbaren Zeitslots zu sehen.',
+    slotBook:'Buchen', slotFull:'Ausgebucht', slotFree:'frei', slotFullLabel:'ausgebucht',
+    visitorRateLow:'Geringes Aufkommen', visitorRateMedium:'Mittleres Aufkommen', visitorRateHigh:'Hohes Aufkommen',
+    calMonths:['Januar','Februar','März','April','Mai','Juni','Juli','August','September','Oktober','November','Dezember'],
+    calWeekdays:['Mo','Di','Mi','Do','Fr','Sa','So'],
+    maxPlayers:'Max.', players:'Spieler', minutes:'Minuten',
+    modalTitle:'Session buchen', modalSubtitle:'Fülle das Formular aus und bestätige deine Buchung.',
+    detailDate:'Datum', detailTime:'Uhrzeit', detailDuration:'Dauer', detailCapacity:'Kapazität',
+    sessionNoteText:'Jede Session dauert genau', sessionNote2:'Minuten. Bitte sei pünktlich.',
+    usernameLabel:'Roblox-Benutzername', usernamePlaceholder:'Dein Roblox-Username',
+    usernameError:'Bitte gib einen gültigen Roblox-Benutzernamen ein (3–20 Zeichen).',
+    confirmText:'Ich bestätige, dass ich zum gewählten Zeitpunkt <strong>pünktlich im Park erscheinen werde</strong>.',
+    checkboxError:'Bitte bestätige deine Teilnahme.',
+    btnCancel:'Abbrechen', btnConfirm:'Buchung bestätigen', btnSending:'Wird gesendet...',
+    successTitle:'Buchung erfolgreich!',
+    successDesc:'Deine Session wurde reserviert. Wir freuen uns auf deinen Besuch!',
+    summaryUsername:'Roblox-Username', summaryDate:'Datum', summaryTime:'Uhrzeit',
+    summaryDuration:'Session-Dauer', summaryMinutes:'Minuten',
+    btnClose:'Schließen', errorTitle:'Fehler aufgetreten',
+    errorGeneric:'Ein Fehler ist aufgetreten. Bitte versuche es erneut.',
+    errorFull:'Dieser Slot wurde gerade ausgebucht. Bitte wähle einen anderen.',
+    btnBack:'Zurück',
+    footerDisclaimerTitle:'Rechtlicher Hinweis:',
+    footerDisclaimer:' Phantasialand – Roblox ist ein inoffizielles Fan-Projekt auf Roblox und steht in keinerlei Verbindung mit dem echten Phantasialand Freizeit- und Erlebnispark GmbH & Co. KG in Brühl. Alle Marken, Namen, Logos und Rechte des realen Phantasialand sind Eigentum der jeweiligen Rechteinhaber. Dieses Projekt ist ein unabhängiges, nicht-kommerzielles Fan-Erlebnis und wird weder von Phantasialand unterstützt noch genehmigt.',
+    langSwitch:'EN', footerCopy:'Fan-Projekt',
   }
 };
 
-// ── Current language (global, read by booking.js) ───────
 window.PLA_LANG = localStorage.getItem('pla_lang') || 'en';
+window.T = function(k){ return (LANG_STRINGS[window.PLA_LANG]||LANG_STRINGS.en)[k]||k; };
 
-// ── Translation helper (global) ──────────────────────────
-window.T = function (key) {
-  return (LANG_STRINGS[window.PLA_LANG] || LANG_STRINGS.en)[key] || key;
-};
-
-// ════════════════════════════════════════════════════════════
-//  INIT
-// ════════════════════════════════════════════════════════════
-document.addEventListener('DOMContentLoaded', function () {
-  applyLanguage();
+// ── Init ──────────────────────────────────────────────────
+document.addEventListener('DOMContentLoaded', function(){
+  applyLang();
   applySettings();
   initStatusBanner();
   initNavbar();
@@ -189,7 +111,7 @@ document.addEventListener('DOMContentLoaded', function () {
   initThemeWorlds();
   initTrailer();
   initBookingVisibility();
-  initRevealAnimations();
+  initReveal();
   initFooter();
   initLangToggle();
 });
@@ -197,479 +119,396 @@ document.addEventListener('DOMContentLoaded', function () {
 // ════════════════════════════════════════════════════════════
 //  LANGUAGE
 // ════════════════════════════════════════════════════════════
-function applyLanguage() {
+function applyLang(){
   document.documentElement.lang = window.PLA_LANG;
-
-  // Update all data-i18n elements
-  document.querySelectorAll('[data-i18n]').forEach(function (el) {
-    var key = el.getAttribute('data-i18n');
-    var val = T(key);
-    if (val) el.textContent = val;
+  document.querySelectorAll('[data-i18n]').forEach(function(el){
+    var v = T(el.getAttribute('data-i18n'));
+    if(v) el.textContent = v;
   });
-
-  // Weekdays in calendar
+  // Weekdays
   var wd = document.getElementById('calWeekdays');
-  if (wd) {
+  if(wd){
     var days = T('calWeekdays');
-    var spans = wd.querySelectorAll('span');
-    if (Array.isArray(days)) {
-      days.forEach(function (d, i) { if (spans[i]) spans[i].textContent = d; });
-    }
+    wd.querySelectorAll('span').forEach(function(s,i){ if(Array.isArray(days)&&days[i]) s.textContent=days[i]; });
   }
-
-  // Lang toggle label
   var lt = document.getElementById('langToggleLabel');
-  if (lt) lt.textContent = T('langSwitch');
+  if(lt) lt.textContent = T('langSwitch');
 }
 
-function initLangToggle() {
+function initLangToggle(){
   var btn = document.getElementById('langToggle');
-  if (!btn) return;
-  btn.addEventListener('click', function () {
-    window.PLA_LANG = window.PLA_LANG === 'en' ? 'de' : 'en';
+  if(!btn) return;
+  btn.addEventListener('click', function(){
+    window.PLA_LANG = window.PLA_LANG==='en'?'de':'en';
     localStorage.setItem('pla_lang', window.PLA_LANG);
-    // Full re-render
-    applyLanguage();
-    applySettings();
-    initStatusBanner();
-    initHeroActions();
-    initWaitTimes();
-    initThemeWorlds();
-    initTrailer();
-    initFooter();
-    // Re-trigger booking.js re-render
-    if (typeof window.PLA_BOOKING_REINIT === 'function') window.PLA_BOOKING_REINIT();
+    applyLang(); applySettings(); initStatusBanner(); initHeroActions();
+    initWaitTimes(); initThemeWorlds(); initTrailer(); initFooter();
+    initBookingVisibility();
+    if(typeof window.PLA_BOOKING_REINIT==='function') window.PLA_BOOKING_REINIT();
   });
 }
 
 // ════════════════════════════════════════════════════════════
 //  SETTINGS → DOM
 // ════════════════════════════════════════════════════════════
-function applySettings() {
+function applySettings(){
   var s = SETTINGS;
   document.title = s.parkName + ' – Roblox';
-
-  var map = {
-    navLogoMain:    s.parkName,
-    heroTitleMain:  s.parkName,
-    footerLogoMain: s.parkName,
-    statDuration:   s.sessionDurationMinutes,
-    statWorlds:     s.themeWorlds.length,
-  };
-  Object.keys(map).forEach(function (id) {
-    var el = document.getElementById(id);
-    if (el) el.textContent = map[id];
+  var map = { navLogoMain:s.parkName, heroTitleMain:s.parkName, footerLogoMain:s.parkName,
+               statDuration:s.sessionDurationMinutes, statWorlds:s.themeWorlds.length };
+  Object.keys(map).forEach(function(id){
+    var el=document.getElementById(id); if(el) el.textContent=map[id];
   });
-
-  // Hero sub text (multi-line)
-  var heroSub = document.getElementById('heroSubText');
-  if (heroSub) heroSub.innerHTML = T('heroSubText').replace('\n', '<br>');
-
-  // Footer tagline
-  var ft = document.getElementById('footerTagline');
-  if (ft) ft.textContent = s.parkTagline;
-
-  // Hero background
-  var hbg = document.getElementById('heroBgImg');
-  if (hbg && s.heroBackgroundUrl) {
-    hbg.style.backgroundImage = "url('" + s.heroBackgroundUrl + "')";
-  }
+  var hs=document.getElementById('heroSubText');
+  if(hs) hs.innerHTML=T('heroSubText').replace('\n','<br>');
+  var ft=document.getElementById('footerTagline'); if(ft) ft.textContent=s.parkTagline;
+  var hbg=document.getElementById('heroBgImg');
+  if(hbg&&s.heroBackgroundUrl) hbg.style.backgroundImage="url('"+s.heroBackgroundUrl+"')";
 }
 
 // ════════════════════════════════════════════════════════════
 //  STATUS BANNER
 // ════════════════════════════════════════════════════════════
-function initStatusBanner() {
-  var banner = document.getElementById('statusBanner');
-  var text   = document.getElementById('statusText');
-  if (!banner || !text) return;
-
-  if (SETTINGS.parkOpen) {
-    banner.className = 'park-open';
-    text.innerHTML = T('parkStatusOpen') + ' <strong>' + T('parkStatusOpenWord') + '</strong>';
+function initStatusBanner(){
+  var banner=document.getElementById('statusBanner');
+  var text  =document.getElementById('statusText');
+  if(!banner||!text) return;
+  if(SETTINGS.parkOpen){
+    banner.className='park-open';
+    text.innerHTML=T('parkStatusOpen')+' <strong>'+T('parkStatusOpenWord')+'</strong>';
   } else {
-    banner.className = 'park-closed';
-    text.innerHTML = T('parkStatusClosed') + ' <strong>' + T('parkStatusClosedWord') + '</strong>';
+    banner.className='park-closed';
+    text.innerHTML=T('parkStatusClosed')+' <strong>'+T('parkStatusClosedWord')+'</strong>';
   }
-
-  // Park closed notice inside hero
-  var closedHero = document.getElementById('parkClosedHero');
-  if (closedHero) {
-    var span = closedHero.querySelector('span');
-    if (span) span.textContent = T('parkClosedHeroText');
-  }
+  var ch=document.getElementById('parkClosedHero');
+  if(ch){ var sp=ch.querySelector('span'); if(sp) sp.textContent=T('parkClosedHeroText'); }
 }
 
 // ════════════════════════════════════════════════════════════
-//  HERO ACTIONS (buttons, dependent on settings)
+//  HERO ACTIONS
 // ════════════════════════════════════════════════════════════
-function initHeroActions() {
-  var actions    = document.getElementById('heroActions');
-  var closedHero = document.getElementById('parkClosedHero');
-  if (!actions) return;
-
-  actions.innerHTML = '';
-
-  if (!SETTINGS.parkOpen) {
-    // Park closed – no CTAs, show closed notice instead
-    actions.style.display = 'none';
-    if (closedHero) {
-      closedHero.style.display = 'flex';
-      closedHero.classList.add('revealed');
-    }
+function initHeroActions(){
+  var actions=document.getElementById('heroActions');
+  var closed =document.getElementById('parkClosedHero');
+  if(!actions) return;
+  actions.innerHTML='';
+  if(!SETTINGS.parkOpen){
+    actions.style.display='none';
+    if(closed){ closed.style.display='flex'; closed.classList.add('revealed'); }
     return;
   }
-
-  actions.style.display = 'flex';
-  if (closedHero) closedHero.style.display = 'none';
-
-  if (SETTINGS.ticketSalesActive) {
-    actions.innerHTML =
-      '<button class="btn-primary" onclick="smoothScrollTo(\'buchen\')">' +
-        '<i class="fa-solid fa-ticket"></i> ' + T('heroBtn1') +
-      '</button>' +
-      '<button class="btn-outline" onclick="smoothScrollTo(\'themenwelten\')">' +
-        '<i class="fa-solid fa-compass"></i> ' + T('heroBtn2') +
+  actions.style.display='flex';
+  if(closed) closed.style.display='none';
+  if(SETTINGS.ticketSalesActive){
+    actions.innerHTML=
+      '<button class="btn-primary" onclick="smoothScrollTo(\'buchen\')">'+
+        '<i class="fa-solid fa-ticket"></i> '+T('heroBtn1')+
+      '</button>'+
+      '<button class="btn-outline" onclick="smoothScrollTo(\'themenwelten\')">'+
+        '<i class="fa-solid fa-compass"></i> '+T('heroBtn2')+
       '</button>';
   } else {
-    actions.innerHTML =
-      '<button class="btn-outline" onclick="smoothScrollTo(\'themenwelten\')">' +
-        '<i class="fa-solid fa-compass"></i> ' + T('heroBtn2') +
+    actions.innerHTML=
+      '<button class="btn-outline" onclick="smoothScrollTo(\'themenwelten\')">'+
+        '<i class="fa-solid fa-compass"></i> '+T('heroBtn2')+
       '</button>';
   }
 }
 
 // ════════════════════════════════════════════════════════════
-//  BOOKING SECTION VISIBILITY
+//  BOOKING VISIBILITY
 // ════════════════════════════════════════════════════════════
-function initBookingVisibility() {
-  var container = document.getElementById('bookingContainer');
-  var notice    = document.getElementById('ticketsInactiveNotice');
-  var navBook   = document.getElementById('navBookLink');
-  var mobBook   = document.getElementById('mobileBookLink');
-  var navCta    = document.getElementById('navCtaBtn');
-  var footBook  = document.getElementById('footerBookLink');
-  var noticeP   = notice ? notice.querySelector('[data-i18n]') : null;
+function initBookingVisibility(){
+  var container =document.getElementById('bookingContainer');
+  var notice    =document.getElementById('ticketsInactiveNotice');
+  var navBook   =document.getElementById('navBookLink');
+  var mobBook   =document.getElementById('mobileBookLink');
+  var navCta    =document.getElementById('navCtaBtn');
+  var navCtaMob =document.getElementById('navCtaMobile');
+  var footBook  =document.getElementById('footerBookLink');
+  var np        =notice?notice.querySelector('[data-i18n]'):null;
+  if(np) np.textContent=T('ticketSalesOff');
 
-  if (noticeP) noticeP.textContent = T('ticketSalesOff');
-
-  if (SETTINGS.ticketSalesActive) {
-    if (container) container.style.display = '';
-    if (notice)    notice.style.display    = 'none';
-    if (navBook)   navBook.style.display   = '';
-    if (mobBook)   mobBook.style.display   = '';
-    if (navCta)    navCta.style.display    = '';
-    if (footBook)  footBook.style.display  = '';
-  } else {
-    if (container) container.style.display = 'none';
-    if (notice)    notice.style.display    = '';
-    if (navBook)   navBook.style.display   = 'none';
-    if (mobBook)   mobBook.style.display   = 'none';
-    if (navCta)    navCta.style.display    = 'none';
-    if (footBook)  footBook.style.display  = 'none';
-  }
+  var show = SETTINGS.ticketSalesActive;
+  if(container)  container.style.display  = show?'':'none';
+  if(notice)     notice.style.display     = show?'none':'';
+  if(navBook)    navBook.style.display    = show?'':'none';
+  if(mobBook)    mobBook.style.display    = show?'':'none';
+  if(navCta)     navCta.style.display     = show?'':'none';
+  if(navCtaMob)  navCtaMob.style.display  = show?'':'none';
+  if(footBook)   footBook.style.display   = show?'':'none';
 }
 
 // ════════════════════════════════════════════════════════════
-//  WAIT TIMES
+//  WAIT TIMES – categorized
 // ════════════════════════════════════════════════════════════
-function initWaitTimes() {
-  var section = document.getElementById('wartezeiten');
-  var grid    = document.getElementById('waitTimesGrid');
-  var legend  = document.getElementById('waitLegend');
-  if (!section || !grid) return;
+function initWaitTimes(){
+  var section=document.getElementById('wartezeiten');
+  if(!section) return;
 
-  // Update section header text
-  var sLabel = section.querySelector('.section-label span');
-  var sTitle = section.querySelector('.section-title');
-  var sDesc  = section.querySelector('.section-desc');
-  if (sLabel) sLabel.textContent = T('waitLabel');
-  if (sTitle) sTitle.textContent = T('waitTitle');
-  if (sDesc)  sDesc.textContent  = T('waitDesc');
+  // Update text
+  var sl=section.querySelector('.section-label span');
+  var st=section.querySelector('.section-title');
+  var sd=section.querySelector('.section-desc');
+  if(sl) sl.textContent=T('waitLabel');
+  if(st) st.textContent=T('waitTitle');
+  if(sd) sd.textContent=T('waitDesc');
 
-  var times = SETTINGS.waitTimes || [];
-  if (!times.length) { section.style.display = 'none'; return; }
-  section.style.display = '';
+  // Update tab labels
+  var tabs=document.querySelectorAll('.wt-tab span[data-i18n]');
+  tabs.forEach(function(el){ el.textContent=T(el.getAttribute('data-i18n')); });
+
+  var coasters  = SETTINGS.rollercoasters||[];
+  var flatRides = SETTINGS.flatRides||[];
+  var hasAny    = coasters.length||flatRides.length;
+  section.style.display = hasAny?'':'none';
+  if(!hasAny) return;
+
+  // Hide tabs if only one category
+  var tabsEl = document.getElementById('wtTabs');
+  if(tabsEl) tabsEl.style.display = (coasters.length&&flatRides.length)?'':'none';
 
   // Legend
-  if (legend) {
-    legend.innerHTML =
-      '<div class="legend-item"><div class="legend-dot wt-low"></div>' + T('waitLow') + ' (0–' + SETTINGS.waitTimeLow + ' ' + T('waitMin') + ')</div>' +
-      '<div class="legend-item"><div class="legend-dot wt-medium"></div>' + T('waitMedium') + ' (' + (SETTINGS.waitTimeLow + 1) + '–' + SETTINGS.waitTimeMedium + ' ' + T('waitMin') + ')</div>' +
-      '<div class="legend-item"><div class="legend-dot wt-high"></div>' + T('waitHigh') + ' (&gt;' + SETTINGS.waitTimeMedium + ' ' + T('waitMin') + ')</div>';
+  var legend=document.getElementById('waitLegend');
+  if(legend){
+    legend.innerHTML=
+      '<div class="wt-legend-item"><div class="ld ld-low"></div>'+T('waitLow')+' (0–'+SETTINGS.waitTimeLow+' '+T('waitMin')+')</div>'+
+      '<div class="wt-legend-item"><div class="ld ld-medium"></div>'+T('waitMedium')+' ('+(SETTINGS.waitTimeLow+1)+'–'+SETTINGS.waitTimeMedium+' '+T('waitMin')+')</div>'+
+      '<div class="wt-legend-item"><div class="ld ld-high"></div>'+T('waitHigh')+' (&gt;'+SETTINGS.waitTimeMedium+' '+T('waitMin')+')</div>';
   }
 
-  // Cards
-  grid.innerHTML = '';
-  times.forEach(function (item) {
-    var tier = getWaitTier(item.minutes);
-    var tierLabel = T('wait' + tier.charAt(0).toUpperCase() + tier.slice(1));
-    var icon = tier === 'low' ? 'fa-person-walking'
-             : tier === 'medium' ? 'fa-person-running'
-             : 'fa-fire';
+  renderWtGrid('gridCoasters', coasters, 'fa-tornado');
+  renderWtGrid('gridFlatrides', flatRides, 'fa-star-of-life');
 
-    var card = document.createElement('div');
-    card.className = 'wt-card wt-' + tier + ' reveal-up';
+  // If only flat rides, auto-switch tab
+  if(!coasters.length && flatRides.length) switchWtTab('flatrides');
 
-    card.innerHTML =
-      '<div class="wt-icon"><i class="fa-solid ' + icon + '"></i></div>' +
-      '<div class="wt-info">' +
-        '<div class="wt-name">' + escapeHtml(item.name) + '</div>' +
-        '<div class="wt-tier">' + tierLabel + '</div>' +
-      '</div>' +
-      '<div class="wt-minutes">' +
-        '<div class="wt-num">' + item.minutes + '</div>' +
-        '<div class="wt-unit">' + T('waitMin') + '</div>' +
+  refreshReveal();
+}
+
+function renderWtGrid(gridId, items, categoryIcon){
+  var grid = document.getElementById(gridId);
+  if(!grid) return;
+  grid.innerHTML='';
+  items.forEach(function(item){
+    var tier  = wtTier(item.minutes);
+    var tierL = T('wait'+tier.charAt(0).toUpperCase()+tier.slice(1));
+    var icon  = tier==='low'?'fa-person-walking':tier==='medium'?'fa-person-running':'fa-fire';
+    var card  = document.createElement('div');
+    card.className='wt-card wt-'+tier+' reveal-up';
+    card.innerHTML=
+      '<div class="wt-icon"><i class="fa-solid '+icon+'"></i></div>'+
+      '<div class="wt-info">'+
+        '<div class="wt-name">'+esc(item.name)+'</div>'+
+        '<div class="wt-tier">'+tierL+'</div>'+
+      '</div>'+
+      '<div class="wt-minutes">'+
+        '<div class="wt-num">'+item.minutes+'</div>'+
+        '<div class="wt-unit">'+T('waitMin')+'</div>'+
       '</div>';
-
     grid.appendChild(card);
   });
-
-  refreshRevealObserver();
 }
 
-function getWaitTier(minutes) {
-  if (minutes <= (SETTINGS.waitTimeLow || 20))   return 'low';
-  if (minutes <= (SETTINGS.waitTimeMedium || 45)) return 'medium';
+function wtTier(m){
+  if(m<=(SETTINGS.waitTimeLow||20)) return 'low';
+  if(m<=(SETTINGS.waitTimeMedium||45)) return 'medium';
   return 'high';
 }
+
+// Tab switch (globally accessible from HTML onclick)
+window.switchWtTab = function(tab){
+  document.querySelectorAll('.wt-tab').forEach(function(b){ b.classList.toggle('active', b.dataset.tab===tab); });
+  document.querySelectorAll('.wt-panel').forEach(function(p){ p.classList.toggle('active', p.id==='panel'+tab.charAt(0).toUpperCase()+tab.slice(1)); });
+};
 
 // ════════════════════════════════════════════════════════════
 //  THEME WORLDS
 // ════════════════════════════════════════════════════════════
-function initThemeWorlds() {
-  var grid = document.getElementById('worldsGrid');
-  if (!grid) return;
-
-  // Update header text
-  var section = document.getElementById('themenwelten');
-  if (section) {
-    var sLabel = section.querySelector('.section-label span');
-    var sTitle = section.querySelector('.section-title');
-    var sDesc  = section.querySelector('.section-desc');
-    if (sLabel) sLabel.textContent = T('worldsLabel');
-    if (sTitle) sTitle.textContent = T('worldsTitle');
-    if (sDesc)  sDesc.textContent  = T('worldsDesc');
+function initThemeWorlds(){
+  var grid=document.getElementById('worldsGrid');
+  if(!grid) return;
+  var sec=document.getElementById('themenwelten');
+  if(sec){
+    var sl=sec.querySelector('.section-label span');
+    var st=sec.querySelector('.section-title');
+    var sd=sec.querySelector('.section-desc');
+    if(sl) sl.textContent=T('worldsLabel');
+    if(st) st.textContent=T('worldsTitle');
+    if(sd) sd.textContent=T('worldsDesc');
   }
-
-  grid.innerHTML = '';
-  (SETTINGS.themeWorlds || []).forEach(function (world, i) {
-    var card = document.createElement('div');
-    card.className = 'world-card reveal-up';
-    card.style.setProperty('--delay', (i * 0.09) + 's');
-    card.innerHTML =
-      '<div class="card-corner"></div>' +
-      '<div class="card-img-wrap">' +
-        '<img class="card-img" src="' + escapeHtml(world.imageUrl) + '" alt="' + escapeHtml(world.title) + '" loading="lazy" ' +
-          'onerror="this.src=\'https://images.unsplash.com/photo-1501854140801-50d01698950b?w=800&q=60\'">' +
-        '<div class="card-img-overlay"></div>' +
-        '<div class="card-title-over"><span class="card-title-line"></span>' + escapeHtml(world.title) + '</div>' +
-      '</div>' +
-      '<div class="card-body"><p class="card-desc">' + escapeHtml(world.description) + '</p></div>';
+  grid.innerHTML='';
+  (SETTINGS.themeWorlds||[]).forEach(function(w,i){
+    var card=document.createElement('div');
+    card.className='world-card reveal-up';
+    card.style.setProperty('--delay',(i*0.09)+'s');
+    card.innerHTML=
+      '<div class="card-corner"></div>'+
+      '<div class="card-img-wrap">'+
+        '<img class="card-img" src="'+esc(w.imageUrl)+'" alt="'+esc(w.title)+'" loading="lazy" '+
+          'onerror="this.src=\'https://images.unsplash.com/photo-1501854140801-50d01698950b?w=800\'">' +
+        '<div class="card-img-overlay"></div>'+
+        '<div class="card-title-over"><span class="card-title-line"></span>'+esc(w.title)+'</div>'+
+      '</div>'+
+      '<div class="card-body"><p class="card-desc">'+esc(w.description)+'</p></div>';
     grid.appendChild(card);
   });
-
-  refreshRevealObserver();
+  refreshReveal();
 }
 
 // ════════════════════════════════════════════════════════════
 //  TRAILER
 // ════════════════════════════════════════════════════════════
-function initTrailer() {
-  var section = document.getElementById('trailer');
-  var iframe  = document.getElementById('trailerIframe');
-  var sLabel  = section ? section.querySelector('.section-label span') : null;
-  var sTitle  = section ? section.querySelector('.section-title') : null;
-  var sDesc   = section ? section.querySelector('.section-desc') : null;
-
-  if (sLabel) sLabel.textContent = T('trailerLabel');
-  if (sTitle) sTitle.textContent = T('trailerTitle');
-  if (sDesc)  sDesc.textContent  = T('trailerDesc');
-
-  if (!section || !iframe) return;
-
-  var url = SETTINGS.trailerUrl || '';
-  if (!url) { section.style.display = 'none'; return; }
-
-  section.style.display = '';
-  iframe.src = convertToEmbed(url);
+function initTrailer(){
+  var sec   =document.getElementById('trailer');
+  var iframe=document.getElementById('trailerIframe');
+  if(!sec||!iframe) return;
+  var sl=sec.querySelector('.section-label span');
+  var st=sec.querySelector('.section-title');
+  var sd=sec.querySelector('.section-desc');
+  if(sl) sl.textContent=T('trailerLabel');
+  if(st) st.textContent=T('trailerTitle');
+  if(sd) sd.textContent=T('trailerDesc');
+  var url=(SETTINGS.trailerUrl||'').trim();
+  if(!url){ sec.style.display='none'; return; }
+  sec.style.display='';
+  iframe.src=toEmbed(url);
 }
 
-function convertToEmbed(url) {
-  // Already embed
-  if (url.includes('youtube.com/embed/') || url.includes('player.vimeo')) return url;
-  // youtu.be/ID
-  var s = url.match(/youtu\.be\/([^?&]+)/);
-  if (s) return 'https://www.youtube.com/embed/' + s[1];
-  // youtube.com/watch?v=ID
-  var w = url.match(/[?&]v=([^?&]+)/);
-  if (w) return 'https://www.youtube.com/embed/' + w[1];
-  return url;
+function toEmbed(u){
+  if(u.includes('/embed/')) return u;
+  var m=u.match(/youtu\.be\/([^?&]+)/); if(m) return 'https://www.youtube.com/embed/'+m[1];
+  var n=u.match(/[?&]v=([^?&]+)/);     if(n) return 'https://www.youtube.com/embed/'+n[1];
+  return u;
 }
 
 // ════════════════════════════════════════════════════════════
 //  NAVBAR
 // ════════════════════════════════════════════════════════════
-function initNavbar() {
-  var navbar = document.getElementById('navbar');
-  var toggle = document.getElementById('navToggle');
-  var mobile = document.getElementById('navMobile');
-
-  window.addEventListener('scroll', function () {
-    if (window.scrollY > 60) navbar.classList.add('scrolled');
-    else navbar.classList.remove('scrolled');
-  }, { passive: true });
-
-  toggle.addEventListener('click', function () {
-    mobile.classList.toggle('open');
-    var icon = toggle.querySelector('i');
-    var isOpen = mobile.classList.contains('open');
-    icon.className = isOpen ? 'fa-solid fa-xmark' : 'fa-solid fa-bars';
-    toggle.setAttribute('aria-label', isOpen ? 'Close menu' : 'Open menu');
+function initNavbar(){
+  var nb=document.getElementById('navbar');
+  var tg=document.getElementById('navToggle');
+  var mm=document.getElementById('navMobile');
+  window.addEventListener('scroll',function(){
+    nb.classList.toggle('scrolled',window.scrollY>60);
+  },{passive:true});
+  tg.addEventListener('click',function(){
+    var open=mm.classList.toggle('open');
+    tg.querySelector('i').className=open?'fa-solid fa-xmark':'fa-solid fa-bars';
   });
-
-  document.addEventListener('click', function (e) {
-    if (!navbar.contains(e.target)) closeMobileMenu();
+  document.addEventListener('click',function(e){
+    if(!nb.contains(e.target)) closeMobileMenu();
   });
 }
 
-window.closeMobileMenu = function () {
-  var m = document.getElementById('navMobile');
-  var t = document.getElementById('navToggle');
-  if (m) m.classList.remove('open');
-  if (t) {
-    t.querySelector('i').className = 'fa-solid fa-bars';
-    t.setAttribute('aria-label', 'Open menu');
-  }
+window.closeMobileMenu=function(){
+  var m=document.getElementById('navMobile');
+  var t=document.getElementById('navToggle');
+  if(m) m.classList.remove('open');
+  if(t) t.querySelector('i').className='fa-solid fa-bars';
 };
 
-window.smoothScrollTo = function (id) {
-  var el = document.getElementById(id);
-  if (!el) return;
-  var top = el.getBoundingClientRect().top + window.scrollY - 95;
-  window.scrollTo({ top: top, behavior: 'smooth' });
+window.smoothScrollTo=function(id){
+  var el=document.getElementById(id); if(!el) return;
+  // Account for status banner + navbar height
+  var navH = document.getElementById('navbar');
+  var offset = 90;
+  window.scrollTo({top:el.getBoundingClientRect().top+window.scrollY-offset,behavior:'smooth'});
 };
 
 // ════════════════════════════════════════════════════════════
-//  PARTICLES
+//  PARTICLES (golden sparkles on hero)
 // ════════════════════════════════════════════════════════════
-function initParticles() {
-  var canvas = document.getElementById('particleCanvas');
-  if (!canvas) return;
-  var ctx = canvas.getContext('2d');
-  var W, H, particles;
-  var colors = ['rgba(212,175,55,','rgba(240,215,100,','rgba(255,223,80,','rgba(180,140,30,','rgba(255,248,176,'];
+function initParticles(){
+  var cv=document.getElementById('particleCanvas'); if(!cv) return;
+  var ctx=cv.getContext('2d');
+  var W,H,pts;
+  var cols=['rgba(255,215,40,','rgba(255,235,100,','rgba(248,195,30,','rgba(255,248,160,','rgba(230,180,20,'];
 
-  function resize() {
-    W = canvas.width  = canvas.offsetWidth;
-    H = canvas.height = canvas.offsetHeight;
-  }
+  function resize(){ W=cv.width=cv.offsetWidth; H=cv.height=cv.offsetHeight; }
   resize();
-  window.addEventListener('resize', function () { resize(); particles = mkParticles(); }, { passive: true });
+  window.addEventListener('resize',function(){ resize(); pts=mkPts(); },{passive:true});
 
-  function mkP() {
-    return {
-      x: Math.random() * W, y: Math.random() * H,
-      vx: (Math.random() - .5) * .35, vy: -(Math.random() * .6 + .2),
-      size: Math.random() * 2.5 + .5,
-      alpha: Math.random() * .55 + .1,
-      color: colors[Math.floor(Math.random() * colors.length)],
-      ts: Math.random() * .025 + .008,
-      td: Math.random() > .5 ? 1 : -1,
-      isStar: Math.random() > .7,
+  function mkP(){
+    return{
+      x:Math.random()*W, y:Math.random()*H,
+      vx:(Math.random()-.5)*.3, vy:-(Math.random()*.55+.18),
+      r:Math.random()*2.2+.4,
+      a:Math.random()*.5+.1,
+      c:cols[Math.floor(Math.random()*cols.length)],
+      ts:Math.random()*.022+.007,
+      td:Math.random()>.5?1:-1,
+      star:Math.random()>.68,
     };
   }
-  function mkParticles() {
-    return Array.from({ length: Math.min(Math.floor((W * H) / 12000), 90) }, mkP);
-  }
-  particles = mkParticles();
+  function mkPts(){ return Array.from({length:Math.min(Math.floor(W*H/11000),100)},mkP); }
+  pts=mkPts();
 
-  function drawStar(x, y, r, a, col) {
-    ctx.save(); ctx.translate(x, y); ctx.rotate(performance.now() * .0003);
+  function dstar(x,y,r,a,c){
+    ctx.save(); ctx.translate(x,y); ctx.rotate(performance.now()*.00025);
     ctx.beginPath();
-    for (var i = 0; i < 4; i++) {
-      var ang = i * Math.PI / 2;
-      ctx.lineTo(Math.cos(ang) * r, Math.sin(ang) * r);
-      ctx.lineTo(Math.cos(ang + Math.PI / 4) * r * .4, Math.sin(ang + Math.PI / 4) * r * .4);
+    for(var i=0;i<4;i++){
+      var ang=i*Math.PI/2;
+      ctx.lineTo(Math.cos(ang)*r,Math.sin(ang)*r);
+      ctx.lineTo(Math.cos(ang+Math.PI/4)*r*.38,Math.sin(ang+Math.PI/4)*r*.38);
     }
     ctx.closePath();
-    ctx.fillStyle = col + a + ')';
-    ctx.shadowBlur = 6; ctx.shadowColor = col + '.8)'; ctx.fill(); ctx.restore();
+    ctx.fillStyle=c+a+')';
+    ctx.shadowBlur=5; ctx.shadowColor=c+'.7)'; ctx.fill(); ctx.restore();
   }
 
-  (function animate() {
-    ctx.clearRect(0, 0, W, H);
-    particles.forEach(function (p) {
-      p.x += p.vx; p.y += p.vy;
-      p.alpha += p.ts * p.td;
-      if (p.alpha > .75 || p.alpha < .05) p.td *= -1;
-      if (p.y < -10 || p.x < -10 || p.x > W + 10) {
-        p.x = Math.random() * W; p.y = H + 5; p.alpha = Math.random() * .3 + .05;
-      }
-      if (p.isStar) {
-        drawStar(p.x, p.y, p.size * 1.5, p.alpha, p.color);
-      } else {
-        ctx.beginPath(); ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-        ctx.fillStyle = p.color + p.alpha + ')';
-        ctx.shadowBlur = p.size * 4; ctx.shadowColor = p.color + '.6)'; ctx.fill(); ctx.shadowBlur = 0;
+  (function loop(){
+    ctx.clearRect(0,0,W,H);
+    pts.forEach(function(p){
+      p.x+=p.vx; p.y+=p.vy;
+      p.a+=p.ts*p.td;
+      if(p.a>.7||p.a<.05) p.td*=-1;
+      if(p.y<-8||p.x<-8||p.x>W+8){ p.x=Math.random()*W; p.y=H+4; p.a=.08; }
+      if(p.star){ dstar(p.x,p.y,p.r*1.4,p.a,p.c); }
+      else {
+        ctx.beginPath(); ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+        ctx.fillStyle=p.c+p.a+')';
+        ctx.shadowBlur=p.r*3.5; ctx.shadowColor=p.c+'.5)'; ctx.fill(); ctx.shadowBlur=0;
       }
     });
-    requestAnimationFrame(animate);
+    requestAnimationFrame(loop);
   })();
 }
 
 // ════════════════════════════════════════════════════════════
 //  SCROLL REVEAL
 // ════════════════════════════════════════════════════════════
-var revealObserver = null;
-
-function initRevealAnimations() {
-  revealObserver = new IntersectionObserver(function (entries) {
-    entries.forEach(function (entry) {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('revealed');
-        revealObserver.unobserve(entry.target);
-      }
+var _obs=null;
+function initReveal(){
+  _obs=new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(e.isIntersecting){ e.target.classList.add('revealed'); _obs.unobserve(e.target); }
     });
-  }, { threshold: .12, rootMargin: '0px 0px -50px 0px' });
-
-  document.querySelectorAll('.reveal-up').forEach(function (el) {
-    revealObserver.observe(el);
-  });
+  },{threshold:.1,rootMargin:'0px 0px -40px 0px'});
+  document.querySelectorAll('.reveal-up').forEach(function(el){ _obs.observe(el); });
 }
-
-function refreshRevealObserver() {
-  if (!revealObserver) return;
-  document.querySelectorAll('.reveal-up:not(.revealed)').forEach(function (el) {
-    revealObserver.observe(el);
-  });
+function refreshReveal(){
+  if(!_obs) return;
+  document.querySelectorAll('.reveal-up:not(.revealed)').forEach(function(el){ _obs.observe(el); });
 }
 
 // ════════════════════════════════════════════════════════════
 //  FOOTER
 // ════════════════════════════════════════════════════════════
-function initFooter() {
-  var yr = document.getElementById('footerYear');
-  if (yr) yr.textContent = new Date().getFullYear();
-
-  var dt = document.querySelector('.footer-disclaimer strong');
-  var dp = document.querySelector('.footer-disclaimer span');
-  if (dt) dt.textContent = T('footerDisclaimerTitle');
-  if (dp) dp.textContent = T('footerDisclaimer');
-
-  var ft = document.getElementById('footerTagline');
-  if (ft) ft.textContent = SETTINGS.parkTagline;
-
-  var fc = document.querySelector('.footer-copy span');
-  if (fc) fc.innerHTML = '&copy; ' + new Date().getFullYear() + ' Phantasialand – Roblox &nbsp;|&nbsp; ' + T('footerCopy');
+function initFooter(){
+  var yr=document.getElementById('footerYear'); if(yr) yr.textContent=new Date().getFullYear();
+  var dt=document.getElementById('footerDisclTitle');
+  var dp=document.getElementById('footerDisclText');
+  if(dt) dt.textContent=T('footerDisclaimerTitle');
+  if(dp) dp.textContent=T('footerDisclaimer');
+  var ft=document.getElementById('footerTagline'); if(ft) ft.textContent=SETTINGS.parkTagline;
+  var fc=document.getElementById('footerCopyText');
+  if(fc) fc.innerHTML='&copy; '+new Date().getFullYear()+' Phantasialand – Roblox &nbsp;|&nbsp; '+T('footerCopy');
 }
 
-// ════════════════════════════════════════════════════════════
-//  HELPERS
-// ════════════════════════════════════════════════════════════
-function escapeHtml(str) {
-  if (!str) return '';
-  return String(str)
-    .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+// ── Helpers ──────────────────────────────────────────────
+function esc(s){
+  if(!s) return '';
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
     .replace(/"/g,'&quot;').replace(/'/g,'&#039;');
 }
