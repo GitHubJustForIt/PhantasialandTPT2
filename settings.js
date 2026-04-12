@@ -1,140 +1,189 @@
 // ════════════════════════════════════════════════════════════
-//  SETTINGS.JS – Phantasialand Roblox Konfiguration
-//  Alle Anpassungen NUR in dieser Datei vornehmen.
-//  Die Website übernimmt alle Änderungen automatisch.
+//  SETTINGS.JS – Phantasialand Roblox Configuration
+//  ALL changes are made ONLY in this file.
+//  The website automatically picks up every change.
 // ════════════════════════════════════════════════════════════
 
 const SETTINGS = {
 
   // ──────────────────────────────────────────────────────────
-  //  ALLGEMEINE PARK-EINSTELLUNGEN
+  //  GENERAL PARK SETTINGS
   // ──────────────────────────────────────────────────────────
-  parkName:              "Phantasialand",
-  parkTagline:           "The most immersive park",
+  parkName:               "Phantasialand",
+  parkTagline:            "The most magical experience on Roblox",
   sessionDurationMinutes: 30,
 
-  //  Discord Webhook URL – Buchungen werden hierhin gesendet
+  //  Discord Webhook URL – bookings are sent here
   webhookUrl: "https://discordapp.com/api/webhooks/1492608191018831883/p2bKU1brImIrXneIUkJB2UOubZb3p-tnsTMlrSkKOQEVZlPkIbwoKCGqTMRuge24ghxG",
 
-  //  Hintergrundbild der Hero-Sektion (URL oder relativer Pfad)
-  heroBackgroundUrl: "https://cdn.discordapp.com/attachments/1472624902153703567/1492613218269401230/Screenshot_299.png?ex=69dbf7e2&is=69daa662&hm=0c040e00876abd7417b719c241d6c30c1d054504b88157a1df5391b2c49edbb0&",
+  //  Hero background image (URL or relative path)
+  heroBackgroundUrl: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1920&q=80",
 
 
   // ──────────────────────────────────────────────────────────
-  //  BUCHUNGSDATEN & ZEITSLOTS
+  //  PARK STATUS
   //
-  //  date:       Datum im Format "YYYY-MM-DD"
-  //  slots:      Array aus Zeitslots für diesen Tag
-  //    time:       Uhrzeit im Format "HH:MM"
-  //    maxPlayers: Max. Spieleranzahl für diesen Slot (Standard: 5)
+  //  parkOpen:          true  = park is shown as OPEN
+  //                     false = park is shown as CLOSED
+  //  ticketSalesActive: true  = booking section & CTAs visible
+  //                     false = all booking UI hidden
+  // ──────────────────────────────────────────────────────────
+  parkOpen:          true,
+  ticketSalesActive: true,
+
+
+  // ──────────────────────────────────────────────────────────
+  //  PARK TRAILER
   //
-  //  Zum Hinzufügen: Neuen Eintrag in bookingDates einfügen.
-  //  Zum Entfernen:  Eintrag löschen.
-  //  Zum Ändern:     Wert direkt anpassen.
+  //  Paste a YouTube URL (watch, share, or embed link):
+  //    "https://www.youtube.com/watch?v=VIDEO_ID"
+  //    "https://youtu.be/VIDEO_ID"
+  //    "https://www.youtube.com/embed/VIDEO_ID"
+  //  Set to "" to hide the trailer section entirely.
+  // ──────────────────────────────────────────────────────────
+  trailerUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ",
+
+
+  // ──────────────────────────────────────────────────────────
+  //  WAIT TIMES
+  //
+  //  Format: { name: "Attraction Name", minutes: 30 }
+  //  Color thresholds (minutes):
+  //    0 – waitTimeLow        → green  (short)
+  //    waitTimeLow+1 – waitTimeMedium → orange (moderate)
+  //    waitTimeMedium+1 – ∞   → red    (long)
+  //
+  //  Add or remove entries freely – grid updates automatically.
+  //  Set waitTimes: [] to hide the section.
+  // ──────────────────────────────────────────────────────────
+  waitTimeLow:    20,
+  waitTimeMedium: 45,
+
+  waitTimes: [
+    { name: "Mystery Coaster",    minutes: 55 },
+    { name: "Taron",              minutes: 70 },
+    { name: "Black Mamba",        minutes: 30 },
+    { name: "Chiapas",            minutes: 25 },
+    { name: "Wild River",         minutes: 15 },
+    { name: "Wuze King",          minutes: 10 },
+    { name: "River Quest",        minutes: 40 },
+    { name: "Colorado Adventure", minutes: 20 },
+  ],
+
+
+  // ──────────────────────────────────────────────────────────
+  //  BOOKING DATES & TIME SLOTS
+  //
+  //  date:        "YYYY-MM-DD"
+  //  slots:       array of time slots for that day
+  //    time:        "HH:MM"
+  //    maxPlayers:  max players per slot (default 5)
+  //    visitorRate: estimated crowd level:
+  //                 "low"    = few visitors expected
+  //                 "medium" = moderate visitors expected
+  //                 "high"   = many visitors expected
   // ──────────────────────────────────────────────────────────
   bookingDates: [
     {
       date: "2026-04-18",
       slots: [
-        { time: "13:00", maxPlayers: 5 },
-        { time: "13:30", maxPlayers: 5 },
-        { time: "14:00", maxPlayers: 5 },
-        { time: "14:30", maxPlayers: 4 },
-        { time: "15:00", maxPlayers: 5 },
-        { time: "15:30", maxPlayers: 5 },
+        { time: "13:00", maxPlayers: 5, visitorRate: "low"    },
+        { time: "13:30", maxPlayers: 5, visitorRate: "low"    },
+        { time: "14:00", maxPlayers: 5, visitorRate: "medium" },
+        { time: "14:30", maxPlayers: 4, visitorRate: "medium" },
+        { time: "15:00", maxPlayers: 5, visitorRate: "high"   },
+        { time: "15:30", maxPlayers: 5, visitorRate: "high"   },
       ]
     },
     {
       date: "2026-04-19",
       slots: [
-        { time: "11:00", maxPlayers: 5 },
-        { time: "11:30", maxPlayers: 5 },
-        { time: "12:00", maxPlayers: 5 },
-        { time: "13:00", maxPlayers: 5 },
-        { time: "14:00", maxPlayers: 3 },
+        { time: "11:00", maxPlayers: 5, visitorRate: "low"    },
+        { time: "11:30", maxPlayers: 5, visitorRate: "low"    },
+        { time: "12:00", maxPlayers: 5, visitorRate: "medium" },
+        { time: "13:00", maxPlayers: 5, visitorRate: "high"   },
+        { time: "14:00", maxPlayers: 3, visitorRate: "medium" },
       ]
     },
     {
       date: "2026-04-25",
       slots: [
-        { time: "14:00", maxPlayers: 5 },
-        { time: "15:00", maxPlayers: 5 },
-        { time: "16:00", maxPlayers: 5 },
-        { time: "16:30", maxPlayers: 5 },
+        { time: "14:00", maxPlayers: 5, visitorRate: "medium" },
+        { time: "15:00", maxPlayers: 5, visitorRate: "high"   },
+        { time: "16:00", maxPlayers: 5, visitorRate: "medium" },
+        { time: "16:30", maxPlayers: 5, visitorRate: "low"    },
       ]
     },
     {
       date: "2026-04-26",
       slots: [
-        { time: "12:00", maxPlayers: 5 },
-        { time: "13:00", maxPlayers: 5 },
-        { time: "14:00", maxPlayers: 5 },
-        { time: "15:00", maxPlayers: 5 },
-        { time: "16:00", maxPlayers: 4 },
+        { time: "12:00", maxPlayers: 5, visitorRate: "low"    },
+        { time: "13:00", maxPlayers: 5, visitorRate: "medium" },
+        { time: "14:00", maxPlayers: 5, visitorRate: "high"   },
+        { time: "15:00", maxPlayers: 5, visitorRate: "high"   },
+        { time: "16:00", maxPlayers: 4, visitorRate: "medium" },
       ]
     },
     {
       date: "2026-05-02",
       slots: [
-        { time: "14:00", maxPlayers: 5 },
-        { time: "14:30", maxPlayers: 5 },
-        { time: "15:00", maxPlayers: 5 },
+        { time: "14:00", maxPlayers: 5, visitorRate: "low"    },
+        { time: "14:30", maxPlayers: 5, visitorRate: "low"    },
+        { time: "15:00", maxPlayers: 5, visitorRate: "medium" },
       ]
     },
     {
       date: "2026-05-03",
       slots: [
-        { time: "11:00", maxPlayers: 5 },
-        { time: "12:00", maxPlayers: 5 },
-        { time: "13:00", maxPlayers: 5 },
-        { time: "14:00", maxPlayers: 5 },
-        { time: "15:00", maxPlayers: 5 },
+        { time: "11:00", maxPlayers: 5, visitorRate: "low"    },
+        { time: "12:00", maxPlayers: 5, visitorRate: "medium" },
+        { time: "13:00", maxPlayers: 5, visitorRate: "high"   },
+        { time: "14:00", maxPlayers: 5, visitorRate: "high"   },
+        { time: "15:00", maxPlayers: 5, visitorRate: "medium" },
       ]
     },
   ],
 
 
   // ──────────────────────────────────────────────────────────
-  //  THEMENWELTEN
+  //  THEME WORLDS
   //
-  //  title:       Titel der Welt (wird über dem Bild angezeigt)
-  //  description: Kurze Beschreibung der Welt
-  //  imageUrl:    URL zum Bild dieser Themenwelt
+  //  title:       World title (displayed above the image)
+  //  description: Short description of the world
+  //  imageUrl:    Image URL for that area
   //
-  //  Reihenfolge entspricht der Anzeige auf der Website.
-  //  Zum Hinzufügen: Neuen Eintrag einfügen.
-  //  Zum Entfernen:  Eintrag löschen.
+  //  Add or remove entries – order matches website display.
   // ──────────────────────────────────────────────────────────
   themeWorlds: [
     {
-      title: "",
-      description: "Stone connected with steam - the most immersive flight.",
-      imageUrl: "https://cdn.discordapp.com/attachments/1472624902153703567/1492613217820741662/Screenshot_298.png?ex=69dbf7e2&is=69daa662&hm=a6b3385fc2f8efe77ef3db672c63fd12c2e1331afe8881112cd8dedd60746952&"
+      title:       "Mystery Castle",
+      description: "Dare to enter the dark chambers of the mysterious castle and uncover its secrets.",
+      imageUrl:    "https://images.unsplash.com/photo-1533154683836-84ea7a0bc310?w=800&q=80"
     },
     {
-      title: "Rookburgh",
-      description: "Steampunk-Abenteuer auf höchstem Niveau – hier treffen Dampf und Stahl auf pure Adrenalin.",
-      imageUrl: "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=800&q=80"
+      title:       "Rookburgh",
+      description: "Steampunk adventure at its finest – where steam meets steel and pure adrenaline.",
+      imageUrl:    "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=800&q=80"
     },
     {
-      title: "Wuze Town",
-      description: "Farbenfrohes Abenteuer für die ganze Familie – willkommen in der verrückten Wuze Town!",
-      imageUrl: "https://images.unsplash.com/photo-1563861826100-9cb868fdbe1c?w=800&q=80"
+      title:       "Wuze Town",
+      description: "Colourful family fun in the wonderfully chaotic Wuze Town – joy for all ages!",
+      imageUrl:    "https://images.unsplash.com/photo-1563861826100-9cb868fdbe1c?w=800&q=80"
     },
     {
-      title: "Berlin",
-      description: "Die goldenen Zwanziger erwachen wieder zum Leben – erlebe Geschichte hautnah.",
-      imageUrl: "https://images.unsplash.com/photo-1449824913935-59a10b8d2000?w=800&q=80"
+      title:       "Berlin",
+      description: "The roaring twenties come alive again – experience history in an unforgettable way.",
+      imageUrl:    "https://images.unsplash.com/photo-1449824913935-59a10b8d2000?w=800&q=80"
     },
     {
-      title: "Deep in Africa",
-      description: "Tauche ein in die wilde und atemberaubende Natur Afrikas mit unvergesslichen Attraktionen.",
-      imageUrl: "https://images.unsplash.com/photo-1547471080-7cc2caa01a7e?w=800&q=80"
+      title:       "Deep in Africa",
+      description: "Dive into the wild and breathtaking nature of Africa with unforgettable attractions.",
+      imageUrl:    "https://images.unsplash.com/photo-1547471080-7cc2caa01a7e?w=800&q=80"
     },
     {
-      title: "Fantasy",
-      description: "Ein märchenhaftes Reich voller Magie, wo jede Ecke eine neue Geschichte erzählt.",
-      imageUrl: "https://images.unsplash.com/photo-1501854140801-50d01698950b?w=800&q=80"
+      title:       "Fantasy",
+      description: "A fairy-tale realm full of magic, where every corner reveals a new story to tell.",
+      imageUrl:    "https://images.unsplash.com/photo-1501854140801-50d01698950b?w=800&q=80"
     },
   ],
 
