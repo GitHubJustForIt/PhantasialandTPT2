@@ -15,8 +15,8 @@ const SETTINGS = {
   // ── Park Status ───────────────────────────────────────────
   //  parkOpen:          true/false  → status banner + hero notice
   //  ticketSalesActive: true/false  → show/hide entire booking UI
-  parkOpen:          true,
-  ticketSalesActive: true,
+  parkOpen:          false,
+  ticketSalesActive: false,
 
   // ── Park Trailer ──────────────────────────────────────────
   //  YouTube watch / share / embed URL. Set "" to hide section.
@@ -35,11 +35,11 @@ const SETTINGS = {
   //  Add / remove entries freely. Set [] to hide a category.
   // ─────────────────────────────────────────────────────────
   rollercoasters: [
-    { name: "F.L.Y.", minutes: 50 },
-    { name: "Voltron Nevera", minutes: 60 },
-    { name: "Colossos", minutes: 45 },
-    { name: "China Blitz", minutes: 30 },
-    { name: "Tikal", minutes: 30 },
+    { name: "F.L.Y.", minutes: 0 },
+    { name: "Voltron Nevera", minutes: 0 },
+    { name: "Colossos", minutes: 0 },
+    { name: "China Blitz", minutes: 0 },
+    { name: "Tikal", minutes: 0 },
   ],
 
   flatRides: [
@@ -56,6 +56,7 @@ const SETTINGS = {
     { name: "Der lustige Papagei", minutes: 0 },
     { name: "Sturmflug", minutes: 0 },
      { name: "Bobs Autowerkstatt", minutes: 0 },
+       { name: "Hals Über", minutes: 0 },
   ],
 
   // ── Booking Dates & Time Slots ────────────────────────────
