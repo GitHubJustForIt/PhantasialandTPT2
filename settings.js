@@ -67,7 +67,7 @@ const SETTINGS = {
   // ─────────────────────────────────────────────────────────
   bookingDates: [
     {
-      date: "2026-05-8",
+      date: "2026-05-08",
       slots: [
         { time: "13:00", maxPlayers: 5, visitorRate: "low"    },
         { time: "13:30", maxPlayers: 5, visitorRate: "low"    },
