@@ -16,7 +16,7 @@ const SETTINGS = {
   //  parkOpen:          true/false  → status banner + hero notice
   //  ticketSalesActive: true/false  → show/hide entire booking UI
   parkOpen:          false,
-  ticketSalesActive: false,
+  ticketSalesActive: true,
 
   // ── Park Trailer ──────────────────────────────────────────
   //  YouTube watch / share / embed URL. Set "" to hide section.
@@ -68,7 +68,7 @@ const SETTINGS = {
   // ─────────────────────────────────────────────────────────
   bookingDates: [
     {
-      date: "2026-05-08",
+      date: "2026-07-15",
       slots: [
         { time: "13:00", maxPlayers: 5, visitorRate: "low"    },
         { time: "13:30", maxPlayers: 5, visitorRate: "low"    },
