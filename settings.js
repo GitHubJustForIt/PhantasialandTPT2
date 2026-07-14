@@ -78,53 +78,6 @@ const SETTINGS = {
         { time: "15:30", maxPlayers: 5, visitorRate: "high"   },
       ]
     },
-    {
-      date: "2026-04-19",
-      slots: [
-        { time: "11:00", maxPlayers: 5, visitorRate: "low"    },
-        { time: "11:30", maxPlayers: 5, visitorRate: "low"    },
-        { time: "12:00", maxPlayers: 5, visitorRate: "medium" },
-        { time: "13:00", maxPlayers: 5, visitorRate: "high"   },
-        { time: "14:00", maxPlayers: 3, visitorRate: "medium" },
-      ]
-    },
-    {
-      date: "2026-04-25",
-      slots: [
-        { time: "14:00", maxPlayers: 5, visitorRate: "medium" },
-        { time: "15:00", maxPlayers: 5, visitorRate: "high"   },
-        { time: "16:00", maxPlayers: 5, visitorRate: "medium" },
-        { time: "16:30", maxPlayers: 5, visitorRate: "low"    },
-      ]
-    },
-    {
-      date: "2026-04-26",
-      slots: [
-        { time: "12:00", maxPlayers: 5, visitorRate: "low"    },
-        { time: "13:00", maxPlayers: 5, visitorRate: "medium" },
-        { time: "14:00", maxPlayers: 5, visitorRate: "high"   },
-        { time: "15:00", maxPlayers: 5, visitorRate: "high"   },
-        { time: "16:00", maxPlayers: 4, visitorRate: "medium" },
-      ]
-    },
-    {
-      date: "2026-05-02",
-      slots: [
-        { time: "14:00", maxPlayers: 5, visitorRate: "low"    },
-        { time: "14:30", maxPlayers: 5, visitorRate: "low"    },
-        { time: "15:00", maxPlayers: 5, visitorRate: "medium" },
-      ]
-    },
-    {
-      date: "2026-05-03",
-      slots: [
-        { time: "11:00", maxPlayers: 5, visitorRate: "low"    },
-        { time: "12:00", maxPlayers: 5, visitorRate: "medium" },
-        { time: "13:00", maxPlayers: 5, visitorRate: "high"   },
-        { time: "14:00", maxPlayers: 5, visitorRate: "high"   },
-        { time: "15:00", maxPlayers: 5, visitorRate: "medium" },
-      ]
-    },
   ],
 
   // ── Theme Worlds ──────────────────────────────────────────
